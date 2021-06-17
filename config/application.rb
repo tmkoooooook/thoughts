@@ -33,6 +33,10 @@ module Thoughts
     # config.eager_load_paths << Rails.root.join("extras")
 
     # Don't generate system test files.
-    config.generators.system_tests = nil
+    config.generators.test_framework = :rspec
+    config.generators.system_tests   = false
+    config.generators.stylesheets    = false
+    config.generators.javascripts    = false
+    config.generators.helper         = false
   end
 end
