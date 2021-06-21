@@ -1,2 +1,61 @@
-<h1>Homes#index</h1>
-<p>Find me in app/views/homes/index.html.erb</p>
+<div class="main">
+  <header>
+    <nav>
+      <ul class="left-nav">
+        <li>
+          <%= link_to homes_path do %>
+            <%= image_tag('thoughts_logo_white.png', alt: 'thoughts_logo') %>
+          <% end %>
+        </li>
+      </ul>
+      <div class="hamburger-menu">
+        <span class="hamburger-line"></span>
+      </div>
+      <ul class="right-nav">
+        <li><%= link_to "Log in", homes_path, class: "btn btn-light" %></li>
+        <li><%= link_to "Sign up", homes_path, class: "btn btn-outline-light" %></li>
+      </ul>
+    </nav>
+  </header>
+  <div class="main-content">
+    <div class="container">
+      <h1 class="main-content-head"><%= image_tag("thoughts_logo_005163.png", alt: 'thoughts_logo') %></h1>
+      <div class="main-content-box">
+        <p class="main-content-text">Update Your Thoughts</p>
+        <ul class="main-content-nav">
+          <li><%= link_to "Log in", homes_path, class: "btn btn-light" %></li>
+          <li><%= link_to "Sign up", homes_path, class: "btn btn-outline-light" %></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="introduction">
+    <div class="container">
+      <div class="introduction-content">
+        <h2 class="introduction-head">thoughtsとは</h2>
+        <div class="introduction-text">
+          <p>
+            あなたの考えを共有し、あなたの知らない考えを発見できるアプリケーションです。<br>
+            thoughtsであなたの知らない考えを発見し、さらに自分の考えを深めることができます。<br>
+            あなたの知らない考えを発見したとしても、否定するだけではアップデートはされません。<br>
+            否定できる根拠はあるのか、その根拠は根拠たり得るのか、考えてみましょう。<br>
+            根拠が出てこないのであれば、それは、見えていない世界があるかもしれません。<br>
+            その場合、まず無知の知を知り、根拠となる理由を自ら見つけていきましょう。<br>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer>
+    <div class="footer-box">
+      <div class="footer-image">
+        <%= link_to homes_path do %>
+          <%= image_tag('thoughts_logo_white.png', alt: 'thoughts_logo') %>
+        <% end %>
+      </div>
+      <div class="footer-copyright">
+        <small>©2014-2021 thoughts</small>
+      </div>
+    </div>
+  </footer>
+</div>
