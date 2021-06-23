@@ -8,25 +8,34 @@
           <% end %>
         </li>
       </ul>
-      <div class="hamburger-menu">
-        <span class="hamburger-line"></span>
+      <div class="right-nav" id="right_nav">
+        <div class="hamburger-menu" v-on:click="ActiveBtn=!ActiveBtn">
+          <span class="hamburger-line"></span>
+        </div>
+        <transition name="menu">
+          <ul class="right-nav-list" v-show="ActiveBtn">
+            <% if user_signed_in? %>
+            <li><%= link_to 'profile', edit_user_registration_path, class: "btn btn-light" %></li>
+            <li><%= link_to 'Log out', sign_out_path, class: "btn btn-outline-light" %></li>
+          <% else %>
+            <li><%= link_to "Log in", sign_in_path, class: "btn btn-light" %></li>
+            <li><%= link_to "Sign up", new_user_registration_path, class: "btn btn-outline-light" %></li>
+          <% end %>
+          </ul>
+        </transition>
       </div>
-      <ul class="right-nav">
-        <li><%= link_to "Log in", homes_path, class: "btn btn-light" %></li>
-        <li><%= link_to "Sign up", homes_path, class: "btn btn-outline-light" %></li>
-      </ul>
     </nav>
   </header>
   <div class="main-content">
     <div class="container">
       <h1 class="main-content-head"><%= image_tag("thoughts_logo_005163.png", alt: 'thoughts_logo') %></h1>
-      <div class="main-content-box">
-        <p class="main-content-text">Update Your Thoughts</p>
-        <ul class="main-content-nav">
-          <li><%= link_to "Log in", homes_path, class: "btn btn-light" %></li>
-          <li><%= link_to "Sign up", homes_path, class: "btn btn-outline-light" %></li>
-        </ul>
-      </div>
+    </div>
+    <div class="main-content-box">
+      <p class="main-content-text">Update Your Thoughts</p>
+      <ul class="main-content-nav">
+        <li><%= link_to "Log in", homes_path, class: "btn btn-light" %></li>
+        <li><%= link_to "Sign up", homes_path, class: "btn btn-outline-light" %></li>
+      </ul>
     </div>
   </div>
   <div class="introduction">
@@ -54,7 +63,7 @@
         <% end %>
       </div>
       <div class="footer-copyright">
-        <small>©2014-2021 thoughts</small>
+        <small>©2021-<%= Time.current.year %> thoughts</small>
       </div>
     </div>
   </footer>

@@ -7,9 +7,10 @@ class User < ApplicationRecord
 
   EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i.freeze
 
-  validates :name, presence: true
-  validates :email, presence: true, uniqueness: { case_sensitive: false }, format: { with: EMAIL_REGEX }
+  validates :name,               presence: true
+  validates :email,              presence: true, uniqueness: { case_sensitive: false }, format: { with: EMAIL_REGEX }
   validates :encrypted_password, presence: true, uniqueness: true
+  validates :user_id,            presence: true, uniqueness: true
 
   def email_downcase
     self.email = self.email.downcase
