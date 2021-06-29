@@ -337,8 +337,10 @@ footer {
 }
 .my-thoughts {
   display: flex;
-
   height: 150px;
+  .user-thumbnail{
+    padding-top: 10px;
+  }
 }
 .user-thumbnail {
   img {
@@ -361,7 +363,12 @@ footer {
     border-bottom: 1px solid #666;
     input {
       font-weight: bold;
-      font-size: 20px;
+      font-size: 2.5rem;
+    }
+  }
+  .text {
+    textarea {
+      height: 200px;
     }
   }
 }
@@ -395,6 +402,9 @@ footer {
   .thought-all-content {
   position: sticky;
   top: 10px;
+  p {
+    white-space: pre-wrap;
+  }
   }
 }
 .separation {

@@ -8,13 +8,10 @@ class Api::V1::ThoughtsController < ApiController
     render json: thoughts
   end
 
-  def new
-    thought = Thought.new
-  end
-
   def create
     thought = Thought.new(thought_params)
     thought.shorted_text = thought.text.slice(...50)
+    thought.user_id = current_user.id
     thought.save!
     redirect_to users_path, notice: "thoughtしました"
   end

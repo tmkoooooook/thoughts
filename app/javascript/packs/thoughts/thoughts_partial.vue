@@ -2,9 +2,9 @@
   <div class="thoughts-partial">
     <div class="thoughts-top">
       <h2>ホーム</h2>
-      <div class="new-thought btn">
+      <router-link to="/users/mythought" class="new-thought btn">
         <span>thought</span>
-      </div>
+      </router-link>
     </div>
     <div class="separation"></div>
     <div class="thought-info" v-for="thought in thoughts" :key="thought.id">

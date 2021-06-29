@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
+  before_action :authenticate_user!
+
   def index
-    @thoughts = current_user.thoughts
-    @user = User.all.to_a
   end
 
   def show

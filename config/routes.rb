@@ -14,7 +14,7 @@ Rails.application.routes.draw do
 
   namespace :api ,{ format: 'json' } do
     namespace :v1 do
-      resources :thoughts, only: [:index]
+      resources :thoughts, only: [:index, :create]
     end
   end
 end
