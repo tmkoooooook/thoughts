@@ -15,13 +15,13 @@
       }
     },
     created() {
-      this.fetchData()
+      this.fetchThought()
     },
     watch: {
-      $route: 'fetchData'
+      $route: 'fetchThought'
     },
     methods: {
-      fetchData () {
+      fetchThought () {
         if (this.$route.params.thoughtId) {
           this.thought = this.thoughts.find(thought => thought.id === this.$route.params.thoughtId)
         }

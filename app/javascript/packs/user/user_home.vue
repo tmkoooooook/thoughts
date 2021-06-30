@@ -21,9 +21,10 @@
       }
     },
     created () {
-      axios
-        .get('/api/v1/thoughts')
-        .then(response => this.thoughts = response.data)
+      this.fetchThoughts()
+    },
+    watch: {
+      $route: 'fetchThoughts'
     },
     computed: {
       isRouteParamsMyThought: function () {
@@ -37,6 +38,13 @@
 
         if (typeof routeParams === 'number')
           return true
+      }
+    },
+    methods: {
+      fetchThoughts () {
+        axios
+          .get('/api/v1/thoughts')
+          .then(response => this.thoughts = response.data)
       }
     }
   }

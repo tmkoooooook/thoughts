@@ -2,7 +2,7 @@ import Vue from 'vue'
 import UserHome from './user/user_home.vue'
 import router from './router'
 import TurbolinksAdapter from 'vue-turbolinks'
-import Store from './store'
+
 Vue.use(TurbolinksAdapter)
 
 document.addEventListener('turbolinks:load', () => {
