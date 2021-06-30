@@ -5,6 +5,23 @@ ul {
   margin: 0;
   padding: 0;
 }
+a {
+  color: #fff;
+  text-decoration: none;
+}
+input,button,select,textarea {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  font: inherit;
+  outline: none;
+}
+textarea {
+  resize: none;
+}
 body {
   background-color: #262627;
   color: #c6c6c6;
@@ -18,7 +35,7 @@ body {
 .menu-leave, .menu-enter-to {
   opacity: 1;
 }
-header {
+.home-header {
   background-color: #005163;
   width: 100%;
   nav {
@@ -271,6 +288,129 @@ footer {
 }
 
 //user-index
+.user-container {
+  margin: 0 auto;
+}
 .user-home {
-  height: 300px;
+  display: flex;
+  height: 3000px;
+}
+.user-header {
+  margin-left: auto;
+  margin-right: 10px;
+}
+.user-nav {
+  position: sticky;
+  top: 10px;
+  .user-nav-list {
+    .fa {
+      font-size: 20px;
+      margin-right: 20px;
+    }
+    a {
+      font-size: 20px;
+    }
+  }
+}
+.thoughts-partial {
+  border-right: 1px solid #666;
+  border-left: 1px solid #666;
+  min-width: 375px;
+  width: 500px;
+}
+.thoughts-top {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+.new-thought {
+  border-color: #666;
+  background-color: #005163;
+  span {
+    vertical-align: middle;
+    font-weight: 900;
+    font-style: italic;
+    font-family: "Apple Chancery";
+    letter-spacing: 1px;
+    color: #ccc;
+  }
+}
+.my-thoughts {
+  display: flex;
+  height: 150px;
+  .user-thumbnail{
+    padding-top: 10px;
+  }
+}
+.user-thumbnail {
+  img {
+    width: 60px;
+    height: 60px;
+    border: 1px solid #fff;
+    border-radius: 50%;
+  }
+}
+.thought-form {
+  width: 100%;
+  .thought-form-field {
+    * {
+      color: inherit;
+      width: 100%;
+      background-color: #262627;
+    }
+  }
+  .title {
+    border-bottom: 1px solid #666;
+    input {
+      font-weight: bold;
+      font-size: 2.5rem;
+    }
+  }
+  .text {
+    textarea {
+      height: 200px;
+    }
+  }
+}
+.thought-info {
+  border-bottom: 1px solid #666;
+  padding: 10px;
+  cursor: pointer;
+  .thought-info-link {
+    display: flex;
+  }
+  .user-thumbnail {
+    margin-right: 10px;
+  }
+  .user-info {
+    a{
+      font-weight: bold;
+      margin-right: 5px;
+      color: #c6c6c6;
+      font-size: 18px;
+    }
+    span {
+      color: #606060;
+    }
+  }
+}
+
+.thought-all {
+  margin-left: 10px;
+  margin-right: auto;
+  width: 500px;
+  .thought-all-content {
+  position: sticky;
+  top: 10px;
+  p {
+    white-space: pre-wrap;
+  }
+  }
+}
+.separation {
+  width: 100%;
+  height: 10px;
+  border-top: 1px solid #666;
+  border-bottom: 1px solid #666;
+  background-color: rgba(102, 102, 102, 0.5);
 }
