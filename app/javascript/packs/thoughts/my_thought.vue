@@ -39,7 +39,7 @@ export default {
     thought: 'resize'
   },
   methods: {
-    createThought: function () {
+    createThought () {
       axios
         .post('/api/v1/thoughts', this.thought)
         .then(response => {
@@ -47,7 +47,7 @@ export default {
           this.$router.push({ name: 'thought', params: { thoughtId: res_thought.id }})
         })
     },
-    resize: function () {
+    resize () {
       const area = this.$refs.area
       const autoHeight =
         (new Promise (function (size) {

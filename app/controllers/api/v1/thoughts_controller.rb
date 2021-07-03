@@ -4,7 +4,7 @@ class Api::V1::ThoughtsController < ApiController
   end
 
   def index
-    thoughts = current_user.thoughts
+    thoughts = Thought.includes(:user).all.to_json(include: {user: {only: [:name, :user_id]}})
     render json: thoughts
   end
 
@@ -12,14 +12,20 @@ class Api::V1::ThoughtsController < ApiController
     thought = Thought.new(thought_params)
     thought.shorted_text = thought.text.slice(...50)
     thought.user_id = current_user.id
-    thought.save!
-    redirect_to users_path, notice: "thoughtしました"
+    if thought.save
+      redirect_to users_path, notice: "thoughtしました"
+    else
+      redirect_to users_path, alert: "something wrong…"
+    end
   end
 
   def destroy
     thought = Thought.find(params[:id])
-    thought.destroy!
-    redirect_to users_path, notice: "thoughtを取り消しました"
+    if thought.destroy
+      render json: { status: 200 }
+    else
+      render json: { status: 500, message: "something wrong…" }
+    end
   end
 
   private

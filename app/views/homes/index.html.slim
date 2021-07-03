@@ -29,9 +29,9 @@
         | Update Your Thoughts
       ul.main-content-nav
         li
-          = link_to "Log in", homes_path, class: "btn btn-light"
+          = link_to "Log in", sign_in_path, class: "btn btn-light"
         li
-          = link_to "Sign up", homes_path, class: "btn btn-outline-light"
+          = link_to "Sign up", new_user_registration_path, class: "btn btn-outline-light"
   .introduction
     .container
       .introduction-content
@@ -61,3 +61,6 @@
           | ©2021-
           = Time.current.year
           |  thoughts
+
+
+= javascript_pack_tag 'active_btn'

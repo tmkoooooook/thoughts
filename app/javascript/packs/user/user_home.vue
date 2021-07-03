@@ -3,8 +3,8 @@
     <router-view name="user_header"/>
     <router-view name="thoughts_partial" :thoughts="thoughts"/>
     <div class="thought-all">
-      <router-view name="my_thought" v-if="isRouteParamsMyThought"/>
-      <router-view name="thought_all" :thoughts="thoughts" v-if="isRouteParamsThoughtId"/>
+      <router-view name="my_thought" v-if="isMyThought"/>
+      <router-view name="thought_all" :thoughts="thoughts" v-if="isThoughtAll"/>
     </div>
   </div>
 </template>
@@ -14,38 +14,50 @@
 
   export default {
     name: 'UserHome',
+
     props: { csrf_token: String },
+
     data: function () {
       return {
         thoughts: []
       }
     },
+
     created () {
       this.fetchThoughts()
+      this.fetchCurrentUser()
     },
+
     watch: {
-      $route: 'fetchThoughts'
+      $route: 'fetchThoughts'//結構負荷かかりそう？
     },
+
     computed: {
-      isRouteParamsMyThought: function () {
+      isMyThought: function () {
         let routeParams = this.$route.params.thoughtId
 
         if (typeof routeParams === 'string' && routeParams === 'mythought')
           return true
       },
-      isRouteParamsThoughtId: function() {
+
+      isThoughtAll: function() {
         let routeParams = this.$route.params.thoughtId
 
         if (typeof routeParams === 'number')
           return true
       }
     },
+
     methods: {
       fetchThoughts () {
         axios
           .get('/api/v1/thoughts')
           .then(response => this.thoughts = response.data)
-      }
+      },
+
+      fetchCurrentUser () {
+        this.$store.dispatch('fetchCurrentUser')
+      },
     }
   }
 </script>

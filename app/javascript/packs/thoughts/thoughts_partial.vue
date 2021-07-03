@@ -8,13 +8,14 @@
     </div>
     <div class="separation"></div>
     <div class="thought-info" v-for="thought in thoughts" :key="thought.id">
+      <InterestingBtn :userId="thought.user_id"/>
       <router-link :to="{ name: 'thought', params: { thoughtId: thought.id }}" class="thought-info-link">
         <div class="user-thumbnail">
           <img src="~thoughts_logo_005163.png" alt="user-logo">
         </div>
         <div class="user-info">
-          <a href="#">thought.user.name</a>
-          <span>thought.user.user_id</span>
+          <a href="#">{{ thought.user.name }}</a>
+          <span>{{ thought.user.user_id }}</span>
           <div class="thought-content">
             <h3>{{ thought.title }}</h3>
             <p>{{ thought.shorted_text }}</p>
@@ -27,8 +28,13 @@
 
 <script>
   import 'thoughts_logo_005163.png'
+  import InterestingBtn from '../interests/interesting_btn.vue'
+
   export default {
     name: 'ThoughtCollection',
-    props: { thoughts: Array }
+
+    props: { thoughts: Array },
+
+    components: { InterestingBtn },
   }
 </script>

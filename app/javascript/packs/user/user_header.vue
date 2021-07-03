@@ -9,16 +9,22 @@
       <nav>
         <ul class="user-nav-list">
           <li>
-            <i class="fa fa-house-user"></i>
-            <router-link to="/users">ホーム</router-link>
+            <router-link to="/users">
+              <i class="fa fa-house-user"></i>
+              <span>ホーム</span>
+            </router-link>
           </li>
           <li>
-            <i class="fa fa-user"></i>
-            <router-link to="/users">プロフィール</router-link>
+            <router-link to="/users">
+              <i class="fa fa-user"></i>
+              <span>プロフィール</span>
+            </router-link>
           </li>
           <li>
-            <i class="fa fa-cog"></i>
-            <router-link to="/users">設定</router-link>
+            <router-link to="/users">
+              <i class="fa fa-cog"></i>
+              <span>設定</span>
+            </router-link>
           </li>
         </ul>
       </nav>
