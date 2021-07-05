@@ -1,33 +1,32 @@
 <template>
   <div class="sticky-container">
-    <div class="thought-all-content" v-if="$mq === 'pc'">
-      <div class="edit-delete" v-if="thought.user_id === currentUserId">
-        <button class="fas fa-trash" @click="deleteThought(thought.id)"/>
-      </div>
-      <button @click="closeThought()">✖︎</button>
-      <h1>{{ thought.title }}</h1>
-      <p>{{ thought.text }}</p>
-    </div>
-    <b-modal scrollable hide-header hide-footer no-close-on-backdrop no-close-on-esc static id="thought_all" v-if="$mq === 'sp'">
-      <div class="thought-all-content">
-        <div class="edit-delete" v-if="thought.user_id === currentUserId">
-          <button class="fas fa-trash" @click="deleteThought(thought.id)"/>
-        </div>
-        <button @click="closeThought()">✖︎</button>
-        <h1>{{ thought.title }}</h1>
-        <p>{{ thought.text }}</p>
-      </div>
-    </b-modal>
+    <thoughtAll
+      :thought="thought"
+      @deleteThought="deleteThought"
+      v-if="$mq === 'pc'"/>
+    <thoughtAllModal
+      :thought="thought"
+      @deleteThought="deleteThought"
+      v-if="$mq === 'sp'"/>
   </div>
 </template>
 
 <script>
   import axios from 'axios'
+  import closeBtn from '../parts/close_btn.vue'
+  import thoughtAllModal from './thought_all_modal.vue'
+  import thoughtAll from './thought_all.vue'
 
   export default {
-    name: 'ThoughtAll',
+    name: 'ThoughtAllText',
 
     props: { thoughts: Array },
+
+    components: {
+      closeBtn: closeBtn,
+      thoughtAllModal: thoughtAllModal,
+      thoughtAll: thoughtAll,
+    },
 
     data: function () {
       return {

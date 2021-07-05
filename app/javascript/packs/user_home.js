@@ -17,7 +17,6 @@ document.addEventListener('turbolinks:load', () => {
     el: '#user_home',
     router,
     store,
-    mq,
     render: (h) => h(UserHome, { props: csrf_token })
   })
 })

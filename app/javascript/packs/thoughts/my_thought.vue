@@ -1,32 +1,38 @@
 <template>
-  <div class="my-thoughts">
-    <div class="user-thumbnail">
-      <img src="~thoughts_logo_005163.png" alt="">
-    </div>
-    <div class="thought-form">
-      <form @submit.prevent="createThought">
-        <input type="hidden" name="authenticity_token" :value="authenticity_token">
-        <div class="thought-form-field title">
-          <input type="text" v-model="thought.title" placeholder="thought titile">
-        </div>
-        <div class="thought-form-field text">
-          <!-- 改行したり消したりする時resizeの挙動が変 -->
-          <textarea v-model="thought.text" ref="area" @keydown="resize" placeholder="thought"></textarea>
-        </div>
-        <div class="thought-form-field submit">
-          <input type="submit" value="thought" class="btn btn-light">
-        </div>
-      </form>
-    </div>
+  <div class="sticky-container">
+    <myThoughtForm
+      @createThought="createThought()"
+      @resize="resize()"
+      ref="formTextarea"
+      v-model="thought"
+      v-if="$mq === 'pc'"/>
+    <myThoughtModal
+      @createThought="createThought()"
+      @resize="resize()"
+      ref="modalTextarea"
+      v-model="thought"
+      v-if="$mq === 'sp'"/>
   </div>
+
 </template>
 
 <script>
 import axios from 'axios'
+import closeBtn from '../parts/close_btn.vue'
+import myThoughtModal from './my_thought_modal.vue'
+import myThoughtForm from './my_thought_form.vue'
 
 export default {
   name: 'MyThought',
+
   props: { authenticity_token: String },
+
+  components: {
+    closeBtn: closeBtn,
+    myThoughtModal: myThoughtModal,
+    myThoughtForm: myThoughtForm,
+  },
+
   data: function () {
     return {
       thought: {
@@ -35,9 +41,16 @@ export default {
       }
     }
   },
+
+  mounted () {
+    if (this.$mq === 'sp')
+      this.$bvModal.show('my_thought')
+  },
+
   watch: {
     thought: 'resize'
   },
+
   methods: {
     createThought () {
       axios
@@ -47,8 +60,14 @@ export default {
           this.$router.push({ name: 'thought', params: { thoughtId: res_thought.id }})
         })
     },
+
     resize () {
-      const area = this.$refs.area
+      if (this.$mq === 'sp') {
+        var area = this.$refs.modalTextarea.$refs.area
+      }
+      else {
+        var area = this.$refs.formTextarea.$refs.area
+      }
       const autoHeight =
         (new Promise (function (size) {
           size(area.style.height = '200px')
@@ -56,10 +75,7 @@ export default {
         .then(function () {
           area.style.height = area.scrollHeight + 'px'
         })
-    }
+    },
   }
 }
 </script>
-
-<style lang="css" scoped>
-</style>

@@ -379,9 +379,11 @@ footer {
     color: #ccc;
   }
 }
-.my-thoughts {
-  display: flex;
-  height: 150px;
+//-------------mythought--------------
+.my-thought {
+  position: sticky;
+  padding: 15px;
+  top: 0;
   .user-thumbnail{
     padding-top: 10px;
   }
@@ -448,19 +450,21 @@ footer {
   height: 100%;
 }
 .thought-all-content {
-position: sticky;
-top: 10px;
+  position: sticky;
+  top: 10px;
+  padding: 15px;
   p {
     white-space: pre-wrap;
   }
 }
 .edit-delete {
   position: absolute;
-  right: 0;
+  right: 15px;
   top: 20px;
 }
 .modal-body {
   padding: 0;
+  background-color: #262627;
 }
 @media screen and (max-width: 425px) {
   .thought-all {
@@ -468,7 +472,6 @@ top: 10px;
     width: 100%;
     .thought-all-content {
       min-height: 100vh;
-      padding: 10px;
       background-color: #262627;
       z-index: 3;
     }
