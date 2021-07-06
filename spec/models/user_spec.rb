@@ -15,7 +15,7 @@ RSpec.describe User, type: :model do
       it 'is invalid' do
         user.name = ''
         expect(user).to be_invalid
-        expect(user.errors[:name]).to include("can't be blank")
+        expect(user.errors[:name]).to include("を入力してください")
       end
     end
   end
@@ -32,7 +32,7 @@ RSpec.describe User, type: :model do
       it 'is invalid' do
         user.email = ''
         expect(user).to be_invalid
-        expect(user.errors[:email]).to include("can't be blank")
+        expect(user.errors[:email]).to include("を入力してください")
       end
     end
 
@@ -79,7 +79,7 @@ RSpec.describe User, type: :model do
         create(:user, name: 'other user', email: 'other@example.com')
         user.email = 'OTHER@EXAMPLE.COM'
         expect(user).to be_invalid
-        expect(user.errors[:email]).to include("has already been taken")
+        expect(user.errors[:email]).to include("はすでに存在します")
       end
     end
 
@@ -102,7 +102,7 @@ RSpec.describe User, type: :model do
       it 'is invalid' do
         user.password = ''
         expect(user).to be_invalid
-        expect(user.errors[:password]).to include("can't be blank")
+        expect(user.errors[:password]).to include("を入力してください")
       end
     end
   end
@@ -119,17 +119,104 @@ RSpec.describe User, type: :model do
       it 'is invalid' do
         user.encrypted_password = ''
         expect(user).to be_invalid
-        expect(user.errors[:encrypted_password]).to include("can't be blank")
+        expect(user.errors[:encrypted_password]).to include("を入力してください")
       end
     end
 
     context 'when is not uniqueness' do
       it 'is invalid' do
-        create(:user, name: 'other user', email: 'other@example.com', password: 'otherpassword', encrypted_password: 'otherpassword')
+        create(:user,
+          name: 'other user',
+          email: 'other@example.com',
+          password: 'otherpassword',
+          encrypted_password:
+          'otherpassword')
         user.password = 'otherpassword'
         user.encrypted_password = 'otherpassword'
         expect(user).to be_invalid
-        expect(user.errors[:encrypted_password]).to include("has already been taken")
+        expect(user.errors[:encrypted_password]).to include("はすでに存在します")
+      end
+    end
+  end
+
+  describe 'user_id' do
+    context 'when present' do
+      it 'is invalid' do
+        user.user_id = 'testuser0'
+        expect(user).to be_valid
+      end
+    end
+
+    context 'when blank' do
+      it 'is invalid' do
+        user.user_id = ''
+        expect(user).to be_invalid
+        expect(user.errors[:user_id]).to include("を入力してください")
+      end
+    end
+
+    context 'when is not uniqueness' do
+      it 'is invalid' do
+        create(:user,
+          name: 'other user',
+          email: 'other@example.com',
+          password: 'otherpassword',
+          encrypted_password: 'otherpassword',
+          user_id: 'otheruserid')
+        user.user_id = 'otheruserid'
+        expect(user).to be_invalid
+        expect(user.errors[:user_id]).to include("はすでに存在します")
+      end
+    end
+  end
+
+  describe 'def' do
+    let!(:user) { create(:user) }
+    let!(:other_user) { create(:user,
+      name: 'other user',
+      email: 'other@example.com',
+      password: 'otherpassword',
+      encrypted_password: 'otherpassword',
+      user_id: 'otheruserid') }
+
+    describe 'email_downcase' do
+      it 'email is down case' do
+        user.email = 'TESTUSER@example.com'
+        expect(user.email_downcase).to eq 'testuser@example.com'
+      end
+    end
+
+    describe 'intereted_in' do
+      context 'when other_user is self' do
+        it 'is nil' do
+          expect(user.interested_in(user)).to eq nil
+        end
+      end
+
+      context 'when other_user' do
+        it 'is initialize relationship' do
+          expect(user.interested_in(other_user)).to be_truthy
+        end
+
+        it 'is find relationship' do
+          create(:relationship, user_id: user.id, interest_id: other_user.id)
+          expect(user.interested_in(other_user)).to be_truthy
+        end
+      end
+    end
+
+    describe 'uninterested_in' do
+      context 'when relationship find' do
+        it 'destroy' do
+          create(:relationship, user_id: user.id, interest_id: other_user.id)
+          expect(user.uninterested_in(other_user)).to be_truthy
+        end
+      end
+
+      context 'when relationship does not find' do
+        it 'is nil' do
+          expect(user.uninterested_in(other_user)).to eq nil
+        end
       end
     end
   end

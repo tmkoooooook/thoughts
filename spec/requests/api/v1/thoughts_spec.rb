@@ -1,11 +1,13 @@
 require 'rails_helper'
 
-RSpec.describe "Thoghts", type: :request do
-  describe "GET /show" do
+RSpec.describe "Thoughts", type: :request do
+  describe "GET /index" do
     it "returns http success" do
-      get "/thoghts/show"
+      get "/api/v1/thoughts"
       expect(response).to have_http_status(:success)
     end
+
+
   end
 
 end

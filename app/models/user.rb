@@ -32,8 +32,4 @@ class User < ApplicationRecord
     relationship = self.relationships.find_by(interest_id: other_user.id)
     relationship.destroy if relationship
   end
-
-  def interesting?(other_user)
-    self.interests.include?(other_user)
-  end
 end
