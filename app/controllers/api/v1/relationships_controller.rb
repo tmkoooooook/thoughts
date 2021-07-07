@@ -6,7 +6,7 @@ class Api::V1::RelationshipsController < ApiController
     if interesting.save
       render json: { status: 200 }
     else
-      render json: { status: 500, message: "something wrong…" }
+      render json: { status: 500, message: 'something wrong…' }
     end
   end
 
@@ -15,9 +15,10 @@ class Api::V1::RelationshipsController < ApiController
     if interesting.destroy
       render json: { status: 200 }
     else
-      render json: { status: 500, message: "something wrong…" }
+      render json: { status: 500, message: 'something wrong…' }
     end
   end
+
   private
 
   def set_user

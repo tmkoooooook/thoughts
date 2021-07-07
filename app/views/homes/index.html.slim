@@ -1,25 +1,25 @@
 .main
-  header.home-header
-    nav
-      ul.left-nav
-        li
-          = link_to homes_path do
-            = image_tag('thoughts_logo_white.png', alt: 'thoughts_logo')
-      #right_nav.right-nav
-        .hamburger-menu[v-on:click="ActiveBtn=!ActiveBtn"]
-          span.hamburger-line
-        transition[name="menu"]
-          ul.right-nav-list[v-show="ActiveBtn"]
-            - if user_signed_in?
-              li
-                = link_to 'profile', edit_user_registration_path, class: "btn btn-light"
-              li
-                = link_to 'Log out', sign_out_path, class: "btn btn-outline-light"
-            - else
-              li
-                = link_to "Log in", sign_in_path, class: "btn btn-light"
-              li
-                = link_to "Sign up", new_user_registration_path, class: "btn btn-outline-light"
+  / header.home-header
+  /   nav
+  /     ul.left-nav
+  /       li
+  /         = link_to homes_path do
+  /           = image_tag('thoughts_logo_white.png', alt: 'thoughts_logo')
+  /     #right_nav.right-nav
+  /       .hamburger-menu[v-on:click="ActiveBtn=!ActiveBtn"]
+  /         span.hamburger-line
+  /       transition[name="menu"]
+  /         ul.right-nav-list[v-show="ActiveBtn"]
+  /           - if user_signed_in?
+  /             li
+  /               = link_to 'profile', edit_user_registration_path, class: "btn btn-light"
+  /             li
+  /               = link_to 'Log out', sign_out_path, class: "btn btn-outline-light"
+  /           - else
+  /             li
+  /               = link_to "Log in", sign_in_path, class: "btn btn-light"
+  /             li
+  /               = link_to "Sign up", new_user_registration_path, class: "btn btn-outline-light"
   .main-content
     .container
       h1.main-content-head

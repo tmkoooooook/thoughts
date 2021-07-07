@@ -11,7 +11,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :confirmable
 
-  EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i.freeze
+  EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
 
   validates :name,               presence: true
   validates :email,              presence: true, uniqueness: { case_sensitive: false }, format: { with: EMAIL_REGEX }
@@ -23,13 +23,13 @@ class User < ApplicationRecord
   end
 
   def interested_in(other_user)
-    unless self == other_user
-      self.relationships.find_or_initialize_by(interest_id: other_user.id)
-    end
+    return if self == other_user
+
+    self.relationships.find_or_initialize_by(interest_id: other_user.id)
   end
 
   def uninterested_in(other_user)
     relationship = self.relationships.find_by(interest_id: other_user.id)
-    relationship.destroy if relationship
+    relationship&.destroy if relationship
   end
 end

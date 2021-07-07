@@ -5,5 +5,6 @@ FactoryBot.define do
     password { 'password' }
     encrypted_password { 'password' }
     user_id { 'testuser0' }
+    confirmed_at { Date.today }
   end
 end

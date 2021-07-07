@@ -1,10 +1,13 @@
 class Api::V1::ThoughtsController < ApiController
-  rescue_from ActiveRecord::RecordNotFound do |exception|
-    render json: { error: '404 not found' }, status: 404
+  rescue_from ActiveRecord::RecordNotFound do
+    render json: { error: '404 not found' }, status: :not_found
   end
 
   def index
-    thoughts = Thought.includes(:user).all.to_json(include: {user: {only: [:name, :user_id]}})
+    thoughts = Thought.
+      where(user_id: [current_user.id, *current_user.interest_ids]).
+      includes(:user).
+      to_json(include: { user: { only: [:name, :user_id] } })
     render json: thoughts
   end
 
@@ -13,9 +16,9 @@ class Api::V1::ThoughtsController < ApiController
     thought.shorted_text = thought.text.slice(...50)
     thought.user_id = current_user.id
     if thought.save
-      redirect_to users_path, notice: "thoughtしました"
+      render json: { status: 200 }
     else
-      redirect_to users_path, alert: "something wrong…"
+      render json: { status: 500, message: 'something wrong…' }
     end
   end
 
@@ -24,7 +27,7 @@ class Api::V1::ThoughtsController < ApiController
     if thought.destroy
       render json: { status: 200 }
     else
-      render json: { status: 500, message: "something wrong…" }
+      render json: { status: 500, message: 'something wrong…' }
     end
   end
 
