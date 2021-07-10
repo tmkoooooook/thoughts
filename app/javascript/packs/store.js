@@ -6,16 +6,14 @@ Vue.use(Vuex)
 
 export default new Vuex.Store ({
   state: {
-    user: {}
+    user: {
+      relationships: []
+    }
   },
 
   getters: {
-    isAlreadyInterest: (state) => (id) => {
-      return state.user.relationships.includes(id)
-    },
-
-    findRelationshipsId: (state) => (user_id) => {
-      return state.user.relationships.find(rs => rs.interest_id === user_id)
+    watchUser: (state) => {
+      return state.user
     }
   },
 
@@ -29,6 +27,16 @@ export default new Vuex.Store ({
     async fetchCurrentUser (context) {
       const currentUser = await axios.get('/api/v1/users')
       context.commit('setCurrentUser', { user: currentUser.data })
+    },
+
+    async deleteRelationship ({ dispatch }, { id, interest }) {
+      await axios.delete(`api/v1/relationships/${id}`, { data: interest })
+      dispatch('fetchCurrentUser')
+    },
+
+    async createRelationship ({ dispatch }, interest) {
+      await axios.post('api/v1/relationships', interest)
+      dispatch('fetchCurrentUser')
     }
   }
 })

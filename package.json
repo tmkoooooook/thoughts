@@ -1,5 +1,23 @@
 {
   "name": "thoughts",
+  "jest": {
+    "roots": [
+      "spec/javascript"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "vue"
+    ],
+    "transform": {
+      "^.+\\.js$": "<rootDir>/node_modules/babel-jest",
+      "^.*\\.vue$": "vue-jest"
+    },
+    "moduleDirectories": [
+      "node_modules",
+      "app/javascript/packs"
+    ]
+  },
   "private": true,
   "dependencies": {
     "@rails/actioncable": "^6.0.0",
@@ -23,6 +41,17 @@
   },
   "version": "0.1.0",
   "devDependencies": {
+    "@babel/preset-env": "^7.14.7",
+    "@vue/test-utils": "^1.2.1",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^27.0.6",
+    "jest": "^27.0.6",
+    "jsdom": "^16.6.0",
+    "jsdom-global": "^3.0.2",
+    "vue-jest": "^3.0.7",
     "webpack-dev-server": "^3.11.2"
+  },
+  "scripts": {
+    "test": "jest"
   }
 }
