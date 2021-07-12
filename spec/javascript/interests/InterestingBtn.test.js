@@ -1,4 +1,5 @@
 import 'jsdom-global/register'
+import '../__mocks__/window_confirm_mock'
 import { createLocalVue, mount } from '@vue/test-utils'
 import InterestingBtn from 'interests/interesting_btn';
 import Vuex from 'vuex'
@@ -31,7 +32,10 @@ describe('InterestingBtn', () => {
       getters,
       actions
     })
-    wrapper = mount(InterestingBtn, { store, localVue })
+    wrapper = mount(InterestingBtn, {
+      store,
+      localVue
+    })
   })
 
 
@@ -65,19 +69,17 @@ describe('InterestingBtn', () => {
       })
 
       it('run deleteRelationship',() => {
-        window.confirm = jest.fn(confirm => confirm = true)
         wrapper.find('input.uninteresting-btn').trigger('submit.prevent')
-
         expect(actions.deleteRelationship).toHaveBeenCalled()
       })
     })
   })
 
   describe('when !otherUser', () => {
-    beforeEach(() => wrapper.setProps({ userId: 2 }))
+    beforeEach(() => wrapper.setProps({ userId: 1 }))
 
     it('display none', () => {
-      expect(wrapper).toBeFalsy
+      expect(wrapper.html()).toBe('')
     })
   })
 })

@@ -1,21 +1,37 @@
 <template>
   <div class="sticky-container">
-    <thoughtAll
-      :thought="thought"
-      @deleteThought="deleteThought"
-      v-if="$mq === 'pc'"/>
-    <thoughtAllModal
-      :thought="thought"
-      @deleteThought="deleteThought"
-      v-if="$mq === 'sp'"/>
+    <div class="thought-all-content" id="thought_all" v-if="$mq === 'pc'">
+      <div class="edit-delete" v-if="thought.user_id === watchUser.id">
+        <button class="fas fa-trash" @click="deleteThought(thought.id)"/>
+      </div>
+      <closeBtn url="/users"/>
+      <h1>{{ thought.title }}</h1>
+      <p>{{ thought.text }}</p>
+    </div>
+    <b-modal id="thought_all_modal"
+      v-if="$mq === 'sp'"
+      scrollable
+      hide-header
+      hide-footer
+      no-close-on-backdrop
+      no-close-on-esc
+      static>
+      <div class="thought-all-content">
+        <div class="edit-delete" v-if="thought.user_id === watchUser.id">
+          <button class="fas fa-trash" @click="deleteThought(thought.id)"/>
+        </div>
+        <closeBtn modalId="thought_all_modal" url="/users"/>
+        <h1>{{ thought.title }}</h1>
+        <p>{{ thought.text }}</p>
+      </div>
+    </b-modal>
   </div>
 </template>
 
 <script>
   import axios from 'axios'
   import closeBtn from '../parts/close_btn.vue'
-  import thoughtAllModal from './thought_all_modal.vue'
-  import thoughtAll from './thought_all.vue'
+  import { mapGetters } from 'vuex'
 
   export default {
     name: 'ThoughtAllText',
@@ -23,58 +39,31 @@
     props: { thoughts: Array },
 
     components: {
-      closeBtn: closeBtn,
-      thoughtAllModal: thoughtAllModal,
-      thoughtAll: thoughtAll,
-    },
-
-    data: function () {
-      return {
-        thought: null,
-      }
-    },
-
-    created () {
-      this.fetchThought()
+      closeBtn: closeBtn
     },
 
     mounted () {
       if (this.$mq === 'sp')
-        this.$bvModal.show('thought_all')
-    },
-
-    watch: {
-      $route: 'fetchThought',
+        this.$bvModal.show('thought_all_modal')
     },
 
     computed: {
-      currentUserId () {
-        return this.$store.state.user.id
-      }
+      thought () {
+        return this.thoughts.find(thought => thought.id === this.$attrs.thoughtId)
+      },
+
+      ...mapGetters ([
+        'watchUser'
+      ])
     },
 
     methods: {
-      fetchThought () {
-        if (this.$route.params.thoughtId) {
-          this.thought = this.thoughts.find(thought => thought.id === this.$route.params.thoughtId)
-        }
-      },
-
-      deleteThought (id) {
+      async deleteThought (id) {
         if (window.confirm('本当に削除しますか')) {
-          axios
-            .delete(`/api/v1/thoughts/${id}`)
-            .then(response => {
-              this.thought = []
-              this.fetchThought()
-          })
+          await axios.delete(`/api/v1/thoughts/${id}`)
+          this.$router.push('/users')
         }
-      },
-
-      closeThought () {
-        this.$bvModal.hide('thought_all')
-        this.$router.push('/users')
-      },
+      }
     }
   }
 </script>

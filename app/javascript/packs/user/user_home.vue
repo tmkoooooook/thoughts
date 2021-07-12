@@ -35,7 +35,6 @@
     computed: {
       isMyThought: function () {
         let routeParams = this.$route.params.thoughtId
-
         if (typeof routeParams === 'string' && routeParams === 'mythought')
           return true
       },
@@ -49,10 +48,9 @@
     },
 
     methods: {
-      fetchThoughts () {
-        axios
-          .get('/api/v1/thoughts')
-          .then(response => this.thoughts = response.data)
+      async fetchThoughts () {
+        const response = await axios.get('/api/v1/thoughts')
+        this.thoughts = response.data
       },
 
       fetchCurrentUser () {

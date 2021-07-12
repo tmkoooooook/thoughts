@@ -23,6 +23,12 @@ export default new VueRouter({
         thoughts_partial: ThoughtsPartial,
         thought_all: ThoughtAll,
         my_thought: MyThought
+      },
+      props: {
+        user_header: false,
+        thoughts_partial: false,
+        thought_all: true,
+        my_thought: false
       }
     }
   ]
