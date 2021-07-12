@@ -63,7 +63,4 @@ describe('UserHome', () => {
       expect(routerView).toHaveLength(2)
     })
   })
-
-
-
 })

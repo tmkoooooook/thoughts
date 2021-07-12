@@ -93,7 +93,5 @@ describe('ThoughtAllText', () => {
       trash.trigger('click')
       expect(axios.delete).toHaveBeenCalled()
     })
-
-
   })
 })
