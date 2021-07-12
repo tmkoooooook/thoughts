@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_23_071618) do
+ActiveRecord::Schema.define(version: 2021_06_30_012840) do
+
+  create_table "relationships", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "interest_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["interest_id"], name: "index_relationships_on_interest_id"
+    t.index ["user_id", "interest_id"], name: "index_relationships_on_user_id_and_interest_id", unique: true
+    t.index ["user_id"], name: "index_relationships_on_user_id"
+  end
 
   create_table "thoughts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "title", limit: 50, null: false
@@ -42,5 +52,7 @@ ActiveRecord::Schema.define(version: 2021_06_23_071618) do
     t.index ["user_id"], name: "index_users_on_user_id", unique: true
   end
 
+  add_foreign_key "relationships", "users"
+  add_foreign_key "relationships", "users", column: "interest_id"
   add_foreign_key "thoughts", "users"
 end

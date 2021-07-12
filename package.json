@@ -1,5 +1,28 @@
 {
   "name": "thoughts",
+  "jest": {
+    "roots": [
+      "spec/javascript"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "vue"
+    ],
+    "transform": {
+      "^.+\\.js$": "<rootDir>/node_modules/babel-jest",
+      "^.*\\.vue$": "vue-jest"
+    },
+    "moduleDirectories": [
+      "node_modules",
+      "app/javascript/packs"
+    ],
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/spec/javascript/__mocks__/fileMock.js",
+      "\\.(css|less)$": "<rootDir>/spec/javascript/__mocks__/styleMock.js"
+    },
+    "collectCoverage": true
+  },
   "private": true,
   "dependencies": {
     "@rails/actioncable": "^6.0.0",
@@ -7,9 +30,12 @@
     "@rails/ujs": "^6.0.0",
     "@rails/webpacker": "5.4.0",
     "axios": "^0.21.1",
+    "bootstrap": "^5.0.2",
+    "bootstrap-vue": "^2.21.2",
     "turbolinks": "^5.2.0",
     "vue": "^2.6.14",
     "vue-loader": "^15.9.7",
+    "vue-mq": "^1.0.1",
     "vue-router": "^3.5.2",
     "vue-template-compiler": "^2.6.14",
     "vue-turbolinks": "^2.2.2",
@@ -20,6 +46,17 @@
   },
   "version": "0.1.0",
   "devDependencies": {
+    "@babel/preset-env": "^7.14.7",
+    "@vue/test-utils": "^1.2.1",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^27.0.6",
+    "jest": "^27.0.6",
+    "jsdom": "^16.6.0",
+    "jsdom-global": "^3.0.2",
+    "vue-jest": "^3.0.7",
     "webpack-dev-server": "^3.11.2"
+  },
+  "scripts": {
+    "test": "jest"
   }
 }

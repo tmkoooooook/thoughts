@@ -26,6 +26,12 @@ body {
   background-color: #262627;
   color: #c6c6c6;
 }
+.fas {
+  color: #c6c6c6;
+}
+.fas.fa-trash {
+  color: #d0245d;
+}
 .menu-enter-active, .menu-leave-active {
   transition: opacity 0.4s;
 }
@@ -293,7 +299,8 @@ footer {
 }
 .user-home {
   display: flex;
-  height: 3000px;
+  height: auto;
+  margin-bottom: 60px;
 }
 .user-header {
   margin-left: auto;
@@ -305,10 +312,47 @@ footer {
   .user-nav-list {
     .fa {
       font-size: 20px;
-      margin-right: 20px;
+      margin-right: 10px;
     }
-    a {
-      font-size: 20px;
+    a { font-size: 20px; }
+  }
+}
+@media screen and (max-width: 1200px) {
+  .user-header {
+    padding-left: 20px;
+    .user-nav {
+      .image-wrapper {
+        display: none;
+      }
+    }
+  }
+  .user-nav {
+    .user-nav-list {
+      margin-top: 80px;
+      text-align: center;
+      span { display: none; }
+    }
+  }
+}
+@media screen and (max-width: 767px) {
+  .user-header {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    z-index: 2;
+    .user-nav .user-nav-list {
+      display: flex;
+      justify-content: space-between;
+      height: 60px;
+      padding: 15px;
+      margin: 0;
+      background-color: #262627;
+      border-top: 1px solid #666;
+      .fa {
+        color: #666;
+      }
     }
   }
 }
@@ -335,9 +379,11 @@ footer {
     color: #ccc;
   }
 }
-.my-thoughts {
-  display: flex;
-  height: 150px;
+//-------------mythought--------------
+.my-thought {
+  position: sticky;
+  padding: 15px;
+  top: 0;
   .user-thumbnail{
     padding-top: 10px;
   }
@@ -399,12 +445,36 @@ footer {
   margin-left: 10px;
   margin-right: auto;
   width: 500px;
-  .thought-all-content {
+}
+.sticky-container {
+  height: 100%;
+}
+.thought-all-content {
   position: sticky;
   top: 10px;
+  padding: 15px;
   p {
     white-space: pre-wrap;
   }
+}
+.edit-delete {
+  position: absolute;
+  right: 15px;
+  top: 20px;
+}
+.modal-body {
+  padding: 0;
+  background-color: #262627;
+}
+@media screen and (max-width: 425px) {
+  .thought-all {
+    margin: 0;
+    width: 100%;
+    .thought-all-content {
+      min-height: 100vh;
+      background-color: #262627;
+      z-index: 3;
+    }
   }
 }
 .separation {
@@ -413,4 +483,24 @@ footer {
   border-top: 1px solid #666;
   border-bottom: 1px solid #666;
   background-color: rgba(102, 102, 102, 0.5);
+}
+.interesting-form {
+  display: inline-block;
+  input {
+    border-color: #666;
+    background-color: #005163;
+    vertical-align: middle;
+    font-size: 18px;
+    font-weight: 900;
+    font-style: italic;
+    font-family: "Apple Chancery";
+    letter-spacing: 1px;
+    color: #ccc;
+  }
+  .uninteresting-btn {
+    transition: color .5s;
+  }
+  .uninteresting-btn:hover {
+    color: #d0245d;
+  }
 }

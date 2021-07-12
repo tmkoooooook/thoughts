@@ -9,12 +9,14 @@ Rails.application.routes.draw do
   end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   root to: "homes#index"
-  resources :homes,    only: [:index]
   resources :users,    only: [:index, :show]
+  resources :homes,    only: [:index]
 
   namespace :api ,{ format: 'json' } do
     namespace :v1 do
-      resources :thoughts, only: [:index, :create]
+      resources :thoughts,      only: [:index, :create, :destroy]
+      resources :users,         only: [:index]
+      resources :relationships, only: [:create, :destroy]
     end
   end
 end

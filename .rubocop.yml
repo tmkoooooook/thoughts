@@ -1,10 +1,10 @@
 require:
   - rubocop-rails
 
-LineLength:
+Layout/LineLength:
   Max: 130
 
-Documentation:
+Style/Documentation:
   Enabled: false
 
 Style/FrozenStringLiteralComment:
@@ -13,14 +13,32 @@ Style/FrozenStringLiteralComment:
 Style/SymbolArray:
   Enabled: false
 
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/RedundantSelf:
+  Enabled: false
+
+Layout/DotPosition:
+  EnforcedStyle: trailing
+
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
 Rails/UniqueValidationWithoutIndex:
   Enabled: false
 
 Rails:
   Enabled: true
 
+Rails/InverseOf:
+  Enabled: false
+
+Rails/HasManyOrHasOneDependent:
+  Enabled: false
+
 AllCops:
-  TargetRubyVersion: 2.5
+  TargetRubyVersion: 3.0
   NewCops: disable
   Exclude:
     - 'db/**/*'
