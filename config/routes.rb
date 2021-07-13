@@ -9,8 +9,8 @@ Rails.application.routes.draw do
   end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   root to: "homes#index"
-  resources :users,    only: [:index, :show]
-  resources :homes,    only: [:index]
+  resources :users, param: :user_id, only: [:index, :show]
+  resources :homes,                  only: [:index]
 
   namespace :api ,{ format: 'json' } do
     namespace :v1 do

@@ -2,7 +2,7 @@ import 'jsdom-global/register'
 import { RouterLinkStub, shallowMount } from '@vue/test-utils'
 import ThoughtPartial from 'thoughts/thoughts_partial'
 import 'thoughts_logo_005163.png'
-import { beforeEach, describe, expect, it, jest } from '@jest/globals'
+import { beforeEach, describe, expect, it } from '@jest/globals'
 
 describe('ThoughtPartial', () => {
   let wrapper
