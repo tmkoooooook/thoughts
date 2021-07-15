@@ -1,61 +1,61 @@
 <template>
   <div id="user_home" class="user-home">
-    <router-view name="user_header"/>
+    <UserHeader/>
     <router-view name="thoughts_partial" :thoughts="thoughts"/>
     <div class="thought-all">
-      <router-view name="my_thought" v-if="isMyThought"/>
-      <router-view name="thought_all" :thoughts="thoughts" v-if="isThoughtAll"/>
+      <router-view name="my_thought"/>
+      <router-view name="thought_all" :thoughts="thoughts"/>
     </div>
   </div>
 </template>
 
 <script>
-  import axios from 'axios'
+  import UserHeader from './user_header.vue'
+  import { mapActions, mapState } from 'vuex'
 
   export default {
     name: 'UserHome',
 
-    props: { csrf_token: String },
-
-    data: function () {
-      return {
-        thoughts: []
-      }
+    components: {
+      UserHeader: UserHeader
     },
 
+    props: { csrf_token: String },
+
     created () {
-      this.fetchThoughts()
+      this.runFetchThoughts()
       this.fetchCurrentUser()
+    },
+    computed: {
+      ...mapState([
+        'thoughts'
+      ])
     },
 
     watch: {
-      $route: 'fetchThoughts'//結構負荷かかりそう？
-    },
-
-    computed: {
-      isMyThought: function () {
-        let routeParams = this.$route.params.thoughtId
-        if (typeof routeParams === 'string' && routeParams === 'mythought')
-          return true
-      },
-
-      isThoughtAll: function() {
-        let routeParams = this.$route.params.thoughtId
-
-        if (typeof routeParams === 'number')
-          return true
-      }
+      $route: 'runFetchThoughts'//結構負荷かかりそう？
     },
 
     methods: {
-      async fetchThoughts () {
-        const response = await axios.get('/api/v1/thoughts')
-        this.thoughts = response.data
-      },
+      ...mapActions([
+        'fetchThoughts',
+        'fetchCurrentUser'
+      ]),
 
-      fetchCurrentUser () {
-        this.$store.dispatch('fetchCurrentUser')
-      },
+      runFetchThoughts () {
+        if (this.$route.params.thoughtId) return
+
+        let urlParams = this.$route.params.userId
+        let url
+
+        if (urlParams) {
+          url = `/api/v1/thoughts/${urlParams}`
+        }
+        else {
+          url = '/api/v1/thoughts'
+        }
+        this.fetchThoughts(url)
+      }
     }
   }
 </script>

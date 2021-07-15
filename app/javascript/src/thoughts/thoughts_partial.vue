@@ -1,21 +1,23 @@
 <template>
   <div class="thoughts-partial">
-    <div class="thoughts-top">
+    <UserShow v-if="isUserShow"/>
+    <div v-else class="thoughts-top">
       <h2>ホーム</h2>
-      <router-link to="/users/mythought" class="new-thought btn">
-        <span>thought</span>
-      </router-link>
+      <MyThoughtBtn/>
     </div>
     <div class="separation"></div>
     <div class="thought-info" v-for="thought in thoughts" :key="thought.id">
-      <InterestingBtn :userId="thought.user_id"/>
-      <router-link :to="{ name: 'thought', params: { thoughtId: thought.id }}" class="thought-info-link">
+      <router-link :to="{ name: 'thought', params: { userId: thought.user.user_id ,thoughtId: thought.id }}" class="thought-info-link">
         <div class="user-thumbnail">
-          <img src="~thoughts_logo_005163.png" alt="user-logo">
+          <router-link :to="{ name: 'userShow', params: { userId: thought.user.user_id } }">
+            <img src="~thoughts_logo_005163.png" alt="user-logo">
+          </router-link>
         </div>
         <div class="user-info">
-          <a href="#">{{ thought.user.name }}</a>
-          <span>{{ thought.user.user_id }}</span>
+          <router-link :to="{ name: 'userShow', params: { userId: thought.user.user_id } }">
+            {{ thought.user.name }}
+            <span class="user-id">{{ thought.user.user_id }}</span>
+          </router-link>
           <div class="thought-content">
             <h3>{{ thought.title }}</h3>
             <p>{{ thought.shorted_text }}</p>
@@ -29,12 +31,36 @@
 <script>
   import 'thoughts_logo_005163.png'
   import InterestingBtn from '../interests/interesting_btn.vue'
+  import UserShow from '../user/user_show.vue'
+  import MyThoughtBtn from "../parts/my_thought_btn.vue";
 
   export default {
     name: 'ThoughtCollection',
 
     props: { thoughts: Array },
 
-    components: { InterestingBtn },
+    data: function () {
+      return {
+        isUserShow: false
+      }
+    },
+
+    components: {
+      InterestingBtn,
+      UserShow,
+      MyThoughtBtn
+    },
+    //UserShowが/usersなどでも開いてしまうのでroutingの検知をしている。
+    beforeRouteEnter (to, from, next) {
+      if (to.name === 'userShow') {
+        next(vm => vm.isUserShow = true)
+      }
+      else if (from.name === 'userShow' && to.name === 'thought') {
+        next(vm => vm.isUserShow = true)
+        }
+      else {
+        next(vm => vm.isUserShow = false)
+      }
+    }
   }
 </script>

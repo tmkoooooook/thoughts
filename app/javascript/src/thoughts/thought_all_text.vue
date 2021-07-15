@@ -4,7 +4,7 @@
       <div class="edit-delete" v-if="thought.user_id === watchUser.id">
         <button class="fas fa-trash" @click="deleteThought(thought.id)"/>
       </div>
-      <closeBtn url="/users"/>
+      <CloseBtn :route="fromRoute"/>
       <h1>{{ thought.title }}</h1>
       <p>{{ thought.text }}</p>
     </div>
@@ -20,7 +20,7 @@
         <div class="edit-delete" v-if="thought.user_id === watchUser.id">
           <button class="fas fa-trash" @click="deleteThought(thought.id)"/>
         </div>
-        <closeBtn modalId="thought_all_modal" url="/users"/>
+        <CloseBtn modalId="thought_all_modal" :route="fromRoute"/>
         <h1>{{ thought.title }}</h1>
         <p>{{ thought.text }}</p>
       </div>
@@ -30,7 +30,7 @@
 
 <script>
   import axios from 'axios'
-  import closeBtn from '../parts/close_btn.vue'
+  import CloseBtn from '../parts/close_btn.vue'
   import { mapGetters } from 'vuex'
 
   export default {
@@ -39,7 +39,13 @@
     props: { thoughts: Array },
 
     components: {
-      closeBtn: closeBtn
+      CloseBtn: CloseBtn
+    },
+
+    data: function () {
+      return {
+        fromRoute: {}
+      }
     },
 
     mounted () {
@@ -64,6 +70,11 @@
           this.$router.push('/users')
         }
       }
+    },
+
+    beforeRouteEnter (to, from, next) {
+      const routeName = { name: from.name, params: { userId: from.params.userId } }
+      next(vm => vm.fromRoute = routeName)
     }
   }
 </script>

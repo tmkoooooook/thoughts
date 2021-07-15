@@ -32,4 +32,11 @@ class User < ApplicationRecord
     relationship = self.relationships.find_by(interest_id: other_user.id)
     relationship&.destroy if relationship
   end
+
+  def relationship_size
+    {
+      interests_size: self.relationships.size,
+      interesters_size: self.reverse_of_relationships.size
+    }
+  end
 end

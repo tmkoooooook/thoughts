@@ -1,42 +1,61 @@
 import 'jsdom-global/register'
-import { shallowMount } from '@vue/test-utils'
+import { createLocalVue, shallowMount } from '@vue/test-utils'
 import UserHome from 'user/user_home'
+import UserHeader from 'user/user_header'
+import Vuex from 'vuex'
 import { beforeEach, describe, expect, it, jest } from '@jest/globals'
-import axios from 'axios'
 
-jest.mock('axios')
+const localVue = createLocalVue()
+localVue.use(Vuex)
 
 describe('UserHome', () => {
+  let route
   let wrapper
   let routerView
 
-  const $store = { dispatch: jest.fn() }
   const factory = (route) => {
     const $route = route
-
     return shallowMount(UserHome, {
+      localVue,
+      store,
       stubs: ['router-view'],
-      mocks: { $route, $store }
+      mocks: { $route }
     })
   }
+  let actions
+  let store
 
-  describe('when route params is mythought', () => {
-    beforeEach(() => {
-      const route = { params: { thoughtId: 'mythought' } }
-      wrapper = factory(route)
-      routerView = wrapper.findAll('router-view-stub')
-    })
+  beforeEach(() => {
+    actions = {
+      fetchThoughts: jest.fn(),
+      fetchCurrentUser: jest.fn()
+    }
 
-    it('display MyThought', () => {
-      expect(routerView.at(2).html()).toContain('my_thought')
+    store = new Vuex.Store({
+      state: {
+        thoughts: []
+      },
+      actions
     })
   })
 
-  describe('when route params is thought id', () => {
+  describe('display router-view', () => {
     beforeEach(() => {
-      const route = { params: { thoughtId: 1 } }
+      route = { name: 'userHome', params: { thoughtId: null, userId: null } }
       wrapper = factory(route)
       routerView = wrapper.findAll('router-view-stub')
+    })
+
+    it('display UserHeader', () => {
+      expect(wrapper.findComponent(UserHeader).exists()).toBe(true)
+    })
+
+    it('display thoughts_partial', () => {
+      expect(routerView.at(0).html()).toContain('thoughts_partial')
+    })
+
+    it('display MyThought', () => {
+      expect(routerView.at(1).html()).toContain('my_thought')
     })
 
     it('display ThoughtAll', () => {
@@ -44,23 +63,26 @@ describe('UserHome', () => {
     })
   })
 
-  describe('when route params is not exist', () => {
+  describe('when thought_all opening', () => {
     beforeEach(() => {
-      const route = { params: { thoughtId: '' } }
+      route = { name: 'thought', params: { thoughtId: 1, userId: null } }
       wrapper = factory(route)
-      routerView = wrapper.findAll('router-view-stub')
     })
 
-    it('display UserHeader', () => {
-      expect(routerView.at(0).html()).toContain('user_header')
+    it('does not run fetchThoughts ', () => {
+      expect(actions.fetchThoughts).not.toHaveBeenCalled()
     })
+  })
+  describe('when thought_all is not opening', () => {
+    describe('when current route is userShow', () => {
+      beforeEach(() => {
+        route = { name: 'userShow', params: { thoughtId: null, userId: 'user' } }
+        wrapper = factory(route)
+      })
 
-    it('display thoughts_partial', () => {
-      expect(routerView.at(1).html()).toContain('thoughts_partial')
-    })
-
-    it('does not display both ThoughtAll and MyThought', () => {
-      expect(routerView).toHaveLength(2)
+      it('run fetchThoughts', () => {
+        expect(actions.fetchThoughts).toHaveBeenCalled()
+      })
     })
   })
 })

@@ -1,5 +1,5 @@
 <template>
-  <button @click="closeThought(modalId, url)">✖︎</button>
+  <button @click="closeThought">✖︎</button>
 </template>
 
 <script>
@@ -8,14 +8,16 @@ export default {
 
   props: {
     modalId: String,
-    url: String
+    route: Object
   },
 
   methods: {
-    closeThought (modalId, url) {
-      this.$bvModal.hide(`${modalId}`)
-      this.$router.push(`${url}`)
-    },
-  },
+    closeThought () {
+      if (this.$mq === 'sp') {
+        this.$bvModal.hide(`${this.modalId}`)
+      }
+      this.$router.push(this.route)
+    }
+  }
 }
 </script>

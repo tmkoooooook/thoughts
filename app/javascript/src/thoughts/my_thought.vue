@@ -1,7 +1,7 @@
 <template>
   <div class="sticky-container">
     <div class="my-thought" id="my_thought" v-if="$mq === 'pc'">
-      <closeBtn url="/users"/>
+      <CloseBtn :route="fromRoute"/>
       <div class="thought-form">
         <form @submit.prevent="createThought">
           <!-- <input type="hidden" name="authenticity_token" :value="authenticity_token"> -->
@@ -19,7 +19,7 @@
     </div>
     <b-modal v-if="$mq === 'sp'" scrollable hide-header hide-footer no-close-on-backdrop no-close-on-esc static id="my_thought_modal">
       <div class="my-thought">
-        <closeBtn modalId="my_thought_modal" url="/users"/>
+        <CloseBtn modalId="my_thought_modal" :route="fromRoute"/>
         <div class="thought-form">
           <form @submit.prevent="createThought">
             <!-- <input type="hidden" name="authenticity_token" :value="authenticity_token"> -->
@@ -42,7 +42,7 @@
 
 <script>
 import axios from 'axios'
-import closeBtn from '../parts/close_btn.vue'
+import CloseBtn from '../parts/close_btn.vue'
 
 export default {
   name: 'MyThought',
@@ -50,7 +50,7 @@ export default {
   props: { authenticity_token: String },
 
   components: {
-    closeBtn: closeBtn
+    CloseBtn: CloseBtn
   },
 
   data: function () {
@@ -58,7 +58,8 @@ export default {
       thought: {
         title: '',
         text: ''
-      }
+      },
+      fromRoute: {}
     }
   },
 
@@ -93,7 +94,12 @@ export default {
       .then(function () {
         area.style.height = area.scrollHeight + 'px'
       })
-    },
+    }
+  },
+
+  beforeRouteEnter (to, from, next) {
+    const routeName = { name: from.name, params: { userId: from.params.userId } }
+    next(vm => vm.fromRoute = routeName)
   }
 }
 </script>

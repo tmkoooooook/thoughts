@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "Homes", type: :request do
   describe "index" do
     it "returns http success" do
-      get "/"
+      get root_path
       expect(response).to have_http_status(:success)
     end
 
@@ -11,10 +11,9 @@ RSpec.describe "Homes", type: :request do
       login_user
 
       it 'redirect to users_path' do
-        get '/'
+        get root_path
         expect(response).to have_http_status(302)
       end
     end
   end
-
 end

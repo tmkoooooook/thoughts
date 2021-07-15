@@ -38,8 +38,12 @@ Rails/HasManyOrHasOneDependent:
   Enabled: false
 
 AllCops:
+  SuggestExtensions: false
+
   TargetRubyVersion: 3.0
+
   NewCops: disable
+
   Exclude:
     - 'db/**/*'
     - 'bin/*'

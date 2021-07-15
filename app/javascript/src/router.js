@@ -1,56 +1,56 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import UserHome from '../src/user/user_home'
-import UserHeader from '../src/user/user_header.vue'
 import ThoughtsPartial from '../src/thoughts/thoughts_partial.vue'
 import ThoughtAll from '../src/thoughts/thought_all_text.vue'
 import MyThought from '../src/thoughts/my_thought.vue'
-import UserShow from '../src/user/user_show.vue'
 
 Vue.use(VueRouter)
 
 export default new VueRouter({
-  mode: "history",
+  mode: 'history',
   routes: [
     {
       path: '/users',
+      name: 'userHome',
       components: {
-        user_header: UserHeader,
         thoughts_partial: ThoughtsPartial
       },
-      children: [
-        {
-          path: ':thoughtId',
-          name: 'thought',
-          components: {
-            thought_all: ThoughtAll
-          },
-          props: {
-            thought_all: true
-          }
-        }
-      ]
+      props: {
+        thoughts_partial: true
+      }
     },
-    // { path: '/users/:thoughtId',
-    //   name: 'thought',
-    //   components: {
-    //     user_header: UserHeader,
-    //     thoughts_partial: ThoughtsPartial,
-    //     thought_all: ThoughtAll,
-    //     my_thought: MyThought
-    //   },
-    //   props: {
-    //     user_header: false,
-    //     thoughts_partial: false,
-    //     thought_all: true,
-    //     my_thought: false
-    //   }
-    // },
-    // {
-    //   path: '/users/:userId', component: UserShow,
-    //   children: [
-
-    //   ]
-    // }
+    {
+      path: '/users/:userId',
+      name: 'userShow',
+      components: {
+        thoughts_partial: ThoughtsPartial
+      },
+      props: {
+        thoughts_partial: true
+      }
+    },
+    {
+      path: '/users/:userId/thoughts/:thoughtId',
+      name: 'thought',
+      components: {
+        thoughts_partial: ThoughtsPartial,
+        thought_all: ThoughtAll
+      },
+      props: {
+        thoughts_partial: true,
+        thought_all: true
+      }
+    },
+    {
+      path: '/users/mythought',
+      name: 'myThought',
+      components: {
+        thoughts_partial: ThoughtsPartial,
+        my_thought: MyThought,
+      },
+      props: {
+        thoughts_partial: true
+      }
+    }
   ]
 });
