@@ -219,5 +219,21 @@ RSpec.describe User, type: :model do
         end
       end
     end
+
+    describe 'relationship_size' do
+      context 'when find relationship' do
+        it 'returns relationship size' do
+          create(:relationship, user_id: user.id, interest_id: other_user.id)
+          create(:relationship, user_id: other_user.id, interest_id: user.id)
+          expect(user.relationship_size).to eq({ interesters_size: 1, interests_size: 1})
+        end
+      end
+
+      context 'when does not find relationship' do
+        it 'returns size 0' do
+          expect(user.relationship_size).to eq({ interesters_size: 0, interests_size: 0 })
+        end
+      end
+    end
   end
 end

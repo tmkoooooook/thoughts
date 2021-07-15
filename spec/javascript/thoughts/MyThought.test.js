@@ -101,4 +101,14 @@ describe('MyThought', () => {
       })
     })
   })
+
+  describe('beforeRouteEnter', () => {
+    it('call next when enter the route', async () => {
+      const from = { name: 'userHome', params: { userId: null }}
+      const next = jest.fn()
+      MyThought.beforeRouteEnter.call(wrapper.vm, undefined, from, next)
+      await wrapper.vm.$nextTick()
+      expect(next).toHaveBeenCalled()
+    })
+  })
 })

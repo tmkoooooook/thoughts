@@ -11,10 +11,12 @@ Vue.use(ModalPlugin)
 
 document.addEventListener('turbolinks:load', () => {
   const element = document.getElementById('user_home')
-  const csrf_token = JSON.parse(element.getAttribute('data-csrf'))
+  if (element) {
+    var csrf_token = JSON.parse(element.getAttribute('data-csrf'))
+  }
 
   new Vue({
-    el: '#user_home',
+    el: '#user_show',
     router,
     store,
     render: (h) => h(UserHome, { props: csrf_token })

@@ -12,7 +12,6 @@ const response = '200 ok'
 axios.delete.mockResolvedValue(response)
 
 const localVue = createLocalVue()
-
 localVue.use(ModalPlugin)
 localVue.use(Vuex)
 
@@ -92,6 +91,16 @@ describe('ThoughtAllText', () => {
       const trash = wrapper.find('button.fa-trash')
       trash.trigger('click')
       expect(axios.delete).toHaveBeenCalled()
+    })
+  })
+
+  describe('beforeRouteEnter', () => {
+    it('call next when enter the route', async () => {
+      const from = { name: 'userHome', params: { userId: null }}
+      const next = jest.fn()
+      ThoughtAllText.beforeRouteEnter.call(wrapper.vm, undefined, from, next)
+      await wrapper.vm.$nextTick()
+      expect(next).toHaveBeenCalled()
     })
   })
 })

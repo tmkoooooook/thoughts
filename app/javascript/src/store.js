@@ -8,7 +8,8 @@ export default new Vuex.Store ({
   state: {
     user: {
       relationships: []
-    }
+    },
+    thoughts: []
   },
 
   getters: {
@@ -20,13 +21,22 @@ export default new Vuex.Store ({
   mutations: {
     setCurrentUser (state, response) {
       state.user = response.user
+    },
+
+    setThoughts (state, response) {
+      state.thoughts = response.thoughts
     }
   },
 
   actions: {
-    async fetchCurrentUser (context) {
+    async fetchCurrentUser ({ commit }) {
       const currentUser = await axios.get('/api/v1/users')
-      context.commit('setCurrentUser', { user: currentUser.data })
+      commit('setCurrentUser', { user: currentUser.data })
+    },
+
+    async fetchThoughts ({ commit }, url) {
+      const thoughts = await axios.get(url)
+      commit('setThoughts', { thoughts: thoughts.data })
     },
 
     async deleteRelationship ({ dispatch }, { id, interest }) {

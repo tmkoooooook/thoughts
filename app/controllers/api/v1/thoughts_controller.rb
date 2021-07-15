@@ -11,6 +11,15 @@ class Api::V1::ThoughtsController < ApiController
     render json: thoughts
   end
 
+  def show
+    user = User.find_by(user_id: params[:id])
+    thoughts = Thought.
+      where(user_id: user.id).
+      includes(:user).
+      to_json(include: { user: { only: [:name, :user_id] } })
+    render json: thoughts
+  end
+
   def create
     thought = Thought.new(thought_params)
     thought.shorted_text = thought.text.slice(...50)

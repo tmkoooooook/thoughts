@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Thoughts', type: :request do
+RSpec.describe 'Api::V1::Thoughts', type: :request do
   let(:user) { create(:user) }
   let!(:interested_user) { create(:user,
     name: 'interested user',
@@ -38,6 +38,21 @@ RSpec.describe 'Thoughts', type: :request do
       it 'does not get thoughts' do
         sign_out user
         get '/api/v1/thoughts'
+        expect(response).to have_http_status(401)
+      end
+    end
+  end
+
+  describe 'show' do
+    it 'returns http success' do
+      get "/api/v1/thoughts/#{other_user.user_id}"
+      expect(JSON.parse(response.body).size).to eq 1
+    end
+
+    context 'when log_out' do
+      it 'does not get thoughts' do
+        sign_out user
+        get "/api/v1/thoughts/#{other_user.user_id}"
         expect(response).to have_http_status(401)
       end
     end
