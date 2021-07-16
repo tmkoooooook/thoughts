@@ -256,7 +256,7 @@ footer {
   }
 }
 
-//login signin edit
+//login sign_in edit
 .form-box {
   margin: 100px auto 0;
   width: 360px;
@@ -278,6 +278,7 @@ footer {
   input {
     width: 95%;
     margin: 0 9px 10px;
+    color: #c6c6c6;
   }
 }
 .form-field + .form-field {
@@ -300,7 +301,6 @@ footer {
 .user-home {
   display: flex;
   height: auto;
-  margin-bottom: 60px;
 }
 .user-header {
   margin-left: auto;
@@ -308,7 +308,7 @@ footer {
 }
 .user-nav {
   position: sticky;
-  top: 10px;
+  top: 80px;
   .user-nav-list {
     .fa {
       font-size: 20px;
@@ -320,6 +320,7 @@ footer {
 @media screen and (max-width: 1200px) {
   .user-header {
     padding-left: 20px;
+    margin-left: 10px;
     .user-nav {
       .image-wrapper {
         display: none;
@@ -334,7 +335,10 @@ footer {
     }
   }
 }
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 425px) {
+  .user-home {
+    margin-bottom: 60px;
+  }
   .user-header {
     position: fixed;
     bottom: 0;
@@ -356,10 +360,14 @@ footer {
     }
   }
 }
+.thoughts-box {
+  display:  flex;
+  margin-right: auto;
+  width: 100%;
+}
 .thoughts-partial {
   border-right: 1px solid #666;
   border-left: 1px solid #666;
-  min-width: 375px;
   width: 500px;
 }
 .thoughts-top {
@@ -377,6 +385,19 @@ footer {
     font-family: "Apple Chancery";
     letter-spacing: 1px;
     color: #ccc;
+  }
+}
+@media screen and (max-width: 1040px) {
+  .thoughts-partial {
+    width: 425px;
+    min-width: 425px;
+  }
+}
+@media screen and (max-width: 769px) {
+  .thoughts-partial {
+    width: auto;
+    max-width: 500px;
+    min-width: 320px;
   }
 }
 //-------------mythought--------------
@@ -441,10 +462,11 @@ footer {
   }
 }
 
-.thought-all {
+.thought {
   margin-left: 10px;
-  margin-right: auto;
-  width: 500px;
+  max-width: 500px;
+  min-width: 271px;
+  width: 100%;
 }
 .sticky-container {
   height: 100%;
@@ -466,12 +488,17 @@ footer {
   padding: 0;
   background-color: #262627;
 }
-@media screen and (max-width: 425px) {
-  .thought-all {
+@media screen and (min-width: 1201px) {
+  .thought {
+    width: 500px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .thought {
     margin: 0;
-    width: 100%;
+    min-width: 0;
     .thought-all-content {
-      min-height: 100vh;
+      min-height: 80vh;
       background-color: #262627;
       z-index: 3;
     }
@@ -551,7 +578,84 @@ footer {
   color: #ccc;
   }
 }
-
+.user-settings {
+  display: flex;
+  margin-right: auto;
+}
+.user-settings-box {
+  position: sticky;
+  border-right: 1px solid #666;
+  border-left: 1px solid #666;
+  width: 375px;
+  min-width: 320px;
+  height: 100vh;
+}
+@media screen and (max-width: 767px) {
+  .user-settings {
+    margin-right: 0;
+    width: 100%;
+  }
+  .user-settings-box {
+    width: 100%;
+  }
+}
+@media screen and (max-width: 425px) {
+  .user-settings-box {
+    min-width: 0;
+  }
+}
+.setting-header {
+  padding: 10px;
+  border-bottom: solid 1px #666;
+}
+.setting-list {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  border-bottom: solid 1px #666;
+  span {
+    font-size: 18px;
+    color: #c6c6c6;
+  }
+  .fa-chevron-right {
+    height: 20px;
+    font-size: 20px;
+    margin: auto 0;
+  }
+}
+.setting-details {
+  margin-right: auto;
+  width: 500px;
+  min-width: 320px;
+  border-right: 1px solid #666;
+}
+@media screen and (max-width: 947px) {
+  .setting-details {
+    width: auto;
+  }
+}
+@media screen and (max-width: 767px) {
+  .setting-details {
+    min-width: 0;
+    border: none;
+  }
+}
+.user-account {
+  .setting-list {
+    flex-direction: column;
+    span {
+      color: #606060;
+      font-weight: 400;
+      font-size: 16px;
+    }
+  }
+}
+@media screen and (max-width: 768px) {
+  .user-account {
+    min-height: 80vh;
+    padding: 10px;
+  }
+}
 .temporary {
   height: 41px;
 }

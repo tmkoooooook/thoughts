@@ -4,7 +4,6 @@
       <div class="edit-delete" v-if="thought.user_id === watchUser.id">
         <button class="fas fa-trash" @click="deleteThought(thought.id)"/>
       </div>
-      <CloseBtn :route="fromRoute"/>
       <h1>{{ thought.title }}</h1>
       <p>{{ thought.text }}</p>
     </div>
@@ -55,7 +54,7 @@
 
     computed: {
       thought () {
-        return this.thoughts.find(thought => thought.id === this.$attrs.thoughtId)
+        return this.thoughts.find(thought => thought.id == this.$attrs.thoughtId)
       },
 
       ...mapGetters ([

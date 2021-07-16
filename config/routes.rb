@@ -9,19 +9,22 @@ Rails.application.routes.draw do
   end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   root to: "homes#index"
-  resources :homes, only: [:index]
-  resources :users, only: [:index, :show], param: :user_id do
-    resources :thoughts, only:[:show]
+  resources :homes,         only: [:index]
+  resources :users,         only: [:index, :show], param: :user_id do
+  resources :thoughts,      only: [:show]
   end
 
   scope '/users' do
     get 'mythought', to: 'thoughts#new'
+    get 'settings',  to: 'users/registrations#index'
   end
 
   namespace :api ,{ format: 'json' } do
     namespace :v1 do
       resources :thoughts,      only: [:index, :show, :create, :destroy]
-      resources :users,         only: [:index, :show], param: :user_id
+      resources :users,         only: [:index, :show], param: :user_id do
+        get 'account', on: :collection
+      end
       resources :relationships, only: [:create, :destroy]
     end
   end

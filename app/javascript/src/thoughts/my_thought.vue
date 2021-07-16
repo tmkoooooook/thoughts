@@ -1,7 +1,6 @@
 <template>
   <div class="sticky-container">
     <div class="my-thought" id="my_thought" v-if="$mq === 'pc'">
-      <CloseBtn :route="fromRoute"/>
       <div class="thought-form">
         <form @submit.prevent="createThought">
           <!-- <input type="hidden" name="authenticity_token" :value="authenticity_token"> -->
@@ -59,7 +58,7 @@ export default {
         title: '',
         text: ''
       },
-      fromRoute: {}
+      fromRoute: { name: 'userHome' }
     }
   },
 
@@ -95,11 +94,6 @@ export default {
         area.style.height = area.scrollHeight + 'px'
       })
     }
-  },
-
-  beforeRouteEnter (to, from, next) {
-    const routeName = { name: from.name, params: { userId: from.params.userId } }
-    next(vm => vm.fromRoute = routeName)
   }
 }
 </script>

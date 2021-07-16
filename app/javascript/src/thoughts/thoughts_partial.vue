@@ -1,29 +1,35 @@
 <template>
-  <div class="thoughts-partial">
-    <UserShow v-if="isUserShow"/>
-    <div v-else class="thoughts-top">
-      <h2>ホーム</h2>
-      <MyThoughtBtn/>
-    </div>
-    <div class="separation"></div>
-    <div class="thought-info" v-for="thought in thoughts" :key="thought.id">
-      <router-link :to="{ name: 'thought', params: { userId: thought.user.user_id ,thoughtId: thought.id }}" class="thought-info-link">
-        <div class="user-thumbnail">
-          <router-link :to="{ name: 'userShow', params: { userId: thought.user.user_id } }">
-            <img src="~thoughts_logo_005163.png" alt="user-logo">
-          </router-link>
-        </div>
-        <div class="user-info">
-          <router-link :to="{ name: 'userShow', params: { userId: thought.user.user_id } }">
-            {{ thought.user.name }}
-            <span class="user-id">{{ thought.user.user_id }}</span>
-          </router-link>
-          <div class="thought-content">
-            <h3>{{ thought.title }}</h3>
-            <p>{{ thought.shorted_text }}</p>
+  <div class="thoughts-box">
+    <div class="thoughts-partial">
+      <UserShow v-if="isUserShow"/>
+      <div v-else class="thoughts-top">
+        <h2>ホーム</h2>
+        <MyThoughtBtn/>
+      </div>
+      <div class="separation"></div>
+      <div class="thought-info" v-for="thought in thoughts" :key="thought.id">
+        <router-link :to="{ name: 'thought', params: { userId: thought.user.user_id ,thoughtId: thought.id }}" class="thought-info-link">
+          <div class="user-thumbnail">
+            <router-link :to="{ name: 'userShow', params: { userId: thought.user.user_id } }">
+              <img src="~thoughts_logo_005163.png" alt="user-logo">
+            </router-link>
           </div>
-        </div>
-      </router-link>
+          <div class="user-info">
+            <router-link :to="{ name: 'userShow', params: { userId: thought.user.user_id } }">
+              {{ thought.user.name }}
+              <span class="user-id">{{ thought.user.user_id }}</span>
+            </router-link>
+            <div class="thought-content">
+              <h3>{{ thought.title }}</h3>
+              <p>{{ thought.shorted_text }}</p>
+            </div>
+          </div>
+        </router-link>
+      </div>
+    </div>
+    <div class="thought">
+      <router-view name="thought_all" :thoughts="thoughts"/>
+      <router-view name="my_thought"/>
     </div>
   </div>
 </template>

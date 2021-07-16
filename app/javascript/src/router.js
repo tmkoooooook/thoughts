@@ -3,6 +3,9 @@ import VueRouter from 'vue-router'
 import ThoughtsPartial from '../src/thoughts/thoughts_partial.vue'
 import ThoughtAll from '../src/thoughts/thought_all_text.vue'
 import MyThought from '../src/thoughts/my_thought.vue'
+import UserSettings from '../src/user/user_settings.vue'
+import UserAccount from '../src/user/user_account.vue'
+
 
 Vue.use(VueRouter)
 
@@ -17,7 +20,26 @@ export default new VueRouter({
       },
       props: {
         thoughts_partial: true
-      }
+      },
+      children: [
+        {
+          path: ':userId/thoughts/:thoughtId',
+          name: 'thought',
+          components: {
+            thought_all: ThoughtAll
+          },
+          props: {
+            thought_all: true
+          }
+        },
+        {
+          path: '/users/mythought',
+          name: 'myThought',
+          components: {
+            my_thought: MyThought
+          }
+        },
+      ]
     },
     {
       path: '/users/:userId',
@@ -30,27 +52,20 @@ export default new VueRouter({
       }
     },
     {
-      path: '/users/:userId/thoughts/:thoughtId',
-      name: 'thought',
+      path: '/users/settings',
+      name: 'settings',
       components: {
-        thoughts_partial: ThoughtsPartial,
-        thought_all: ThoughtAll
+        user_settings: UserSettings
       },
-      props: {
-        thoughts_partial: true,
-        thought_all: true
-      }
-    },
-    {
-      path: '/users/mythought',
-      name: 'myThought',
-      components: {
-        thoughts_partial: ThoughtsPartial,
-        my_thought: MyThought,
-      },
-      props: {
-        thoughts_partial: true
-      }
+      children: [
+        {
+          path: 'account',
+          name: 'userAccount',
+          components: {
+            user_account: UserAccount
+          }
+        }
+      ]
     }
   ]
 });

@@ -2,10 +2,7 @@
   <div id="user_home" class="user-home">
     <UserHeader/>
     <router-view name="thoughts_partial" :thoughts="thoughts"/>
-    <div class="thought-all">
-      <router-view name="my_thought"/>
-      <router-view name="thought_all" :thoughts="thoughts"/>
-    </div>
+    <router-view name="user_settings"/>
   </div>
 </template>
 
