@@ -295,17 +295,16 @@ footer {
 }
 
 //user-index
-.user-container {
-  margin: 0 auto;
-}
 .user-home {
   display: flex;
   height: auto;
+  width: 1162px;
+  margin: 0 auto;
 }
 .user-header {
-  margin-left: auto;
   margin-right: 10px;
 }
+
 .user-nav {
   position: sticky;
   top: 80px;
@@ -318,6 +317,10 @@ footer {
   }
 }
 @media screen and (max-width: 1200px) {
+  .user-home {
+    margin: 0;
+    width: 997px;
+  }
   .user-header {
     padding-left: 20px;
     margin-left: 10px;
@@ -333,6 +336,11 @@ footer {
       text-align: center;
       span { display: none; }
     }
+  }
+}
+@media screen and (max-width: 1040px) {
+  .user-home {
+    width: auto;
   }
 }
 @media screen and (max-width: 425px) {
@@ -360,20 +368,32 @@ footer {
     }
   }
 }
-.thoughts-box {
+.parent-box {
   display:  flex;
+  flex-shrink: 0;
   margin-right: auto;
   width: 100%;
 }
 .thoughts-partial {
+  display: flex;
+  flex-direction: column;
   border-right: 1px solid #666;
   border-left: 1px solid #666;
+  flex-shrink: 0;
   width: 500px;
+  padding-top: 59px;
 }
 .thoughts-top {
-  display: flex;
-  justify-content: space-between;
+  position: fixed;
+  top: 0;
+  background-color: #262627;
+  border-bottom: 1px solid #666;
   padding: 10px;
+  width: 498px;
+  height: 60px;
+  h2 {
+    font-size: 26px;
+  }
 }
 .new-thought {
   border-color: #666;
@@ -387,20 +407,39 @@ footer {
     color: #ccc;
   }
 }
-@media screen and (max-width: 1040px) {
+@media screen and (max-width: 1200px) {
   .thoughts-partial {
     width: 425px;
-    min-width: 425px;
+  }
+  .thoughts-top {
+    width: 423px;
   }
 }
-@media screen and (max-width: 769px) {
+@media screen and (max-width: 1040px) {
   .thoughts-partial {
-    width: auto;
-    max-width: 500px;
-    min-width: 320px;
+    width: 375px;
+  }
+  .thoughts-top {
+    width: 373px;
   }
 }
+@media screen and (max-width: 768px) {
+  .thoughts-partial {
+    width: 100%;
+    max-width: 500px;
+  }
+  .thoughts-top {
+    width: calc(100% - 72.5px - 2px);
+    max-width: 498px;
+  }
+}
+
 //-------------mythought--------------
+.thought-btn {
+  padding-top: 10px;
+  padding-left: 10px;
+}
+
 .my-thought {
   position: sticky;
   padding: 15px;
@@ -463,17 +502,14 @@ footer {
 }
 
 .thought {
-  margin-left: 10px;
-  max-width: 500px;
-  min-width: 271px;
-  width: 100%;
+  width: 500px;
 }
 .sticky-container {
   height: 100%;
 }
 .thought-all-content {
   position: sticky;
-  top: 10px;
+  top: 50px;
   padding: 15px;
   p {
     white-space: pre-wrap;
@@ -488,20 +524,23 @@ footer {
   padding: 0;
   background-color: #262627;
 }
-@media screen and (min-width: 1201px) {
+@media screen and (max-width: 1040px) {
   .thought {
-    width: 500px;
+    width: 100%;
+    max-width: 500px;
   }
 }
 @media screen and (max-width: 768px) {
   .thought {
     margin: 0;
-    min-width: 0;
     .thought-all-content {
       min-height: 80vh;
       background-color: #262627;
       z-index: 3;
     }
+  }
+  .thought-btn {
+    margin-left: -100px;
   }
 }
 .separation {
@@ -546,7 +585,7 @@ footer {
 }
 .header-thumbnail-wrapper.user-thumbnail {
   position: absolute;
-  top: 155px;
+  top: 220px;
   img {
     width: 100px;
     height: 100px;
@@ -578,31 +617,15 @@ footer {
   color: #ccc;
   }
 }
-.user-settings {
-  display: flex;
-  margin-right: auto;
-}
+
+//----------------settings------------------
 .user-settings-box {
   position: sticky;
   border-right: 1px solid #666;
   border-left: 1px solid #666;
   width: 375px;
-  min-width: 320px;
+  flex-shrink: 0;
   height: 100vh;
-}
-@media screen and (max-width: 767px) {
-  .user-settings {
-    margin-right: 0;
-    width: 100%;
-  }
-  .user-settings-box {
-    width: 100%;
-  }
-}
-@media screen and (max-width: 425px) {
-  .user-settings-box {
-    min-width: 0;
-  }
 }
 .setting-header {
   padding: 10px;
@@ -624,21 +647,9 @@ footer {
   }
 }
 .setting-details {
-  margin-right: auto;
-  width: 500px;
-  min-width: 320px;
+  max-width: 500px;
+  width: 100%;
   border-right: 1px solid #666;
-}
-@media screen and (max-width: 947px) {
-  .setting-details {
-    width: auto;
-  }
-}
-@media screen and (max-width: 767px) {
-  .setting-details {
-    min-width: 0;
-    border: none;
-  }
 }
 .user-account {
   .setting-list {
@@ -651,10 +662,19 @@ footer {
   }
 }
 @media screen and (max-width: 768px) {
+  .user-settings-box {
+    width: 100%;
+  }
+  .setting-details {
+    border: none;
+  }
   .user-account {
     min-height: 80vh;
     padding: 10px;
   }
+}
+.router-view-box {
+  flex-grow: 1;
 }
 .temporary {
   height: 41px;

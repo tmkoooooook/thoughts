@@ -1,8 +1,10 @@
 <template>
   <div id="user_home" class="user-home">
     <UserHeader/>
-    <router-view name="thoughts_partial" :thoughts="thoughts"/>
-    <router-view name="user_settings"/>
+    <div class="router-view-box">
+      <router-view name="thoughts_partial" :thoughts="thoughts"/>
+      <router-view name="user_settings"/>
+    </div>
   </div>
 </template>
 
@@ -23,6 +25,7 @@
       this.runFetchThoughts()
       this.fetchCurrentUser()
     },
+
     computed: {
       ...mapState([
         'thoughts'
@@ -30,7 +33,12 @@
     },
 
     watch: {
-      $route: 'runFetchThoughts'//結構負荷かかりそう？
+      $route (to, from) {
+        if (from.name === 'userHome' && to.name === 'thought') return
+        if (from.name === 'userShow' && to.name === 'thought') return
+        if (from.name === to.name) return
+        this.runFetchThoughts()
+      }
     },
 
     methods: {
@@ -40,8 +48,6 @@
       ]),
 
       runFetchThoughts () {
-        if (this.$route.params.thoughtId) return
-
         let urlParams = this.$route.params.userId
         let url
 

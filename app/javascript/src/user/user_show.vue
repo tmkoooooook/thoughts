@@ -1,5 +1,5 @@
 <template>
-  <div class="user-show">
+  <div class="user-show" v-if="isUserShow">
     <div class="header-img-wrapper">
       <img src="~thoughts_logo_005163.png" alt="user-logo">
     </div>
@@ -31,7 +31,8 @@
 
     data: function () {
       return {
-        showUser: {}
+        showUser: {},
+        isUserShow: false
       }
     },
 
@@ -58,6 +59,16 @@
         const response = await axios.get(`/api/v1/users/${this.$route.params.userId}`)
         this.showUser = response.data
       }
+    },
+
+    beforeRouteEnter (to, from, next) {
+      if (to.name === 'userShow') {
+        next(vm => vm.isUserShow = true)
+      }
+      else if (to.name === 'thought' && from.name === 'userShow') {
+        next(vm => vm.isUserShow = true)
+      }
+      else next(vm => vm.isUserShow = false)
     }
   }
 </script>

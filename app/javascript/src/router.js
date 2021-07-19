@@ -5,7 +5,7 @@ import ThoughtAll from '../src/thoughts/thought_all_text.vue'
 import MyThought from '../src/thoughts/my_thought.vue'
 import UserSettings from '../src/user/user_settings.vue'
 import UserAccount from '../src/user/user_account.vue'
-
+import UserShow from '../src/user/user_show.vue'
 
 Vue.use(VueRouter)
 
@@ -23,33 +23,24 @@ export default new VueRouter({
       },
       children: [
         {
+          path: ':userId',
+          name: 'userShow',
+          components: {
+            user_show: UserShow
+          }
+        },
+        {
           path: ':userId/thoughts/:thoughtId',
           name: 'thought',
           components: {
+            user_show: UserShow,
             thought_all: ThoughtAll
           },
           props: {
             thought_all: true
           }
-        },
-        {
-          path: '/users/mythought',
-          name: 'myThought',
-          components: {
-            my_thought: MyThought
-          }
-        },
+        }
       ]
-    },
-    {
-      path: '/users/:userId',
-      name: 'userShow',
-      components: {
-        thoughts_partial: ThoughtsPartial
-      },
-      props: {
-        thoughts_partial: true
-      }
     },
     {
       path: '/users/settings',
@@ -66,6 +57,6 @@ export default new VueRouter({
           }
         }
       ]
-    }
+    },
   ]
 });

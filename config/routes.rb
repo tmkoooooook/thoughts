@@ -7,16 +7,11 @@ Rails.application.routes.draw do
     get 'sign_in',  to: 'users/sessions#new'
     get 'sign_out', to: 'users/sessions#destroy'
   end
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
-  root to: "homes#index"
-  resources :homes,         only: [:index]
-  resources :users,         only: [:index, :show], param: :user_id do
-  resources :thoughts,      only: [:show]
-  end
 
+  root to: "homes#index"
   scope '/users' do
-    get 'mythought', to: 'thoughts#new'
-    get 'settings',  to: 'users/registrations#index'
+    get '/' , to: "users#index"
+    get '/*path', to: "users#index"
   end
 
   namespace :api ,{ format: 'json' } do

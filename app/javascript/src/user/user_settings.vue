@@ -1,5 +1,5 @@
 <template>
-  <div class="user-settings">
+  <div class="user-settings parent-box">
     <div class="user-settings-box">
       <div class="setting-header">
         <h3>設定</h3>

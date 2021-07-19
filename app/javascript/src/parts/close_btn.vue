@@ -16,7 +16,10 @@ export default {
       if (this.$mq === 'sp') {
         this.$bvModal.hide(`${this.modalId}`)
       }
-      this.$router.push(this.route)
+      this.$emit('myThought')
+      if (this.route) {
+        this.$router.push(this.route)
+      }
     }
   }
 }
