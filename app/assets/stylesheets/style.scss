@@ -581,14 +581,11 @@ footer {
 }
 .user-show-box {
   padding: 10px;
-  .interesting-form {
-    display: block;
-    text-align: right;
-  }
 }
 .header-thumbnail-wrapper.user-thumbnail {
   position: absolute;
   top: 220px;
+  z-index: -1;
   img {
     width: 100px;
     height: 100px;
@@ -596,6 +593,11 @@ footer {
     border-radius: 50%;
     background-color: #262627;
   }
+}
+.user-options {
+  height: 41px;
+  display: block;
+  text-align: right;
 }
 .user-profile {
   margin-top: 30px;
@@ -689,7 +691,4 @@ footer {
 }
 .router-view-box {
   flex-grow: 1;
-}
-.temporary {
-  height: 41px;
 }

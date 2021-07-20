@@ -37,7 +37,6 @@
 
 <script>
   import 'thoughts_logo_005163.png'
-  import InterestingBtn from '../interests/interesting_btn.vue'
   import MyThought from "../thoughts/my_thought.vue";
 
   export default {
@@ -48,7 +47,6 @@
       },
 
     components: {
-      InterestingBtn,
       MyThought
     },
 

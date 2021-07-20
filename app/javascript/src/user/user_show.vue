@@ -7,8 +7,10 @@
       <div class="header-thumbnail-wrapper user-thumbnail">
         <img src="~thoughts_logo_005163.png" alt="user-logo">
       </div>
-      <InterestingBtn v-if="isOtherUser" :userId="showUser.id"/>
-      <div v-else class="temporary"></div>
+      <div class="user-options submit">
+        <InterestingBtn v-if="isOtherUser" :userId="showUser.id"/>
+        <a v-else href="/users/logout" class="btn">ログアウト</a>
+      </div>
       <div class="user-profile">
         <h3 class="user-name">{{ showUser.name }}</h3>
         <div class="user-id">{{ showUser.user_id }}</div>
@@ -24,7 +26,7 @@
 <script>
   import axios from 'axios'
   import { mapGetters } from 'vuex'
-  import InterestingBtn from '../interests/interesting_btn.vue'
+  import InterestingBtn from '../parts/interesting_btn.vue'
 
   export default {
     name: 'UserShow',
