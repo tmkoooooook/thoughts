@@ -11,13 +11,13 @@
             <i class="fas fa-chevron-right"></i>
           </li>
         </router-link>
-        <router-link :to="{ name: 'userAccount' }">
+        <router-link :to="{ name: 'userAccountEdit' }">
           <li class="setting-list">
             <span>アカウント編集</span>
             <i class="fas fa-chevron-right"></i>
           </li>
         </router-link>
-        <router-link :to="{ name: 'userAccount' }">
+        <router-link :to="{ name: 'userPasswordEdit' }">
           <li class="setting-list">
             <span>パスワード変更</span>
             <i class="fas fa-chevron-right"></i>
@@ -27,6 +27,8 @@
     </div>
     <div class="setting-details">
       <router-view name="user_account" :account="account"></router-view>
+      <router-view name="user_account_edit" :account="account"></router-view>
+      <router-view name="user_password_edit"></router-view>
     </div>
   </div>
 </template>
