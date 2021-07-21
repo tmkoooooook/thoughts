@@ -6,7 +6,6 @@
     <div class="my-thought" id="my_thought" v-if="myThoughtActive && $mq === 'pc'">
       <div class="thought-form">
         <form @submit.prevent="createThought">
-          <!-- <input type="hidden" name="authenticity_token" :value="authenticity_token"> -->
           <div class="thought-form-field title">
             <input type="text" name="title" v-model="thought.title" placeholder="thought titile" autocomplete="off">
           </div>
@@ -24,7 +23,6 @@
         <CloseBtn @myThought="activateMyThought" modalId="my_thought_modal"/>
         <div class="thought-form">
           <form @submit.prevent="createThought">
-            <!-- <input type="hidden" name="authenticity_token" :value="authenticity_token"> -->
             <div class="thought-form-field title">
               <input type="text" name="title" v-model="thought.title" placeholder="thought titile" autocomplete="off">
             </div>

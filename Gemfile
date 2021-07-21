@@ -54,6 +54,7 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'devise'
 gem 'devise-i18n'
+gem 'devise_token_auth'
 gem 'html2slim'
 gem 'slim-rails'
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

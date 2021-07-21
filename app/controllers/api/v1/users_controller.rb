@@ -1,6 +1,6 @@
 class Api::V1::UsersController < ApiController
   def index
-    user = current_user.
+    user = current_api_v1_user.
       to_json(
         only: [:id, :name, :user_id],
         include: { relationships: { only: [:id, :interest_id] } }
@@ -19,7 +19,7 @@ class Api::V1::UsersController < ApiController
 
   def account
     if params[:account] && params[:account] == 'request'
-      user = current_user.to_json(only: [:name, :user_id, :email])
+      user = current_api_v1_user.to_json(only: [:name, :user_id, :email])
       render json: user
     else
       render json: { status: 401, message: 'unauthorized' }

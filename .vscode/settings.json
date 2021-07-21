@@ -3,6 +3,7 @@
     "csrf",
     "interesters",
     "mythought",
+    "persistedstate",
     "turbolinks"
   ]
 }

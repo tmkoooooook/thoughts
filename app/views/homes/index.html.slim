@@ -1,4 +1,5 @@
-.main
+div data-vue="user_home"
+/ .main
   / header.home-header
   /   nav
   /     ul.left-nav
@@ -20,44 +21,3 @@
   /               = link_to "Log in", sign_in_path, class: "btn btn-light"
   /             li
   /               = link_to "Sign up", new_user_registration_path, class: "btn btn-outline-light"
-  .main-content
-    .container
-      h1.main-content-head
-        = image_tag("thoughts_logo_005163.png", alt: 'thoughts_logo')
-    .main-content-box
-      p.main-content-text
-        | Update Your Thoughts
-      ul.main-content-nav
-        li
-          = link_to "Log in", sign_in_path, class: "btn btn-light"
-        li
-          = link_to "Sign up", new_user_registration_path, class: "btn btn-outline-light"
-  .introduction
-    .container
-      .introduction-content
-        h2.introduction-head
-          | thoughtsとは
-        .introduction-text
-          p
-            |  あなたの考えを共有し、あなたの知らない考えを発見できるアプリケーションです。
-            br
-            |  thoughtsであなたの知らない考えを発見し、さらに自分の考えを深めることができます。
-            br
-            |  あなたの知らない考えを発見したとしても、否定するだけではアップデートはされません。
-            br
-            |  否定できる根拠はあるのか、その根拠は根拠たり得るのか、考えてみましょう。
-            br
-            |  根拠が出てこないのであれば、それは、見えていない世界があるかもしれません。
-            br
-            |  その場合、まず無知の知を知り、根拠となる理由を自ら見つけていきましょう。
-            br
-  footer
-    .footer-box
-      .footer-image
-        = link_to homes_path do
-          = image_tag('thoughts_logo_white.png', alt: 'thoughts_logo')
-      .footer-copyright
-        small
-          | ©2021-
-          = Time.current.year
-          |  thoughts

@@ -9,7 +9,7 @@
       </div>
       <div class="user-options submit">
         <InterestingBtn v-if="isOtherUser" :userId="showUser.id"/>
-        <a v-else href="/users/logout" class="btn">ログアウト</a>
+        <button v-else @click="logout" class="btn">ログアウト</button>
       </div>
       <div class="user-profile">
         <h3 class="user-name">{{ showUser.name }}</h3>
@@ -60,6 +60,11 @@
       async fetchShowUser () {
         const response = await axios.get(`/api/v1/users/${this.$route.params.userId}`)
         this.showUser = response.data
+      },
+
+      async logout () {
+        await axios.delete('/api/v1/users/sign_out')
+        this.$router.push({ name: 'home' })
       }
     },
 

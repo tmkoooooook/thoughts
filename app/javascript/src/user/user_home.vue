@@ -19,8 +19,6 @@
       UserHeader: UserHeader
     },
 
-    props: { csrf_token: String },
-
     created () {
       this.runFetchThoughts()
       this.fetchCurrentUser()
@@ -28,7 +26,8 @@
 
     computed: {
       ...mapState([
-        'thoughts'
+        'thoughts',
+        'user'
       ])
     },
 

@@ -96,7 +96,7 @@
 
     methods: {
       async method () {
-        await axios.post('/api/v1/', this.accountEdit)//dousuru?
+        await axios.patch('/api/v1/users', this.accountEdit)//dousuru?
         this.$router.push({ name: 'userAccount' })
       }
     }
