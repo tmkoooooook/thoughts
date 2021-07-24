@@ -13,7 +13,7 @@
           <router-link :to="{ name: 'signIn' }" class="btn btn-light">Log in</router-link>
         </li>
         <li>
-          <router-link to="#" class="btn btn-outline-light">Sign up</router-link>
+          <router-link :to="{ name: 'signUp' }" class="btn btn-outline-light">Sign up</router-link>
         </li>
       </ul>
     </div>

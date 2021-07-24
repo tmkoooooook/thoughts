@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../src/homes/home.vue'
 import SignIn from '../src/homes/sign_in.vue'
+import SignUp from '../src/homes/sign_up.vue'
 import ThoughtsPartial from '../src/thoughts/thoughts_partial.vue'
 import ThoughtAll from '../src/thoughts/thought_all_text.vue'
 import UserHome from '../src/user/user_home.vue'
@@ -30,13 +31,13 @@ export default new VueRouter({
         sign_in: SignIn
       }
     },
-    // {
-    //   path: '/sign_up',
-    //   name: 'signUp',
-    //   components: {
-    //     sign_up: SignUp
-    //   }
-    // },
+    {
+      path: '/sign_up',
+      name: 'signUp',
+      components: {
+        sign_up: SignUp
+      }
+    },
     {
       path: '/users',
       components: {

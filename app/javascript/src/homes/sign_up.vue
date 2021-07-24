@@ -6,18 +6,26 @@
       </router-link>
     </div>
     <div class="form-wrapper">
-      <h2>ログイン</h2>
-      <form @submit.prevent="signInUser">
+      <h2>サインアップ</h2>
+      <form @submit.prevent="signUpUser">
+        <div class="form-field">
+          <label for="">名前</label>
+          <input type="text" v-model="user.name" autofocus>
+        </div>
+        <div class="form-field">
+          <label for="">Eメール</label>
+          <input type="text" v-model="user.email">
+        </div>
         <div class="form-field">
           <label for="">ユーザーID</label>
-          <input type="text" v-model="user.user_id" autofocus>
+          <input type="text" v-model="user.user_id">
         </div>
         <div class="form-field">
           <label for="">パスワード</label>
           <input type="text" v-model="user.password">
         </div>
         <div class="actions">
-          <input type="submit" value="ログイン" class="btn btn-light">
+          <input type="submit" value="新規登録" class="btn btn-light">
         </div>
       </form>
     </div>
@@ -25,18 +33,14 @@
 </template>
 
 <script>
-  import 'thoughts_logo_005163.png'
   import { mapMutations } from 'vuex'
 
   export default {
-    name: 'signIn',
+    name: 'signUp',
 
     data: function () {
       return {
-        user: {
-          user_id: '',
-          password: ''
-        }
+        user: {}
       }
     },
 
@@ -45,10 +49,8 @@
         'setUserSessionTokens'
       ]),
 
-      async signInUser () {
-        const response = await this.axios.post('/api/v1/users/sign_in', this.user)
-        this.setUserSessionTokens(response)
-        location.href = '/users'
+      async signUpUser () {
+        const response = await this.axios.post('/api/v1/users', this.user)
       }
     }
   }
