@@ -4,15 +4,12 @@
       <div class="setting-header">
         <h3>パスワード変更</h3>
       </div>
-      <form @submit.prevent="method" class="setting-lists">
+      <form @submit.prevent="updatePassword" class="setting-lists">
         <div class="setting-list">
-          <input type="password" v-model="passwordEdit.currentPassword" placeholder="現在のパスワード" autofocus>
+          <input type="password" v-model="passwordEdit.password" placeholder="新しいパスワード">
         </div>
         <div class="setting-list">
-          <input type="password" v-model="passwordEdit.newPassword" placeholder="新しいパスワード">
-        </div>
-        <div class="setting-list">
-          <input type="password" v-model="passwordEdit.passwordConfirmation" placeholder="パスワードの確認">
+          <input type="password" v-model="passwordEdit.password_confirmation" placeholder="パスワードの確認">
         </div>
         <div class="setting-list submit">
           <input type="submit" value="パスワード更新" class="btn">
@@ -34,15 +31,12 @@
         <div class="setting-header">
           <h3>パスワード変更</h3>
         </div>
-        <form @submit.prevent="method" class="setting-lists">
+        <form @submit.prevent="updatePassword" class="setting-lists">
           <div class="setting-list">
-            <input type="password" v-model="passwordEdit.currentPassword" placeholder="現在のパスワード" autofocus>
+            <input type="password" v-model="passwordEdit.password" placeholder="新しいパスワード">
           </div>
           <div class="setting-list">
-            <input type="password" v-model="passwordEdit.newPassword" placeholder="新しいパスワード">
-          </div>
-          <div class="setting-list">
-            <input type="password" v-model="passwordEdit.passwordConfirmation" placeholder="パスワードの確認">
+            <input type="password" v-model="passwordEdit.password_confirmation" placeholder="パスワードの確認">
           </div>
           <div class="setting-list submit">
             <input type="submit" value="パスワード更新" class="btn">
@@ -61,11 +55,7 @@
 
     data: function () {
       return {
-        passwordEdit: {
-          currentPassword: '',
-          newPassword: '',
-          passwordConfirmation: ''
-        }
+        passwordEdit: {}
       }
     },
 
@@ -79,9 +69,9 @@
     },
 
     methods: {
-      async method () {
-        await axios.post('/api/v1/', this.passwordEdit)//dousuru?
-        this.$router.push({ name: 'userAccount' })
+      async updatePassword () {
+        await this.axios.put('/api/v1/users/password', this.passwordEdit)
+        location.href = '/users/settings/account'
       }
     }
   }

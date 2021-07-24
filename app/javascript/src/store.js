@@ -52,14 +52,14 @@ export default new Vuex.Store ({
     },
 
     async deleteRelationship ({ dispatch }, { id, interest }) {
-      await axios.delete(`api/v1/relationships/${id}`, { data: interest })
+      await axios.delete(`/api/v1/relationships/${id}`, { data: interest })
       dispatch('fetchCurrentUser')
     },
 
     async createRelationship ({ dispatch }, interest) {
-      await axios.post('api/v1/relationships', interest)
+      await axios.post('/api/v1/relationships', interest)
       dispatch('fetchCurrentUser')
     }
   },
-  plugins: [createPersistedState()]
+  plugins: [createPersistedState({ storage: sessionStorage })]
 })

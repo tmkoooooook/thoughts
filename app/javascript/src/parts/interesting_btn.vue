@@ -53,6 +53,7 @@ export default {
     ]),
 
     createInterest () {
+      this.fetchInterestUserId()
       this.createRelationship(this.interest)
     },
 

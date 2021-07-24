@@ -4,7 +4,7 @@
       <div class="setting-header">
         <h3>アカウント編集</h3>
       </div>
-      <form @submit.prevent="method" class="setting-lists">
+      <form @submit.prevent="updateUserInfo" class="setting-lists">
         <div class="setting-list">
           <label>名前</label>
           <span>{{ account.name }}</span>
@@ -40,7 +40,7 @@
         <div class="setting-header">
           <h3>アカウント編集</h3>
         </div>
-        <form @submit.prevent="method" class="setting-lists">
+        <form @submit.prevent="updateUserInfo" class="setting-lists">
           <div class="setting-list">
             <label>名前</label>
             <span>{{ account.name }}</span>
@@ -77,11 +77,7 @@
 
     data: function () {
       return {
-        accountEdit: {
-          name: '',
-          user_id: '',
-          email: ''
-        }
+        accountEdit: {}
       }
     },
 
@@ -95,9 +91,14 @@
     },
 
     methods: {
-      async method () {
-        await axios.patch('/api/v1/users', this.accountEdit)//dousuru?
-        this.$router.push({ name: 'userAccount' })
+      async updateUserInfo () {
+        Object.keys(this.accountEdit).forEach((key) => {
+          if (this.accountEdit[key] === '') {
+            this.$delete(this.accountEdit, key)
+          }
+        })
+        await this.axios.patch('/api/v1/users', this.accountEdit)
+        location.href = '/users/settings/account'
       }
     }
   }

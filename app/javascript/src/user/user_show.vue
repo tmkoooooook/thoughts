@@ -24,7 +24,6 @@
 </template>
 
 <script>
-  import axios from 'axios'
   import { mapGetters } from 'vuex'
   import InterestingBtn from '../parts/interesting_btn.vue'
 
@@ -58,13 +57,14 @@
 
     methods: {
       async fetchShowUser () {
-        const response = await axios.get(`/api/v1/users/${this.$route.params.userId}`)
+        const response = await this.axios.get(`/api/v1/users/${this.$route.params.userId}`)
         this.showUser = response.data
       },
 
       async logout () {
-        await axios.delete('/api/v1/users/sign_out')
-        this.$router.push({ name: 'home' })
+        await this.axios.delete('/api/v1/users/sign_out')
+        sessionStorage.clear()
+        location.href = '/'
       }
     },
 

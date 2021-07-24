@@ -49,7 +49,7 @@
       async signInUser () {
         const response = await this.axios.post('/api/v1/users/sign_in', this.user)
         this.setUserSessionTokens(response)
-        this.$router.push({ name: 'userHome' })
+        window.location.href = '/users'
       }
     }
   }

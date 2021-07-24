@@ -7,18 +7,18 @@
       <router-view name="user_show"/>
       <div class="separation"></div>
       <div class="thought-info" v-for="thought in thoughts" :key="thought.id">
-        <div @click="activateThoughtAll(thought.user.user_id, thought.id)" class="thought-info-link">
+        <div class="thought-info-link">
           <div class="user-thumbnail">
-            <router-link :to="{ name: 'userShow', params: { userId: thought.user.user_id } }">
+            <router-link :to="{ name: 'userShow', params: { userId: thought.user.user_id } }" class="user-show-link">
               <img src="~thoughts_logo_005163.png" alt="user-logo">
             </router-link>
           </div>
           <div class="user-info">
-            <router-link :to="{ name: 'userShow', params: { userId: thought.user.user_id } }">
+            <router-link :to="{ name: 'userShow', params: { userId: thought.user.user_id } }" class="user-show-link">
               {{ thought.user.name }}
               <span class="user-id">{{ thought.user.user_id }}</span>
             </router-link>
-            <div class="thought-content">
+            <div @click="activateThoughtAll(thought.user.user_id, thought.id)" class="thought-content">
               <h3>{{ thought.title }}</h3>
               <p>{{ thought.shorted_text }}</p>
             </div>
