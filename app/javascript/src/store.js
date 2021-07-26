@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex)
 
@@ -9,7 +10,12 @@ export default new Vuex.Store ({
     user: {
       relationships: []
     },
-    thoughts: []
+    thoughts: [],
+    sessionUser: {
+      access_token: '',
+      uid: '',
+      client: ''
+    }
   },
 
   getters: {
@@ -25,6 +31,12 @@ export default new Vuex.Store ({
 
     setThoughts (state, response) {
       state.thoughts = response.thoughts
+    },
+
+    setUserSessionTokens (state, response) {
+      state.sessionUser.access_token = response.headers["access-token"]
+      state.sessionUser.uid = response.headers.uid
+      state.sessionUser.client = response.headers.client
     }
   },
 
@@ -40,13 +52,14 @@ export default new Vuex.Store ({
     },
 
     async deleteRelationship ({ dispatch }, { id, interest }) {
-      await axios.delete(`api/v1/relationships/${id}`, { data: interest })
+      await axios.delete(`/api/v1/relationships/${id}`, { data: interest })
       dispatch('fetchCurrentUser')
     },
 
     async createRelationship ({ dispatch }, interest) {
-      await axios.post('api/v1/relationships', interest)
+      await axios.post('/api/v1/relationships', interest)
       dispatch('fetchCurrentUser')
     }
-  }
+  },
+  plugins: [createPersistedState({ storage: sessionStorage })]
 })

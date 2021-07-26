@@ -13,13 +13,14 @@ describe('UserHome', () => {
   let wrapper
   let routerView
 
-  const factory = (route) => {
+  const factory = (route, userId) => {
     const $route = route
     return shallowMount(UserHome, {
       localVue,
       store,
       stubs: ['router-view'],
-      mocks: { $route }
+      mocks: { $route },
+      attrs: { userId: userId }
     })
   }
   let actions
@@ -42,7 +43,7 @@ describe('UserHome', () => {
   describe('display router-view', () => {
     beforeEach(() => {
       route = { name: 'userHome', params: { thoughtId: null, userId: null } }
-      wrapper = factory(route)
+      wrapper = factory(route, null)
       routerView = wrapper.findAll('router-view-stub')
     })
 
@@ -54,35 +55,24 @@ describe('UserHome', () => {
       expect(routerView.at(0).html()).toContain('thoughts_partial')
     })
 
-    it('display MyThought', () => {
-      expect(routerView.at(1).html()).toContain('my_thought')
-    })
 
-    it('display ThoughtAll', () => {
-      expect(routerView.at(2).html()).toContain('thought_all')
+    it('display user_settings', () => {
+      expect(routerView.at(1).html()).toContain('user_settings')
     })
   })
 
-  describe('when thought_all opening', () => {
+  describe('route', () => {
     beforeEach(() => {
-      route = { name: 'thought', params: { thoughtId: 1, userId: null } }
-      wrapper = factory(route)
+      route = { name: 'userHome', params: { thoughtId: null, userId: null } }
+      wrapper = factory(route, 'testUser')
     })
 
-    it('does not run fetchThoughts ', () => {
-      expect(actions.fetchThoughts).not.toHaveBeenCalled()
-    })
-  })
-  describe('when thought_all is not opening', () => {
-    describe('when current route is userShow', () => {
-      beforeEach(() => {
-        route = { name: 'userShow', params: { thoughtId: null, userId: 'user' } }
-        wrapper = factory(route)
-      })
-
-      it('run fetchThoughts', () => {
-        expect(actions.fetchThoughts).toHaveBeenCalled()
-      })
+    it('call runFetchThoughts when route from settings to userHome', async () => {
+      const from = { name: 'settings' }
+      const to = { name: 'userHome' }
+      UserHome.watch.$route.call(wrapper.vm, to, from)
+      await wrapper.vm.$nextTick()
+      expect(actions.fetchThoughts).toHaveBeenCalled()
     })
   })
 })

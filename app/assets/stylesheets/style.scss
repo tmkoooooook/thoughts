@@ -19,6 +19,9 @@ input,button,select,textarea {
   font: inherit;
   outline: none;
 }
+input {
+  color: #c6c6c6;
+}
 textarea {
   resize: none;
 }
@@ -256,7 +259,7 @@ footer {
   }
 }
 
-//login signin edit
+//login sign_in edit
 .form-box {
   margin: 100px auto 0;
   width: 360px;
@@ -278,6 +281,7 @@ footer {
   input {
     width: 95%;
     margin: 0 9px 10px;
+    color: #c6c6c6;
   }
 }
 .form-field + .form-field {
@@ -294,21 +298,19 @@ footer {
 }
 
 //user-index
-.user-container {
-  margin: 0 auto;
-}
 .user-home {
   display: flex;
   height: auto;
-  margin-bottom: 60px;
+  width: 1162px;
+  margin: 0 auto;
 }
 .user-header {
-  margin-left: auto;
   margin-right: 10px;
 }
+
 .user-nav {
   position: sticky;
-  top: 10px;
+  top: 80px;
   .user-nav-list {
     .fa {
       font-size: 20px;
@@ -318,8 +320,13 @@ footer {
   }
 }
 @media screen and (max-width: 1200px) {
+  .user-home {
+    margin: 0;
+    width: 997px;
+  }
   .user-header {
     padding-left: 20px;
+    margin-left: 10px;
     .user-nav {
       .image-wrapper {
         display: none;
@@ -334,7 +341,15 @@ footer {
     }
   }
 }
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 1040px) {
+  .user-home {
+    width: auto;
+  }
+}
+@media screen and (max-width: 425px) {
+  .user-home {
+    margin-bottom: 60px;
+  }
   .user-header {
     position: fixed;
     bottom: 0;
@@ -356,16 +371,32 @@ footer {
     }
   }
 }
+.parent-box {
+  display:  flex;
+  flex-shrink: 0;
+  margin-right: auto;
+  width: 100%;
+}
 .thoughts-partial {
+  display: flex;
+  flex-direction: column;
   border-right: 1px solid #666;
   border-left: 1px solid #666;
-  min-width: 375px;
+  flex-shrink: 0;
   width: 500px;
+  padding-top: 59px;
 }
 .thoughts-top {
-  display: flex;
-  justify-content: space-between;
+  position: fixed;
+  top: 0;
+  background-color: #262627;
+  border-bottom: 1px solid #666;
   padding: 10px;
+  width: 498px;
+  height: 60px;
+  h2 {
+    font-size: 26px;
+  }
 }
 .new-thought {
   border-color: #666;
@@ -379,7 +410,48 @@ footer {
     color: #ccc;
   }
 }
+@media screen and (max-width: 1200px) {
+  .thoughts-partial {
+    width: 425px;
+  }
+  .thoughts-top {
+    width: 423px;
+  }
+}
+@media screen and (max-width: 1040px) {
+  .thoughts-partial {
+    width: 375px;
+  }
+  .thoughts-top {
+    width: 373px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .thoughts-partial {
+    width: 100%;
+    max-width: 500px;
+  }
+  .thoughts-top {
+    width: calc(100% - 72.5px - 2px);
+    max-width: 498px;
+  }
+}
+@media screen and (max-width: 425px) {
+  .thoughts-top {
+    width: calc(100% - 2px);
+  }
+}
+
 //-------------mythought--------------
+.thought-btn {
+  padding-top: 10px;
+  padding-left: 10px;
+}
+.my-thought-box {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+}
 .my-thought {
   position: sticky;
   padding: 15px;
@@ -403,7 +475,7 @@ footer {
       color: inherit;
       width: 100%;
       background-color: #262627;
-    }
+}
   }
   .title {
     border-bottom: 1px solid #666;
@@ -429,6 +501,7 @@ footer {
     margin-right: 10px;
   }
   .user-info {
+    flex-grow: 1;
     a{
       font-weight: bold;
       margin-right: 5px;
@@ -441,9 +514,7 @@ footer {
   }
 }
 
-.thought-all {
-  margin-left: 10px;
-  margin-right: auto;
+.thought {
   width: 500px;
 }
 .sticky-container {
@@ -451,7 +522,7 @@ footer {
 }
 .thought-all-content {
   position: sticky;
-  top: 10px;
+  top: 50px;
   padding: 15px;
   p {
     white-space: pre-wrap;
@@ -466,15 +537,23 @@ footer {
   padding: 0;
   background-color: #262627;
 }
-@media screen and (max-width: 425px) {
-  .thought-all {
-    margin: 0;
+@media screen and (max-width: 1040px) {
+  .thought {
     width: 100%;
+    max-width: 500px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .thought {
+    margin: 0;
     .thought-all-content {
-      min-height: 100vh;
+      min-height: 80vh;
       background-color: #262627;
       z-index: 3;
     }
+  }
+  .thought-btn {
+    margin-left: -100px;
   }
 }
 .separation {
@@ -512,14 +591,11 @@ footer {
 }
 .user-show-box {
   padding: 10px;
-  .interesting-form {
-    display: block;
-    text-align: right;
-  }
 }
 .header-thumbnail-wrapper.user-thumbnail {
   position: absolute;
-  top: 155px;
+  top: 220px;
+  z-index: -1;
   img {
     width: 100px;
     height: 100px;
@@ -527,6 +603,11 @@ footer {
     border-radius: 50%;
     background-color: #262627;
   }
+}
+.user-options {
+  height: 41px;
+  display: block;
+  text-align: right;
 }
 .user-profile {
   margin-top: 30px;
@@ -552,6 +633,72 @@ footer {
   }
 }
 
-.temporary {
-  height: 41px;
+//----------------settings------------------
+.user-settings-box {
+  position: sticky;
+  border-right: 1px solid #666;
+  border-left: 1px solid #666;
+  width: 375px;
+  flex-shrink: 0;
+  height: 100vh;
+}
+.setting-header {
+  padding: 10px;
+  border-bottom: solid 1px #666;
+}
+.setting-list {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  border-bottom: solid 1px #666;
+  span {
+    font-size: 18px;
+    color: #c6c6c6;
+  }
+  .fa-chevron-right {
+    height: 20px;
+    font-size: 20px;
+    margin: auto 0;
+  }
+}
+.setting-details {
+  max-width: 500px;
+  width: 100%;
+  border-right: 1px solid #666;
+}
+.user-account {
+  .setting-list {
+    flex-direction: column;
+    span {
+      color: #606060;
+      font-weight: 400;
+      font-size: 16px;
+    }
+    input[type="text"] {
+      border-bottom: 1px solid #666;
+    }
+  }
+}
+.submit {
+  .btn {
+    border: 2px solid #666;
+    border-radius: .25em;
+    color: #c6c6c6;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .user-settings-box {
+    width: 100%;
+  }
+  .setting-details {
+    border: none;
+  }
+  .user-account {
+    min-height: 80vh;
+    padding: 10px;
+  }
+}
+.router-view-box {
+  flex-grow: 1;
 }

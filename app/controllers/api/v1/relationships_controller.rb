@@ -2,7 +2,7 @@ class Api::V1::RelationshipsController < ApiController
   before_action :set_user
 
   def create
-    interesting = current_user.interested_in(@user)
+    interesting = current_api_v1_user.interested_in(@user)
     if interesting.save
       render json: { status: 200 }
     else
@@ -11,7 +11,7 @@ class Api::V1::RelationshipsController < ApiController
   end
 
   def destroy
-    interesting = current_user.uninterested_in(@user)
+    interesting = current_api_v1_user.uninterested_in(@user)
     if interesting.destroy
       render json: { status: 200 }
     else

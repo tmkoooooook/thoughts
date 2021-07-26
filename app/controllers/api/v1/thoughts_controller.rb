@@ -5,7 +5,7 @@ class Api::V1::ThoughtsController < ApiController
 
   def index
     thoughts = Thought.
-      where(user_id: [current_user.id, *current_user.interest_ids]).
+      where(user_id: [current_api_v1_user.id, *current_api_v1_user.interest_ids]).
       includes(:user).
       to_json(include: { user: { only: [:name, :user_id] } })
     render json: thoughts
@@ -23,7 +23,7 @@ class Api::V1::ThoughtsController < ApiController
   def create
     thought = Thought.new(thought_params)
     thought.shorted_text = thought.text.slice(...50)
-    thought.user_id = current_user.id
+    thought.user_id = current_api_v1_user.id
     if thought.save
       render json: { status: 200 }
     else

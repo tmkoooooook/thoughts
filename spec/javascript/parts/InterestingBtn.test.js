@@ -1,9 +1,9 @@
 import 'jsdom-global/register'
 import '../__mocks__/window_confirm_mock'
 import { createLocalVue, mount } from '@vue/test-utils'
-import InterestingBtn from 'interests/interesting_btn';
+import InterestingBtn from 'parts/interesting_btn'
 import Vuex from 'vuex'
-import { beforeEach, describe, expect, it, jest } from '@jest/globals';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals'
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
@@ -71,6 +71,14 @@ describe('InterestingBtn', () => {
       it('run deleteRelationship',() => {
         wrapper.find('input.uninteresting-btn').trigger('submit.prevent')
         expect(actions.deleteRelationship).toHaveBeenCalled()
+      })
+
+      it ('change from uninteresting to interesting', () => {
+        expect(wrapper.find('input.uninteresting-btn').exists()).toBe(true)
+        store.state.user.relationships.pop()
+        wrapper.vm.$nextTick(() => {
+          expect(wrapper.find('input.interesting-btn').exists()).toBe(true)
+        })
       })
     })
   })

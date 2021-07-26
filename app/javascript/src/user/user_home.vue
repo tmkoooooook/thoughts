@@ -1,10 +1,9 @@
 <template>
   <div id="user_home" class="user-home">
     <UserHeader/>
-    <router-view name="thoughts_partial" :thoughts="thoughts"/>
-    <div class="thought-all">
-      <router-view name="my_thought"/>
-      <router-view name="thought_all" :thoughts="thoughts"/>
+    <div class="router-view-box">
+      <router-view name="thoughts_partial" :thoughts="thoughts"/>
+      <router-view name="user_settings"/>
     </div>
   </div>
 </template>
@@ -20,20 +19,25 @@
       UserHeader: UserHeader
     },
 
-    props: { csrf_token: String },
-
     created () {
       this.runFetchThoughts()
       this.fetchCurrentUser()
     },
+
     computed: {
       ...mapState([
-        'thoughts'
+        'thoughts',
+        'user'
       ])
     },
 
     watch: {
-      $route: 'runFetchThoughts'//結構負荷かかりそう？
+      $route (to, from) {
+        if (from.name === 'userHome' && to.name === 'thought') return
+        if (from.name === 'userShow' && to.name === 'thought') return
+        if (from.name ==='thought' && from.name === to.name) return
+        this.runFetchThoughts()
+      }
     },
 
     methods: {
@@ -43,11 +47,8 @@
       ]),
 
       runFetchThoughts () {
-        if (this.$route.params.thoughtId) return
-
-        let urlParams = this.$route.params.userId
+        let urlParams = this.$attrs.userId
         let url
-
         if (urlParams) {
           url = `/api/v1/thoughts/${urlParams}`
         }

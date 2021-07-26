@@ -1,19 +1,17 @@
 <template>
-  <router-link :to="{name: 'myThought'}" class="new-thought btn">
+  <button @click="showMyThought" class="new-thought btn">
     <span>thought</span>
-  </router-link>
+  </button>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 export default {
   name: 'MyThoughtBtn',
 
-  computed: {
-    ...mapGetters([
-      'watchUser'
-    ])
+  methods: {
+    showMyThought () {
+      this.$emit('activeMyThought')
+    }
   }
 }
 </script>

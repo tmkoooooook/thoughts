@@ -1,6 +1,6 @@
 import 'jsdom-global/register'
 import { RouterLinkStub, createLocalVue, shallowMount } from '@vue/test-utils'
-import { beforeEach, describe, expect, it, jest } from '@jest/globals'
+import { beforeEach, describe, expect, it } from '@jest/globals'
 import UserHeader from 'user/user_header'
 import Vuex from 'vuex'
 
@@ -50,7 +50,7 @@ describe('UserHeader', () => {
 
     it('display 設定', () => {
       expect(links.at(3).text()).toBe('設定')
-      expect(links.at(3).props().to).toEqual({ name: 'userHome' })
+      expect(links.at(3).props().to).toEqual({ name: 'settings' })
     })
   })
 })

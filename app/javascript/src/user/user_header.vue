@@ -21,7 +21,7 @@
             </router-link>
           </li>
           <li>
-            <router-link :to="{ name: 'userHome' }">
+            <router-link :to="{ name: 'settings' }">
               <i class="fa fa-cog"></i>
               <span>設定</span>
             </router-link>

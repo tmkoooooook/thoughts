@@ -1,6 +1,6 @@
 class Api::V1::UsersController < ApiController
   def index
-    user = current_user.
+    user = current_api_v1_user.
       to_json(
         only: [:id, :name, :user_id],
         include: { relationships: { only: [:id, :interest_id] } }
@@ -15,5 +15,14 @@ class Api::V1::UsersController < ApiController
     relationship_size = user.relationship_size
     show_user = user.as_json(only: [:id, :name, :user_id]).merge(relationship_size)
     render json: show_user.to_json
+  end
+
+  def account
+    if params[:account] && params[:account] == 'request'
+      user = current_api_v1_user.to_json(only: [:name, :user_id, :email])
+      render json: user
+    else
+      render json: { status: 401, message: 'unauthorized' }
+    end
   end
 end

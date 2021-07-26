@@ -1,31 +1,28 @@
 <template>
-  <div class="sticky-container">
-    <div class="thought-all-content" id="thought_all" v-if="$mq === 'pc'">
+  <div class="thought-all-content" id="thought_all" v-if="thought && $mq === 'pc'">
+    <div class="edit-delete" v-if="thought.user_id === watchUser.id">
+      <button class="fas fa-trash" @click="deleteThought(thought.id)"/>
+    </div>
+    <h1>{{ thought.title }}</h1>
+    <p>{{ thought.text }}</p>
+  </div>
+  <b-modal id="thought_all_modal"
+    v-else-if="thought && $mq === 'sp'"
+    scrollable
+    hide-header
+    hide-footer
+    no-close-on-backdrop
+    no-close-on-esc
+    static>
+    <div class="thought-all-content">
       <div class="edit-delete" v-if="thought.user_id === watchUser.id">
         <button class="fas fa-trash" @click="deleteThought(thought.id)"/>
       </div>
-      <CloseBtn :route="fromRoute"/>
+      <CloseBtn modalId="thought_all_modal" :route="closeBtnRoute"/>
       <h1>{{ thought.title }}</h1>
       <p>{{ thought.text }}</p>
     </div>
-    <b-modal id="thought_all_modal"
-      v-if="$mq === 'sp'"
-      scrollable
-      hide-header
-      hide-footer
-      no-close-on-backdrop
-      no-close-on-esc
-      static>
-      <div class="thought-all-content">
-        <div class="edit-delete" v-if="thought.user_id === watchUser.id">
-          <button class="fas fa-trash" @click="deleteThought(thought.id)"/>
-        </div>
-        <CloseBtn modalId="thought_all_modal" :route="fromRoute"/>
-        <h1>{{ thought.title }}</h1>
-        <p>{{ thought.text }}</p>
-      </div>
-    </b-modal>
-  </div>
+  </b-modal>
 </template>
 
 <script>
@@ -49,13 +46,21 @@
     },
 
     mounted () {
-      if (this.$mq === 'sp')
-        this.$bvModal.show('thought_all_modal')
+      if (this.$mq === 'sp') this.showModal()
     },
 
     computed: {
       thought () {
-        return this.thoughts.find(thought => thought.id === this.$attrs.thoughtId)
+        return this.thoughts.find(thought => thought.id == this.$attrs.thoughtId)
+      },
+
+      closeBtnRoute () {
+        if (window.localStorage.getItem('isShowUser')) {
+          return { name: 'userShow', params: { userId: window.localStorage.getItem('isShowUser') } }
+        }
+        else {
+          return { name: 'userHome' }
+        }
       },
 
       ...mapGetters ([
@@ -69,12 +74,25 @@
           await axios.delete(`/api/v1/thoughts/${id}`)
           this.$router.push('/users')
         }
+      },
+
+      showModal () {
+        this.$bvModal.show('thought_all_modal')
       }
     },
 
     beforeRouteEnter (to, from, next) {
-      const routeName = { name: from.name, params: { userId: from.params.userId } }
-      next(vm => vm.fromRoute = routeName)
+      if (!from.params.userId) next()
+      else {
+        const routeName = { name: from.name, params: { userId: from.params.userId } }
+        window.localStorage.setItem('isShowUser', from.params.userId)
+        next(vm => vm.fromRoute = routeName)
+      }
+    },
+
+    beforeRouteLeave (to, from, next) {
+      window.localStorage.clear()
+      next()
     }
   }
 </script>

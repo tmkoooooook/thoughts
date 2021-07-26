@@ -1,5 +1,5 @@
 <template>
-  <div class="user-show">
+  <div class="user-show" v-if="isUserShow">
     <div class="header-img-wrapper">
       <img src="~thoughts_logo_005163.png" alt="user-logo">
     </div>
@@ -7,8 +7,10 @@
       <div class="header-thumbnail-wrapper user-thumbnail">
         <img src="~thoughts_logo_005163.png" alt="user-logo">
       </div>
-      <InterestingBtn v-if="isOtherUser" :userId="showUser.id"/>
-      <div v-else class="temporary"></div>
+      <div class="user-options submit">
+        <InterestingBtn v-if="isOtherUser" :userId="showUser.id"/>
+        <LogoutBtn v-else/>
+      </div>
       <div class="user-profile">
         <h3 class="user-name">{{ showUser.name }}</h3>
         <div class="user-id">{{ showUser.user_id }}</div>
@@ -22,25 +24,33 @@
 </template>
 
 <script>
-  import axios from 'axios'
   import { mapGetters } from 'vuex'
-  import InterestingBtn from '../interests/interesting_btn.vue'
+  import InterestingBtn from '../parts/interesting_btn.vue'
+  import LogoutBtn from '../parts/logout_btn.vue'
+  import axios from 'axios'
 
   export default {
     name: 'UserShow',
 
     data: function () {
       return {
-        showUser: {}
+        showUser: {},
+        isUserShow: false
       }
     },
 
     components: {
-      InterestingBtn: InterestingBtn
+      InterestingBtn: InterestingBtn,
+      LogoutBtn: LogoutBtn
     },
 
     created () {
       this.fetchShowUser()
+      this.setIsUserShow()
+    },
+
+    watch: {
+      $route: 'fetchShowUser'
     },
 
     computed: {
@@ -57,6 +67,18 @@
       async fetchShowUser () {
         const response = await axios.get(`/api/v1/users/${this.$route.params.userId}`)
         this.showUser = response.data
+      },
+
+      setIsUserShow () {
+        if (this.$route.name === 'userShow') {
+          this.isUserShow = true
+        }
+        else if (window.localStorage.getItem('isShowUser')) {
+          this.isUserShow = true
+        }
+        else {
+          this.isUserShow = false
+        }
       }
     }
   }
