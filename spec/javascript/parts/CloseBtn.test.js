@@ -5,8 +5,8 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals'
 
 describe('CloseBtn', () => {
   let wrapper
-  const modalHideMock = jest.fn()
-  const routerPushMock = jest.fn()
+  let modalHideMock
+  let routerPushMock
   const factory = (mq) => {
     const $mq = mq
     return mount(CloseBtn, {
@@ -17,15 +17,19 @@ describe('CloseBtn', () => {
       }
     })
   }
+  beforeEach(() => {
+    modalHideMock = jest.fn()
+    routerPushMock = jest.fn()
+  })
+
   describe('$mq === pc', () => {
     beforeEach(() => {
       wrapper = factory('pc')
     })
 
-    it('run closeThought at click', () => {
+    it('does not run $bvModal.hide', () => {
       wrapper.find('button').trigger('click')
       expect(modalHideMock).not.toHaveBeenCalled()
-      expect(routerPushMock).toHaveBeenCalled()
     })
   })
 
@@ -34,10 +38,26 @@ describe('CloseBtn', () => {
       wrapper = factory('sp')
     })
 
-    it('run closeThought at click', () => {
+    it('run $bvModal.hide', () => {
       wrapper.find('button').trigger('click')
       expect(modalHideMock).toHaveBeenCalled()
+    })
+  })
+
+  describe('route', () => {
+    beforeEach(() => {
+      wrapper = factory('sp')
+    })
+
+    it('run $router.push when route is true', async () => {
+      await wrapper.setProps({ route: { name: 'route' } })
+      wrapper.find('button').trigger('click')
       expect(routerPushMock).toHaveBeenCalled()
+    })
+
+    it('does not run $router.push when route is false', () => {
+      wrapper.find('button').trigger('click')
+      expect(routerPushMock).not.toHaveBeenCalled()
     })
   })
 })

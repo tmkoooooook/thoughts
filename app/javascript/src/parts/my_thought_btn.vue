@@ -5,20 +5,12 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 export default {
   name: 'MyThoughtBtn',
 
-  computed: {
-    ...mapGetters([
-      'watchUser'
-    ])
-  },
-
   methods: {
     showMyThought () {
-      this.$emit('myThought')
+      this.$emit('activeMyThought')
     }
   }
 }

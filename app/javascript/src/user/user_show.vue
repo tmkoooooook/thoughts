@@ -9,7 +9,7 @@
       </div>
       <div class="user-options submit">
         <InterestingBtn v-if="isOtherUser" :userId="showUser.id"/>
-        <button v-else @click="logout" class="btn">ログアウト</button>
+        <LogoutBtn v-else/>
       </div>
       <div class="user-profile">
         <h3 class="user-name">{{ showUser.name }}</h3>
@@ -26,6 +26,8 @@
 <script>
   import { mapGetters } from 'vuex'
   import InterestingBtn from '../parts/interesting_btn.vue'
+  import LogoutBtn from '../parts/logout_btn.vue'
+  import axios from 'axios'
 
   export default {
     name: 'UserShow',
@@ -38,11 +40,17 @@
     },
 
     components: {
-      InterestingBtn: InterestingBtn
+      InterestingBtn: InterestingBtn,
+      LogoutBtn: LogoutBtn
     },
 
     created () {
       this.fetchShowUser()
+      this.setIsUserShow()
+    },
+
+    watch: {
+      $route: 'fetchShowUser'
     },
 
     computed: {
@@ -57,25 +65,21 @@
 
     methods: {
       async fetchShowUser () {
-        const response = await this.axios.get(`/api/v1/users/${this.$route.params.userId}`)
+        const response = await axios.get(`/api/v1/users/${this.$route.params.userId}`)
         this.showUser = response.data
       },
 
-      async logout () {
-        await this.axios.delete('/api/v1/users/sign_out')
-        sessionStorage.clear()
-        location.href = '/'
+      setIsUserShow () {
+        if (this.$route.name === 'userShow') {
+          this.isUserShow = true
+        }
+        else if (window.localStorage.getItem('isShowUser')) {
+          this.isUserShow = true
+        }
+        else {
+          this.isUserShow = false
+        }
       }
-    },
-
-    beforeRouteEnter (to, from, next) {
-      if (to.name === 'userShow') {
-        next(vm => vm.isUserShow = true)
-      }
-      else if (to.name === 'thought' && from.name === 'userShow') {
-        next(vm => vm.isUserShow = true)
-      }
-      else next(vm => vm.isUserShow = false)
     }
   }
 </script>

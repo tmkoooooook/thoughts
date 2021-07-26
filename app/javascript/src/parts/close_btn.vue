@@ -13,10 +13,10 @@ export default {
 
   methods: {
     closeThought () {
+      this.$emit('activeMyThought')
       if (this.$mq === 'sp') {
         this.$bvModal.hide(`${this.modalId}`)
       }
-      this.$emit('myThought')
       if (this.route) {
         this.$router.push(this.route)
       }

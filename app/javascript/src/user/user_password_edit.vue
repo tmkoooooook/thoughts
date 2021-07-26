@@ -49,6 +49,7 @@
 
 <script>
   import CloseBtn from '../parts/close_btn.vue'
+  import axios from 'axios'
 
   export default {
     name: 'UserAccount',
@@ -70,8 +71,8 @@
 
     methods: {
       async updatePassword () {
-        await this.axios.put('/api/v1/users/password', this.passwordEdit)
-        location.href = '/users/settings/account'
+        await axios.put('/api/v1/users/password', this.passwordEdit)
+        location.pathname = '/users/settings/account'
       }
     }
   }

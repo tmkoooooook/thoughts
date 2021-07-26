@@ -53,22 +53,22 @@
     data: function () {
       return {
         myThoughtActive: false,
-        ThoughtAllActive: false
+        thoughtAllActive: false
       }
     },
 
     methods: {
       activateMyThought () {
         if (!this.myThoughtActive) {
-          this.ThoughtAllActive = false
+          this.thoughtAllActive = false
         }
         this.myThoughtActive = !this.myThoughtActive
       },
 
       activateThoughtAll (userId, thoughtId) {
-        this.ThoughtAllActive = true
+        this.thoughtAllActive = true
         this.myThoughtActive = false
-        if (this.$attrs.userId === userId && this.$attrs.thoughtId === thoughtId) return
+        if (this.$attrs.userId === userId && this.$attrs.thoughtId == thoughtId) return
 
         const route = { name: 'thought', params: { userId: userId, thoughtId: thoughtId } }
         this.$router.push(route)

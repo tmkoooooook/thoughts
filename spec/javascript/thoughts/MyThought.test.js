@@ -1,9 +1,11 @@
 import 'jsdom-global/register'
 import { createLocalVue, shallowMount } from '@vue/test-utils'
 import MyThought from 'thoughts/my_thought.vue'
+import MyThoughtBtn from 'parts/my_thought_btn.vue'
 import { beforeEach, describe, expect, it, jest } from '@jest/globals'
 import { ModalPlugin } from 'bootstrap-vue'
 import axios from 'axios'
+import Vuex from 'vuex'
 
 jest.mock('axios')
 const thought = { title: 'title', text: 'text' }
@@ -12,26 +14,41 @@ axios.post.mockResolvedValue(response)
 
 const localVue = createLocalVue()
 localVue.use(ModalPlugin)
+localVue.use(Vuex)
 
 describe('MyThought', () => {
   let wrapper
-  const routerPushMock = jest.fn()
-  const factory = (mq) => {
+  let route
+  let actions
+  let store
+  const factory = (mq, route) => {
     const $mq = mq
-
+    const $route = route
     return shallowMount(MyThought, {
       localVue,
+      store,
       mocks: {
         $mq,
-        $router: { push: routerPushMock }
+        $route,
       }
     })
   }
+  beforeEach(() => {
+    actions = {
+      fetchThoughts: jest.fn()
+    }
+    store = new Vuex.Store({
+      state: {},
+      actions
+    })
+  })
 
   describe('$mq === pc', () => {
     beforeEach(() => {
-      wrapper = factory('pc')
+      route = { params: { userId: 'testUser' } }
+      wrapper = factory('pc', route)
       wrapper.setData({ thought: { title: '', text: '' } })
+      wrapper.setProps({ myThoughtActive: true })
     })
 
     it('display thought form', () => {
@@ -51,7 +68,7 @@ describe('MyThought', () => {
         expect(wrapper.vm.thought.text).toBe('input text')
       })
 
-      it('gets thought.text', () => {
+      it('call axios.post', () => {
         const submit = wrapper.find('input[type="submit"]')
         submit.trigger('submit.prevent')
         expect(axios.post).toHaveBeenCalled()
@@ -62,13 +79,20 @@ describe('MyThought', () => {
         text.trigger('keydown.enter')
         expect(text.element.style.height).toBe('200px')
       })
+
+      it('emitted activateMyThought', () => {
+        wrapper.findComponent(MyThoughtBtn).vm.$emit('activeMyThought')
+        expect(wrapper.emitted('activateMyThought')).toBeTruthy
+      })
     })
   })
 
   describe('$mq === sp', () => {
     beforeEach(() => {
-      wrapper = factory('sp')
+      route = { params: { userId: null } }
+      wrapper = factory('sp', route)
       wrapper.setData({ thought: { title: '', text: '' } })
+      wrapper.setProps({ myThoughtActive: true })
     })
 
     it('open myThoughtModal', () => {
@@ -88,7 +112,7 @@ describe('MyThought', () => {
         expect(wrapper.vm.thought.text).toBe('input text')
       })
 
-      it('gets thought.text', () => {
+      it('call axios.post', () => {
         const submit = wrapper.find('input[type="submit"]')
         submit.trigger('submit.prevent')
         expect(axios.post).toHaveBeenCalled()
@@ -99,16 +123,12 @@ describe('MyThought', () => {
         text.trigger('keydown.enter')
         expect(text.element.style.height).toBe('200px')
       })
-    })
-  })
 
-  describe('beforeRouteEnter', () => {
-    it('call next when enter the route', async () => {
-      const from = { name: 'userHome', params: { userId: null }}
-      const next = jest.fn()
-      MyThought.beforeRouteEnter.call(wrapper.vm, undefined, from, next)
-      await wrapper.vm.$nextTick()
-      expect(next).toHaveBeenCalled()
+      it('emitted activateMyThought', async () => {
+        await wrapper.setProps({ myThoughtActive: false })
+        wrapper.findComponent(MyThoughtBtn).vm.$emit('activeMyThought')
+        expect(wrapper.emitted('activateMyThought')).toBeTruthy
+      })
     })
   })
 })

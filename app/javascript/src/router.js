@@ -43,6 +43,9 @@ export default new VueRouter({
       components: {
         user_home: UserHome
       },
+      props: {
+        user_home: true
+      },
       children: [
         {
           path: '',

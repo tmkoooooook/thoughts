@@ -35,7 +35,7 @@
       $route (to, from) {
         if (from.name === 'userHome' && to.name === 'thought') return
         if (from.name === 'userShow' && to.name === 'thought') return
-        if (from.name === to.name) return
+        if (from.name ==='thought' && from.name === to.name) return
         this.runFetchThoughts()
       }
     },
@@ -47,9 +47,8 @@
       ]),
 
       runFetchThoughts () {
-        let urlParams = this.$route.params.userId
+        let urlParams = this.$attrs.userId
         let url
-
         if (urlParams) {
           url = `/api/v1/thoughts/${urlParams}`
         }

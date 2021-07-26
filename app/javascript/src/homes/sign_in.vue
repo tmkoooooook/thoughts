@@ -10,11 +10,11 @@
       <form @submit.prevent="signInUser">
         <div class="form-field">
           <label for="">ユーザーID</label>
-          <input type="text" v-model="user.user_id" autofocus>
+          <input type="text" name="user_id" v-model="user.user_id" autofocus>
         </div>
         <div class="form-field">
           <label for="">パスワード</label>
-          <input type="text" v-model="user.password">
+          <input type="text" name="password" v-model="user.password">
         </div>
         <div class="actions">
           <input type="submit" value="ログイン" class="btn btn-light">
@@ -27,6 +27,7 @@
 <script>
   import 'thoughts_logo_005163.png'
   import { mapMutations } from 'vuex'
+  import axios from 'axios'
 
   export default {
     name: 'signIn',
@@ -46,9 +47,9 @@
       ]),
 
       async signInUser () {
-        const response = await this.axios.post('/api/v1/users/sign_in', this.user)
+        const response = await axios.post('/api/v1/users/sign_in', this.user)
         this.setUserSessionTokens(response)
-        location.href = '/users'
+        location.pathname = '/users'
       }
     }
   }

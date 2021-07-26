@@ -44,13 +44,13 @@
   <footer>
     <div class="footer-box">
       <div class="footer-image">
-        <router-link to="#">
+        <router-link :to="{ name: 'home'}">
           <img src="~thoughts_logo_white.png" alt="thoughts_logo">
         </router-link>
       </div>
       <div class="footer-copyright">
         <small>
-          ©2021-  date.now  thoughts
+          ©2021-{{ date | moment('YYYY') }} thoughts
         </small>
       </div>
     </div>
@@ -62,6 +62,11 @@
   import 'thoughts_logo_005163.png'
 
   export default {
-    name: 'home'
+    name: 'home',
+    data: function () {
+      return {
+        date: this.$moment().format()
+      }
+    }
   }
 </script>

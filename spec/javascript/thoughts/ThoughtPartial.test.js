@@ -1,8 +1,7 @@
 import 'jsdom-global/register'
-import { RouterLinkStub, shallowMount } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 import ThoughtsPartial from 'thoughts/thoughts_partial'
-import MyThoughtBtn from "parts/my_thought_btn"
-import UserShow from 'user/user_show'
+import MyThought from "thoughts/my_thought"
 import 'thoughts_logo_005163.png'
 import { beforeEach, describe, expect, it } from '@jest/globals'
 
@@ -18,8 +17,10 @@ describe('ThoughtsPartial', () => {
   ]
   beforeEach(() => {
     wrapper = shallowMount(ThoughtsPartial, {
-      stubs: { RouterLink: RouterLinkStub },
-      propsData: { thoughts: thoughts }
+      stubs: ['router-link', 'router-view'],
+      mocks: { $router: { push: jest.fn() } },
+      propsData: { thoughts: thoughts },
+      attrs: { thoughtId: 1, userId: 'testUserId1' }
     })
   })
 
@@ -27,16 +28,12 @@ describe('ThoughtsPartial', () => {
     expect(wrapper.find('div.thoughts-partial').exists()).toBe(true)
   })
 
-  it('display thought button', () => {
-    expect(wrapper.findComponent(MyThoughtBtn).exists()).toBe(true)
-  })
-
   it('display thought partials', () => {
     expect(wrapper.findAll('div.thought-info')).toHaveLength(2)
   })
 
   it('display thought user name', () => {
-    const usernames = wrapper.findAll('div.user-info a')
+    const usernames = wrapper.findAll('div.user-info .user-show-link')
     expect(usernames.at(0).text()).toContain('testUser1')
   })
 
@@ -55,39 +52,43 @@ describe('ThoughtsPartial', () => {
     expect(text.at(0).text()).toBe('text1')
   })
 
-  describe('when route to userShow', () => {
-    it('display userShow', async () => {
-      const to = { name: 'userShow' }
-      const from = { name: null }
-      const next = jest.fn(vm => wrapper.vm.isUserShow = true)
-      ThoughtsPartial.beforeRouteEnter.call(wrapper.vm, to, from, next)
-      await wrapper.vm.$nextTick()
-      expect(wrapper.vm.isUserShow).toBe(true)
-      expect(wrapper.findComponent(UserShow).exists()).toBe(true)
+  it('display MyThought component', () => {
+    expect(wrapper.findComponent(MyThought).exists()).toBe(true)
+  })
+
+  describe('activateMyThought', () => {
+    it('reverse myThoughtActive', async () => {
+      await wrapper.setData({
+        myThoughtActive: true,
+        thoughtAllActive: false
+      })
+      wrapper.findComponent(MyThought).vm.$emit('activateMyThought')
+      expect(wrapper.vm.myThoughtActive).toBe(false)
+    })
+
+    it('returns ThoughtAllActive false when myThoughtActive is false', async () => {
+      wrapper.setData({
+        myThoughtActive: false,
+        thoughtAllActive: true
+      })
+      expect(wrapper.vm.thoughtAllActive).toBe(true)
+      wrapper.findComponent(MyThought).vm.$emit('activateMyThought')
+      expect(wrapper.vm.thoughtAllActive).toBe(false)
     })
   })
 
-  describe('when route from userShow to thought', () => {
-    it('display userShow', async () => {
-      const to = { name: 'thought' }
-      const from = { name: 'userShow' }
-      const next = jest.fn(vm => wrapper.vm.isUserShow = true)
-      ThoughtsPartial.beforeRouteEnter.call(wrapper.vm, to, from, next)
-      await wrapper.vm.$nextTick()
-      expect(wrapper.vm.isUserShow).toBe(true)
-      expect(wrapper.findComponent(UserShow).exists()).toBe(true)
+  describe('activateThoughtAll', () => {
+    it('call router.push when route path equals thought partial', () => {
+      const content = wrapper.findAll('div.thought-content')
+      content.at(1).trigger('click')
+      expect(wrapper.vm.$router.push).toHaveBeenCalled()
+    })
+
+    it('does not call router.push when route path different thought partial', () => {
+      const content = wrapper.findAll('div.thought-content')
+      content.at(0).trigger('click')
+      expect(wrapper.vm.$router.push).not.toHaveBeenCalled()
     })
   })
 
-  describe('when route from userShow to thought', () => {
-    it('does not display userShow', async () => {
-      const to = { name: 'thought' }
-      const from = { name: 'userHome' }
-      const next = jest.fn(vm => wrapper.vm.isUserShow = false)
-      ThoughtsPartial.beforeRouteEnter.call(wrapper.vm, to, from, next)
-      await wrapper.vm.$nextTick()
-      expect(wrapper.vm.isUserShow).toBe(false)
-      expect(wrapper.findComponent(UserShow).exists()).toBe(false)
-    })
-  })
 })

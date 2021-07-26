@@ -1,5 +1,6 @@
 import 'jsdom-global/register'
 import '../__mocks__/window_confirm_mock'
+import '../__mocks__/localStorage_mock'
 import { createLocalVue, shallowMount } from '@vue/test-utils'
 import ThoughtAllText from 'thoughts/thought_all_text'
 import { ModalPlugin } from 'bootstrap-vue'
@@ -59,7 +60,7 @@ describe('ThoughtAllText', () => {
       expect(wrapper.find('h1').text()).toBe('title')
     })
 
-    it('display thought title', () => {
+    it('display thought text', () => {
       expect(wrapper.find('p').text()).toBe('text')
     })
 
@@ -83,7 +84,7 @@ describe('ThoughtAllText', () => {
       expect(wrapper.find('h1').text()).toBe('title')
     })
 
-    it('display thought title', () => {
+    it('display thought text', () => {
       expect(wrapper.find('p').text()).toBe('text')
     })
 
@@ -94,6 +95,21 @@ describe('ThoughtAllText', () => {
     })
   })
 
+  describe('closeBtnRoute', () => {
+    it('returns name userShow', () => {
+      window.localStorage.clear()
+      window.localStorage.setItem('isShowUser', 'testUser')
+      wrapper = factory('sp')
+      expect(wrapper.vm.closeBtnRoute).toEqual({ name: 'userShow', params: { userId: 'testUser' } })
+    })
+
+    it('returns name userHome', () => {
+    window.localStorage.clear()
+    wrapper = factory('sp')
+      expect(wrapper.vm.closeBtnRoute).toEqual({ name: 'userHome' })
+    })
+  })
+
   describe('beforeRouteEnter', () => {
     it('call next when enter the route', async () => {
       const from = { name: 'userHome', params: { userId: null }}
@@ -101,6 +117,35 @@ describe('ThoughtAllText', () => {
       ThoughtAllText.beforeRouteEnter.call(wrapper.vm, undefined, from, next)
       await wrapper.vm.$nextTick()
       expect(next).toHaveBeenCalled()
+    })
+
+    it('call next when enter the route', async () => {
+      const from = { name: 'userShow', params: { userId: 'testUser' }}
+      const next = jest.fn()
+      ThoughtAllText.beforeRouteEnter.call(wrapper.vm, undefined, from, next)
+      await wrapper.vm.$nextTick()
+      expect(window.localStorage.getItem('isShowUser')).toBe('testUser')
+    })
+  })
+
+  describe('beforeRouteLeave', () => {
+    it('call next when route to userShow', async () => {
+      const to = { name: 'userShow' }
+      const next = jest.fn()
+      ThoughtAllText.beforeRouteLeave.call(wrapper.vm, to, undefined, next)
+      await wrapper.vm.$nextTick()
+      expect(next).toHaveBeenCalled()
+    })
+
+    it('call localStorage.clear when route to else', async () => {
+      window.localStorage.setItem('isShowUser', 'testUser')
+      expect(window.localStorage.getItem('isShowUser')).toBe('testUser')
+
+      const to = { name: 'userHome' }
+      const next = jest.fn()
+      ThoughtAllText.beforeRouteLeave.call(wrapper.vm, to, undefined, next)
+      await wrapper.vm.$nextTick()
+      expect(window.localStorage.getItem('isShowUser')).toBe(undefined)
     })
   })
 })

@@ -1,6 +1,6 @@
 <template>
   <div class="interesting-form" v-if="isOtherUser">
-    <form @submit.prevent="deleteInterest(relationship)" v-if="relationship">
+    <form @submit.prevent="deleteInterest(relationship.id)" v-if="relationship">
       <input type="hidden" v-model="interest.interest_id">
       <input type="submit" value="uninteresting" class="btn uninteresting-btn">
     </form>
@@ -58,6 +58,7 @@ export default {
     },
 
     deleteInterest (id) {
+      this.fetchInterestUserId()
       if (window.confirm('本当に解除しますか')) {
         this.deleteRelationship({ id: id, interest: this.interest })
       }

@@ -10,19 +10,19 @@
       <form @submit.prevent="signUpUser">
         <div class="form-field">
           <label for="">名前</label>
-          <input type="text" v-model="user.name" autofocus>
+          <input type="text" name="name" v-model="user.name" autofocus>
         </div>
         <div class="form-field">
           <label for="">Eメール</label>
-          <input type="text" v-model="user.email">
+          <input type="text" name="email" v-model="user.email">
         </div>
         <div class="form-field">
           <label for="">ユーザーID</label>
-          <input type="text" v-model="user.user_id">
+          <input type="text" name="user_id" v-model="user.user_id">
         </div>
         <div class="form-field">
           <label for="">パスワード</label>
-          <input type="text" v-model="user.password">
+          <input type="password" name="password" v-model="user.password">
         </div>
         <div class="actions">
           <input type="submit" value="新規登録" class="btn btn-light">
@@ -33,7 +33,7 @@
 </template>
 
 <script>
-  import { mapMutations } from 'vuex'
+  import axios from 'axios'
 
   export default {
     name: 'signUp',
@@ -43,14 +43,9 @@
         user: {}
       }
     },
-
     methods: {
-      ...mapMutations([
-        'setUserSessionTokens'
-      ]),
-
       async signUpUser () {
-        const response = await this.axios.post('/api/v1/users', this.user)
+        await axios.post('/api/v1/users', this.user)
       }
     }
   }

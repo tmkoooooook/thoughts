@@ -1,7 +1,9 @@
 import 'jsdom-global/register'
+import '../__mocks__/localStorage_mock'
 import { createLocalVue, shallowMount } from '@vue/test-utils'
 import UserShow from 'user/user_show'
-import InterestingBtn from 'interests/interesting_btn'
+import InterestingBtn from 'parts/interesting_btn'
+import LogoutBtn from 'parts/logout_btn'
 import { beforeEach, describe, expect, it, jest } from '@jest/globals'
 import Vuex from 'vuex'
 import axios from 'axios'
@@ -46,6 +48,7 @@ describe('userShow', () => {
       }
       route = { params: { userId: 'otherUserId' } }
       wrapper = factory(route)
+      wrapper.setData({ isUserShow: true })
     })
 
     it('display user header image', () => {
@@ -73,6 +76,7 @@ describe('userShow', () => {
     })
 
     it('display InterestingBtn', () => {
+      expect(wrapper.findComponent(LogoutBtn).exists()).toBe(false)
       expect(wrapper.findComponent(InterestingBtn).exists()).toBe(true)
     })
 
@@ -92,10 +96,35 @@ describe('userShow', () => {
       }
       route = { params: { userId: 'testUserId' } }
       wrapper = factory(route)
+      wrapper.setData({ isUserShow: true })
     })
 
-    it('does not display InterestingBtn', () => {
+    it('display logoutBtn', () => {
       expect(wrapper.findComponent(InterestingBtn).exists()).toBe(false)
+      expect(wrapper.findComponent(LogoutBtn).exists()).toBe(true)
     })
   })
+
+  describe('setIsUserShow', () => {
+    it('isUserShow true when exists isShowUser prop in localStorage', async () => {
+      window.localStorage.setItem('isShowUser', 'testUser')
+      route = { name: 'userHome', params: { userId: null } }
+      wrapper = factory(route)
+      expect(wrapper.vm.isUserShow).toBe(true)
+      window.localStorage.clear()
+    })
+
+    it('isUserShow true when current route is userShow', async () => {
+      route = { name: 'userShow', params: { userId: 'testUserId' } }
+      wrapper = factory(route)
+      expect(wrapper.vm.isUserShow).toBe(true)
+    })
+
+    it('isUserShow false when does not exists isShowUser prop in localStorage', async () => {
+      route = { name: 'userHome', params: { userId: null } }
+      wrapper = factory(route)
+      expect(wrapper.vm.isUserShow).toBe(false)
+    })
+  })
+
 })
