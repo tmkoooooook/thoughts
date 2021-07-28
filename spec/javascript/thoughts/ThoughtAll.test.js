@@ -36,13 +36,9 @@ describe('ThoughtAllText', () => {
   let store
 
   beforeEach(() => {
-    getters = {
-      watchUser: () => { return store.state.user }
-    }
+    getters = { watchUser: () => { return store.state.user } }
     store = new Vuex.Store({
-      state: {
-        user: { id: 1 }
-      },
+      state: { user: { id: 1 } },
       getters
     })
   })

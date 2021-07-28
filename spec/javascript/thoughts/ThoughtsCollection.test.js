@@ -8,11 +8,9 @@ describe('ThoughtsCollection', () => {
   let wrapper
   const thoughts = [
     { id: 1, title: 'title1', shorted_text: 'text1', user_id: 1,
-      user: { name: 'testUser1', user_id: 'testUserId1' }
-    },
+      user: { name: 'testUser1', user_id: 'testUserId1' } },
     { id: 2, title: 'title2', shorted_text: 'text2', user_id: 2,
-      user: { name: 'testUser2', user_id: 'testUserId2' }
-    }
+      user: { name: 'testUser2', user_id: 'testUserId2' } }
   ]
   beforeEach(() => {
     wrapper = shallowMount(ThoughtsCollection, {
@@ -49,5 +47,4 @@ describe('ThoughtsCollection', () => {
     wrapper.find('.thought-content').trigger('click')
     expect(wrapper.emitted().activateThoughtAll).toBeTruthy
   })
-
 })

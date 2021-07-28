@@ -18,7 +18,6 @@ describe('UserHeader', () => {
       state: { user: { user_id: 'testUser' } },
       getters
     })
-
     wrapper = shallowMount(UserHeader, {
       localVue,
       store,

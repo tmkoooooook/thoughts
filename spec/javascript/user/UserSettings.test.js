@@ -22,9 +22,11 @@ describe('UserSettings', () => {
   it('display アカウント情報', () => {
     expect(wrapper.findAll('router-link-stub').at(0).text()).toBe('アカウント情報')
   })
+
   it('display アカウント編集', () => {
     expect(wrapper.findAll('router-link-stub').at(1).text()).toBe('アカウント編集')
   })
+
   it('display パスワード変更', () => {
     expect(wrapper.findAll('router-link-stub').at(2).text()).toBe('パスワード変更')
   })

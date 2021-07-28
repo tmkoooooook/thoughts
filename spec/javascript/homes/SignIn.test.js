@@ -17,9 +17,7 @@ describe('SignIn', () => {
   let store
 
   beforeEach(() => {
-    mutations = {
-      setUserSessionTokens: jest.fn()
-    }
+    mutations = { setUserSessionTokens: jest.fn() }
     store = new Vuex.Store({
       state: {},
       mutations
@@ -34,11 +32,10 @@ describe('SignIn', () => {
   it('input form', () => {
     wrapper.find('input[name="user_id"]').setValue('testUserId')
     wrapper.find('input[name="password"]').setValue('password')
-
     const user = {
       user_id: 'testUserId',
       password: 'password'
-      }
+    }
     expect(wrapper.vm.user).toEqual(user)
   })
 

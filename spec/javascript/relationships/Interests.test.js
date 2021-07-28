@@ -5,7 +5,6 @@ import InterestingBtn from 'parts/interesting_btn'
 import 'thoughts_logo_005163.png'
 import { beforeEach, describe, expect, it, jest } from '@jest/globals'
 import axios from 'axios'
-import { exp } from 'prelude-ls'
 
 jest.createMockFromModule('axios')
 let interests
@@ -28,18 +27,17 @@ describe('Interests', () => {
   beforeEach(() => {
     wrapper = factory('interests')
   })
+
   it('display interest user name', () => {
     expect(wrapper.findAll('.user-info .user-show-link').at(0).text()).toContain('testUser1')
   })
 
   it('display interest user user_id', () => {
     expect(wrapper.findAll('.user-show-link span').at(0).text()).toBe('testUserId1')
-
   })
 
   it('display InterestingBtn', () => {
     expect(wrapper.findAllComponents(InterestingBtn).at(0).exists()).toBe(true)
-
   })
 
   describe('when route is interests', () => {
