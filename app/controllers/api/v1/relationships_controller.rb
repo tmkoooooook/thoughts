@@ -1,5 +1,5 @@
 class Api::V1::RelationshipsController < ApiController
-  before_action :set_user
+  before_action :set_user, only: [:create, :destroy]
 
   def create
     interesting = current_api_v1_user.interested_in(@user)
@@ -17,6 +17,18 @@ class Api::V1::RelationshipsController < ApiController
     else
       render json: { status: 500, message: 'something wrong…' }
     end
+  end
+
+  def interests
+    user = User.find_by(user_id: params[:user_id])
+    interests = user.interests
+    render json: interests.to_json
+  end
+
+  def interesters
+    user = User.find_by(user_id: params[:user_id])
+    interesters = user.interesters
+    render json: interesters.to_json
   end
 
   private

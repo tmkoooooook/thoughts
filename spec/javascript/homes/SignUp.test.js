@@ -18,13 +18,12 @@ describe('SignUp', () => {
     wrapper.find('input[name="email"]').setValue('testuser@example.com')
     wrapper.find('input[name="user_id"]').setValue('testUserId')
     wrapper.find('input[name="password"]').setValue('password')
-
     const user = {
       name: 'testUser',
       email: 'testuser@example.com',
       user_id: 'testUserId',
       password: 'password'
-      }
+    }
     expect(wrapper.vm.user).toEqual(user)
   })
 

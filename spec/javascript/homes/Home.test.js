@@ -1,7 +1,7 @@
 import 'jsdom-global/register'
 import {RouterLinkStub,createLocalVue, shallowMount } from '@vue/test-utils'
 import Home from 'homes/home'
-import { beforeEach, describe, expect, it, jest } from '@jest/globals'
+import { beforeEach, describe, expect, it } from '@jest/globals'
 import VueMoment from 'vue-moment'
 
 const localVue = createLocalVue()

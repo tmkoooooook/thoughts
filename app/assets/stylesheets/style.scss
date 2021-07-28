@@ -490,28 +490,32 @@ footer {
     }
   }
 }
-.thought-info {
+.info {
   border-bottom: 1px solid #666;
   padding: 10px;
   cursor: pointer;
-  .thought-info-link {
-    display: flex;
+}
+.info-link {
+  display: flex;
+}
+.user-thumbnail {
+  margin-right: 10px;
+}
+.user-info {
+  flex-grow: 1;
+  a{
+    font-weight: bold;
+    margin-right: 5px;
+    color: #c6c6c6;
+    font-size: 18px;
   }
-  .user-thumbnail {
-    margin-right: 10px;
+  a:hover {
+    text-decoration: underline;
   }
-  .user-info {
-    flex-grow: 1;
-    a{
-      font-weight: bold;
-      margin-right: 5px;
-      color: #c6c6c6;
-      font-size: 18px;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-  }
+}
+.user-info-interest {
+  display: flex;
+  flex-direction: column;
 }
 
 .thought {
@@ -622,16 +626,17 @@ footer {
 }
 .interest-information {
   display: flex;
-  li {
-  padding: 15px 30px 15px 0;
-  font-size: 18px;
-  font-weight: 900;
-  font-style: italic;
-  font-family: "Apple Chancery";
-  letter-spacing: 3px;
-  color: #ccc;
-  }
 }
+.interest-link {
+padding: 15px 30px 15px 0;
+font-size: 18px;
+font-weight: 900;
+font-style: italic;
+font-family: "Apple Chancery";
+letter-spacing: 3px;
+color: #ccc;
+}
+
 
 //----------------settings------------------
 .user-settings-box {
@@ -701,4 +706,19 @@ footer {
 }
 .router-view-box {
   flex-grow: 1;
+}
+
+.interests-tab {
+  display: flex;
+  text-align: center;
+  border-bottom: 1px solid #666;
+  .interest-link {
+    flex-grow: 1;
+    padding: 15px 30px 10px;
+    font-size: 24px;
+  }
+  .router-link-exact-active {
+    color: #005163;
+    background-color: rgba(102, 102, 102, 0.1);
+  }
 }

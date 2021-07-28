@@ -27,16 +27,11 @@ describe('MyThought', () => {
     return shallowMount(MyThought, {
       localVue,
       store,
-      mocks: {
-        $mq,
-        $route,
-      }
+      mocks: { $mq, $route, }
     })
   }
   beforeEach(() => {
-    actions = {
-      fetchThoughts: jest.fn()
-    }
+    actions = { fetchThoughts: jest.fn() }
     store = new Vuex.Store({
       state: {},
       actions

@@ -4,27 +4,9 @@
       <div class="thoughts-top">
         <h2>ホーム</h2>
       </div>
-      <router-view name="user_show"/>
-      <div class="separation"></div>
-      <div class="thought-info" v-for="thought in thoughts" :key="thought.id">
-        <div class="thought-info-link">
-          <div class="user-thumbnail">
-            <router-link :to="{ name: 'userShow', params: { userId: thought.user.user_id } }" class="user-show-link">
-              <img src="~thoughts_logo_005163.png" alt="user-logo">
-            </router-link>
-          </div>
-          <div class="user-info">
-            <router-link :to="{ name: 'userShow', params: { userId: thought.user.user_id } }" class="user-show-link">
-              {{ thought.user.name }}
-              <span class="user-id">{{ thought.user.user_id }}</span>
-            </router-link>
-            <div @click="activateThoughtAll(thought.user.user_id, thought.id)" class="thought-content">
-              <h3>{{ thought.title }}</h3>
-              <p>{{ thought.shorted_text }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
+      <UserShow v-if="isUserShow"/>
+      <ThoughtsCollection v-if="isThoughtCollectionShow" @activateThoughtAll="activateThoughtAll" :thoughts="thoughts"/>
+      <router-view name="interests"/>
     </div>
     <div class="thought">
       <div class="sticky-container">
@@ -37,24 +19,44 @@
 
 <script>
   import 'thoughts_logo_005163.png'
-  import MyThought from "../thoughts/my_thought.vue";
+  import UserShow from '../user/user_show.vue'
+  import MyThought from "../thoughts/my_thought.vue"
+  import ThoughtsCollection from "../thoughts/thoughts_collection.vue"
 
   export default {
-    name: 'ThoughtCollection',
+    name: 'ThoughtsPartial',
 
     props: {
       thoughts: Array
       },
 
     components: {
-      MyThought
+      UserShow,
+      MyThought,
+      ThoughtsCollection
     },
 
     data: function () {
       return {
         myThoughtActive: false,
-        thoughtAllActive: false
+        thoughtAllActive: false,
+        isUserShow: false
       }
+    },
+
+    created () {
+      this.setIsUserShow()
+    },
+
+    computed: {
+      isThoughtCollectionShow () {
+        const regex = /^interest[ser]+$/
+        return !regex.test(this.$route.name)
+      }
+    },
+
+    watch: {
+      $route: 'setIsUserShow'
     },
 
     methods: {
@@ -72,6 +74,18 @@
 
         const route = { name: 'thought', params: { userId: userId, thoughtId: thoughtId } }
         this.$router.push(route)
+      },
+
+      setIsUserShow () {
+        if (this.$route.name === 'userShow') {
+          this.isUserShow = true
+        }
+        else if (window.localStorage.getItem('isShowUser')) {
+          this.isUserShow = true
+        }
+        else {
+          this.isUserShow = false
+        }
       }
     }
   }

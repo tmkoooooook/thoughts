@@ -1,5 +1,5 @@
 <template>
-  <div class="user-show" v-if="isUserShow">
+  <div class="user-show">
     <div class="header-img-wrapper">
       <img src="~thoughts_logo_005163.png" alt="user-logo">
     </div>
@@ -14,10 +14,10 @@
       <div class="user-profile">
         <h3 class="user-name">{{ showUser.name }}</h3>
         <div class="user-id">{{ showUser.user_id }}</div>
-        <ul class="interest-information">
-          <li class="interests">{{ showUser.interests_size }} interests</li>
-          <li class="interesters">{{ showUser.interesters_size }} interesters</li>
-        </ul>
+        <div class="interest-information">
+          <router-link :to="{name: 'interests' }" class="interest-link">{{ showUser.interests_size }} interests</router-link>
+          <router-link :to="{name: 'interesters' }" class="interest-link">{{ showUser.interesters_size }} interesters</router-link>
+        </div>
       </div>
     </div>
   </div>
@@ -35,7 +35,6 @@
     data: function () {
       return {
         showUser: {},
-        isUserShow: false
       }
     },
 
@@ -46,7 +45,6 @@
 
     created () {
       this.fetchShowUser()
-      this.setIsUserShow()
     },
 
     watch: {
@@ -68,18 +66,6 @@
         const response = await axios.get(`/api/v1/users/${this.$route.params.userId}`)
         this.showUser = response.data
       },
-
-      setIsUserShow () {
-        if (this.$route.name === 'userShow') {
-          this.isUserShow = true
-        }
-        else if (window.localStorage.getItem('isShowUser')) {
-          this.isUserShow = true
-        }
-        else {
-          this.isUserShow = false
-        }
-      }
     }
   }
 </script>

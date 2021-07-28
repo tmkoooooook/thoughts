@@ -17,7 +17,13 @@ Rails.application.routes.draw do
       }
 
       resources :thoughts,      only: [:index, :show, :create, :destroy]
-      resources :relationships, only: [:create, :destroy]
+      resources :relationships, only: [:create, :destroy] do
+        collection do
+          get 'interests'
+          get 'interesters'
+        end
+      end
+
       resources :users,         only: [:index, :show], param: :user_id do
         get 'account', on: :collection
       end

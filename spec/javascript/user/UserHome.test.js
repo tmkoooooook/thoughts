@@ -33,9 +33,7 @@ describe('UserHome', () => {
     }
 
     store = new Vuex.Store({
-      state: {
-        thoughts: []
-      },
+      state: { thoughts: [] },
       actions
     })
   })

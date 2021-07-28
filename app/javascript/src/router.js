@@ -10,7 +10,7 @@ import UserSettings from '../src/user/user_settings.vue'
 import UserAccount from '../src/user/user_account.vue'
 import UserAccountEdit from '../src/user/user_account_edit.vue'
 import UserPasswordEdit from '../src/user/user_password_edit.vue'
-import UserShow from '../src/user/user_show.vue'
+import Interests from '../src/relationships/interests.vue'
 
 Vue.use(VueRouter)
 
@@ -20,93 +20,78 @@ export default new VueRouter({
     {
       path: '/',
       name: 'home',
-      components: {
-        home: Home
-      }
+      components: { home: Home }
     },
     {
       path: '/sign_in',
       name: 'signIn',
-      components: {
-        sign_in: SignIn
-      }
+      components: { sign_in: SignIn }
     },
     {
       path: '/sign_up',
       name: 'signUp',
-      components: {
-        sign_up: SignUp
-      }
+      components: { sign_up: SignUp }
     },
     {
       path: '/users',
-      components: {
-        user_home: UserHome
-      },
-      props: {
-        user_home: true
-      },
+      components: { user_home: UserHome },
+      props: { user_home: true },
       children: [
-        {
-          path: '',
-          name: 'userHome',
-          components: {
-            thoughts_partial: ThoughtsPartial
-          },
-          props: {
-            thoughts_partial: true
-          },
-          children: [
-            {
-              path: ':userId',
-              name: 'userShow',
-              components: {
-                user_show: UserShow
-              }
-            },
-            {
-              path: ':userId/thoughts/:thoughtId',
-              name: 'thought',
-              components: {
-                user_show: UserShow,
-                thought_all: ThoughtAll
-              },
-              props: {
-                thought_all: true
-              }
-            }
-          ]
-        },
         {
           path: 'settings',
           name: 'settings',
-          components: {
-            user_settings: UserSettings
-          },
+          components: { user_settings: UserSettings },
           children: [
             {
               path: 'account',
               name: 'userAccount',
-              components: {
-                user_account: UserAccount
-              }
+              components: { user_account: UserAccount }
             },
             {
               path: 'account_edit',
               name: 'userAccountEdit',
-              components: {
-                user_account_edit: UserAccountEdit
-              }
+              components: { user_account_edit: UserAccountEdit }
             },
             {
               path: 'password_edit',
               name: 'userPasswordEdit',
-              components: {
-                user_password_edit: UserPasswordEdit
-              }
+              components: { user_password_edit: UserPasswordEdit }
             },
           ]
         },
+        {
+          path: '',
+          name: 'userHome',
+          components: { thoughts_partial: ThoughtsPartial },
+          props: { thoughts_partial: true },
+        },
+        {
+          path: ':userId',
+          name: 'userShow',
+          components: { thoughts_partial: ThoughtsPartial },
+          children: [
+            {
+              path: 'thoughts/:thoughtId',
+              name: 'thought',
+              components: {
+                thought_all: ThoughtAll
+              },
+              props: { thought_all: true }
+            },
+            {
+              path: 'interests',
+              name: 'interests',
+              components: { interests: Interests },
+              props: { interests: true }
+            },
+            {
+              path: 'interesters',
+              name: 'interesters',
+              components: { interests: Interests },
+              props: { interests: true }
+            }
+          ]
+        }
       ]
     },
   ]

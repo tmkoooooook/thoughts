@@ -21,7 +21,8 @@ describe('userShow', () => {
     return shallowMount(UserShow, {
       localVue,
       store,
-      mocks: { $route }
+      mocks: { $route },
+      stubs: ['router-link']
     })
   }
   let route
@@ -48,7 +49,6 @@ describe('userShow', () => {
       }
       route = { params: { userId: 'otherUserId' } }
       wrapper = factory(route)
-      wrapper.setData({ isUserShow: true })
     })
 
     it('display user header image', () => {
@@ -68,11 +68,11 @@ describe('userShow', () => {
     })
 
     it('display interests amount', () => {
-      expect(wrapper.find('.interests').text()).toBe('890 interests')
+      expect(wrapper.findAll('.interest-link').at(0).text()).toBe('890 interests')
     })
 
     it('display interesters amount', () => {
-      expect(wrapper.find('.interesters').text()).toBe('2000 interesters')
+      expect(wrapper.findAll('.interest-link').at(1).text()).toBe('2000 interesters')
     })
 
     it('display InterestingBtn', () => {
@@ -96,7 +96,6 @@ describe('userShow', () => {
       }
       route = { params: { userId: 'testUserId' } }
       wrapper = factory(route)
-      wrapper.setData({ isUserShow: true })
     })
 
     it('display logoutBtn', () => {
@@ -104,27 +103,4 @@ describe('userShow', () => {
       expect(wrapper.findComponent(LogoutBtn).exists()).toBe(true)
     })
   })
-
-  describe('setIsUserShow', () => {
-    it('isUserShow true when exists isShowUser prop in localStorage', async () => {
-      window.localStorage.setItem('isShowUser', 'testUser')
-      route = { name: 'userHome', params: { userId: null } }
-      wrapper = factory(route)
-      expect(wrapper.vm.isUserShow).toBe(true)
-      window.localStorage.clear()
-    })
-
-    it('isUserShow true when current route is userShow', async () => {
-      route = { name: 'userShow', params: { userId: 'testUserId' } }
-      wrapper = factory(route)
-      expect(wrapper.vm.isUserShow).toBe(true)
-    })
-
-    it('isUserShow false when does not exists isShowUser prop in localStorage', async () => {
-      route = { name: 'userHome', params: { userId: null } }
-      wrapper = factory(route)
-      expect(wrapper.vm.isUserShow).toBe(false)
-    })
-  })
-
 })

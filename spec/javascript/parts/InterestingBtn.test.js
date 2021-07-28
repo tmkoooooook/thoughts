@@ -15,20 +15,13 @@ describe('InterestingBtn', () => {
   let wrapper
 
   beforeEach(() => {
-    getters = {
-      watchUser: () => { return store.state.user }
-    }
+    getters = { watchUser: () => { return store.state.user } }
     actions = {
       deleteRelationship: jest.fn(),
       createRelationship: jest.fn()
     }
     store = new Vuex.Store({
-      state: {
-        user: {
-          id: 1,
-          relationships: []
-        }
-      },
+      state: { user: { id: 1, relationships: [] } },
       getters,
       actions
     })
@@ -52,12 +45,11 @@ describe('InterestingBtn', () => {
         expect(actions.createRelationship).toHaveBeenCalled()
       })
 
-      it ('change from interesting to uninteresting', () => {
+      it ('change from interesting to uninteresting', async () => {
         expect(wrapper.find('input.interesting-btn').exists()).toBe(true)
         store.state.user.relationships.push({id: 1, interest_id: 2})
-        wrapper.vm.$nextTick(() => {
-          expect(wrapper.find('input.uninteresting-btn').exists()).toBe(true)
-        })
+        await wrapper.vm.$nextTick()
+        expect(wrapper.find('input.uninteresting-btn').exists()).toBe(true)
       })
     })
 
@@ -73,12 +65,11 @@ describe('InterestingBtn', () => {
         expect(actions.deleteRelationship).toHaveBeenCalled()
       })
 
-      it ('change from uninteresting to interesting', () => {
+      it ('change from uninteresting to interesting', async () => {
         expect(wrapper.find('input.uninteresting-btn').exists()).toBe(true)
         store.state.user.relationships.pop()
-        wrapper.vm.$nextTick(() => {
-          expect(wrapper.find('input.interesting-btn').exists()).toBe(true)
-        })
+        await wrapper.vm.$nextTick()
+        expect(wrapper.find('input.interesting-btn').exists()).toBe(true)
       })
     })
   })
