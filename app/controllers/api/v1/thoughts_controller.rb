@@ -7,7 +7,7 @@ class Api::V1::ThoughtsController < ApiController
     thoughts = Thought.
       where(user_id: [current_api_v1_user.id, *current_api_v1_user.interest_ids]).
       includes(:user).
-      to_json(include: { user: { only: [:name, :user_id] } })
+      to_json(include: { user: { only: [:name, :user_id, :icon_image] } })
     render json: thoughts
   end
 
@@ -16,7 +16,7 @@ class Api::V1::ThoughtsController < ApiController
     thoughts = Thought.
       where(user_id: user.id).
       includes(:user).
-      to_json(include: { user: { only: [:name, :user_id] } })
+      to_json(include: { user: { only: [:name, :user_id, :icon_image] } })
     render json: thoughts
   end
 

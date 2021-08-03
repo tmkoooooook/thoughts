@@ -9,12 +9,14 @@ RSpec.describe "Api::V1::Relationships", type: :request do
     encrypted_password: 'interestedpassword',
     user_id: 'interesteduserid') }
 
-  before { sign_in user }
+  before do
+    @auth_tokens = sign_in(user)
+  end
 
   describe "create" do
     it 'succeeds to create' do
       params = { interest_id: interested_user.id }
-      post '/api/v1/relationships', params: { relationship: params }
+      post '/api/v1/relationships', params: { relationship: params }, headers: @auth_tokens
       expect(response).to have_http_status(200)
     end
   end
@@ -26,7 +28,7 @@ RSpec.describe "Api::V1::Relationships", type: :request do
 
     it 'succeeds to destroy' do
       params = { interest_id: interested_user.id }
-      delete "/api/v1/relationships/#{interested_user.id}", params: { relationship: params }
+      delete "/api/v1/relationships/#{interested_user.id}", params: { relationship: params }, headers: @auth_tokens
       expect(response).to have_http_status(200)
     end
   end

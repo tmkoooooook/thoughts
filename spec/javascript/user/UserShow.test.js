@@ -4,6 +4,7 @@ import { createLocalVue, shallowMount } from '@vue/test-utils'
 import UserShow from 'user/user_show'
 import InterestingBtn from 'parts/interesting_btn'
 import LogoutBtn from 'parts/logout_btn'
+import UserImage from 'parts/user_image'
 import { beforeEach, describe, expect, it, jest } from '@jest/globals'
 import Vuex from 'vuex'
 import axios from 'axios'
@@ -44,6 +45,8 @@ describe('userShow', () => {
         id: 1,
         name: 'otherUser',
         user_id: 'otherUserId',
+        icon_image: { url: 'image.png' },
+        header_image: { url: 'image.png' },
         interests_size: 890,
         interesters_size: 2000
       }
@@ -51,12 +54,12 @@ describe('userShow', () => {
       wrapper = factory(route)
     })
 
-    it('display user header image', () => {
-      expect(wrapper.find('.header-img-wrapper img').exists()).toBe(true)
+    it('display user header_image', () => {
+      expect(wrapper.findAllComponents(UserImage).at(0).exists()).toBe(true)
     })
 
-    it('display user thumbnail image', () => {
-      expect(wrapper.find('.header-thumbnail-wrapper img').exists()).toBe(true)
+    it('display user icon_image', () => {
+      expect(wrapper.findAllComponents(UserImage).at(1).exists()).toBe(true)
     })
 
     it('display show user name', () => {
@@ -91,6 +94,8 @@ describe('userShow', () => {
         id: 2,
         name: 'testUser',
         user_id: 'testUserId',
+        icon_image: { url: 'image.png' },
+        header_image: { url: 'image.png' },
         interests_size: 500,
         interesters_size: 230
       }

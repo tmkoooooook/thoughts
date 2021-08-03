@@ -52,9 +52,12 @@ group :development do
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
+gem 'carrierwave'
 gem 'devise'
 gem 'devise-i18n'
 gem 'devise_token_auth'
+gem 'fog-aws'
 gem 'html2slim'
+gem 'rmagick'
 gem 'slim-rails'
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

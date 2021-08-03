@@ -41,7 +41,10 @@
 
     data: function () {
       return {
-        account: {}
+        account: {
+          icon_image: { url: '' },
+          header_image: { url: '' }
+        }
       }
     },
 

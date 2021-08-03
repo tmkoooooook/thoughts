@@ -2,6 +2,7 @@ import 'jsdom-global/register'
 import { shallowMount } from '@vue/test-utils'
 import Interests from 'relationships/interests'
 import InterestingBtn from 'parts/interesting_btn'
+import UserImage from 'parts/user_image'
 import 'thoughts_logo_005163.png'
 import { beforeEach, describe, expect, it, jest } from '@jest/globals'
 import axios from 'axios'
@@ -13,8 +14,8 @@ axios.get = jest.fn(response => response = { data: interests })
 describe('Interests', () => {
   let wrapper
   interests = [
-    { id: 1, name: 'testUser1', user_id: 'testUserId1' },
-    { id: 2, name: 'testUser2', user_id: 'testUserId2' }
+    { id: 1, name: 'testUser1', user_id: 'testUserId1', icon_image: { url: 'image.png' } },
+    { id: 2, name: 'testUser2', user_id: 'testUserId2', icon_image: { url: 'image.png' } }
   ]
   const factory = (route) => {
     const $route = { name: route }
@@ -26,6 +27,10 @@ describe('Interests', () => {
 
   beforeEach(() => {
     wrapper = factory('interests')
+  })
+
+  it('display interest user icon', () => {
+    expect(wrapper.findAllComponents(UserImage).at(0).exists()).toBe(true)
   })
 
   it('display interest user name', () => {

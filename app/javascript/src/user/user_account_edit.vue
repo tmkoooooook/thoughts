@@ -4,6 +4,12 @@
       <div class="setting-header">
         <h3>アカウント編集</h3>
       </div>
+      <div class="setting-list">
+        <UploadImage :accountImage="account.icon_image" v-model="accountEdit.icon_image"/>
+      </div>
+      <div class="setting-list">
+        <UploadImage imageSize="header" :accountImage="account.header_image" v-model="accountEdit.header_image"/>
+      </div>
       <form @submit.prevent="updateUserInfo" class="setting-lists">
         <div class="setting-list">
           <label>名前</label>
@@ -40,6 +46,12 @@
         <div class="setting-header">
           <h3>アカウント編集</h3>
         </div>
+        <div class="setting-list">
+          <UploadImage :accountImage="account.icon_image" v-model="accountEdit.icon_image"/>
+        </div>
+        <div class="setting-list">
+          <UploadImage imageSize="header" :accountImage="account.header_image" v-model="accountEdit.header_image"/>
+        </div>
         <form @submit.prevent="updateUserInfo" class="setting-lists">
           <div class="setting-list">
             <label>名前</label>
@@ -67,10 +79,11 @@
 
 <script>
   import CloseBtn from '../parts/close_btn.vue'
+  import UploadImage from '../parts/upload_image.vue'
   import axios from 'axios'
 
   export default {
-    name: 'UserAccount',
+    name: 'UserAccountEdit',
 
     props: {
       account: Object
@@ -83,7 +96,8 @@
     },
 
     components: {
-      CloseBtn: CloseBtn
+      CloseBtn,
+      UploadImage
     },
 
     mounted () {

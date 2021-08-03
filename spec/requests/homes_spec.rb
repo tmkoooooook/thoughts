@@ -6,14 +6,5 @@ RSpec.describe "Homes", type: :request do
       get root_path
       expect(response).to have_http_status(:success)
     end
-
-    context 'when signed in' do
-      login_user
-
-      it 'redirect to users_path' do
-        get root_path
-        expect(response).to have_http_status(302)
-      end
-    end
   end
 end

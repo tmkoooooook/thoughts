@@ -1,11 +1,11 @@
 <template>
   <div class="user-show">
     <div class="header-img-wrapper">
-      <img src="~thoughts_logo_005163.png" alt="user-logo">
+      <UserImage :imageUrl="showUser.header_image.url"/>
     </div>
     <div class="user-show-box">
       <div class="header-thumbnail-wrapper user-thumbnail">
-        <img src="~thoughts_logo_005163.png" alt="user-logo">
+        <UserImage :imageUrl="showUser.icon_image.url"/>
       </div>
       <div class="user-options submit">
         <InterestingBtn v-if="isOtherUser" :userId="showUser.id"/>
@@ -27,6 +27,7 @@
   import { mapGetters } from 'vuex'
   import InterestingBtn from '../parts/interesting_btn.vue'
   import LogoutBtn from '../parts/logout_btn.vue'
+  import UserImage from '../parts/user_image.vue'
   import axios from 'axios'
 
   export default {
@@ -34,13 +35,17 @@
 
     data: function () {
       return {
-        showUser: {},
+        showUser: {
+          header_image: { url: '' },
+          icon_image: { url: '' }
+        },
       }
     },
 
     components: {
-      InterestingBtn: InterestingBtn,
-      LogoutBtn: LogoutBtn
+      InterestingBtn,
+      LogoutBtn,
+      UserImage
     },
 
     created () {

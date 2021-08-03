@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_20_072342) do
+ActiveRecord::Schema.define(version: 2021_07_30_070017) do
 
   create_table "relationships", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "user_id"
@@ -50,6 +50,8 @@ ActiveRecord::Schema.define(version: 2021_07_20_072342) do
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
     t.text "tokens"
+    t.string "icon_image"
+    t.string "header_image"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
