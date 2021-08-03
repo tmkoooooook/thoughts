@@ -8,8 +8,8 @@
       <div class="info-link">
         <div class="user-thumbnail">
           <router-link :to="{ name: 'userShow', params: { userId: interest.user_id } }" class="user-show-link">
-              <img src="~thoughts_logo_005163.png" alt="user-logo">
-            </router-link>
+            <UserImage :imageUrl="interest.icon_image.url"/>
+          </router-link>
         </div>
         <div class="user-info user-info-interest">
           <router-link :to="{ name: 'userShow', params: { userId: interest.user_id } }" class="user-show-link">
@@ -25,45 +25,47 @@
 </template>
 
 <script>
-import axios from 'axios'
-import InterestingBtn from '../parts/interesting_btn.vue'
+  import axios from 'axios'
+  import InterestingBtn from '../parts/interesting_btn.vue'
+  import UserImage from '../parts/user_image.vue'
 
-export default {
-  name: 'Interests',
+  export default {
+    name: 'Interests',
 
-  components: {
-    InterestingBtn
-  },
-
-  data: function () {
-    return {
-      interests: []
-    }
-  },
-
-  created () {
-    this.selectFetchMethod()
-  },
-
-  watch: {
-    $route: 'selectFetchMethod'
-  },
-
-  methods: {
-    async fetchInterests () {
-      const response = await axios.get(`/api/v1/relationships/interests`,{ params: { user_id: this.$attrs.userId } })
-      this.interests = response.data
+    components: {
+      InterestingBtn,
+      UserImage
     },
 
-    async fetchInteresters () {
-      const response = await axios.get(`/api/v1/relationships/interesters`,{ params: { user_id: this.$attrs.userId } })
-      this.interests = response.data
+    data: function () {
+      return {
+        interests: [{ icon_image: { url: '' } }]
+      }
     },
 
-    async selectFetchMethod() {
-      if (this.$route.name === 'interests') this.fetchInterests()
-      else if (this.$route.name === 'interesters') this.fetchInteresters()
+    created () {
+      this.selectFetchMethod()
+    },
+
+    watch: {
+      $route: 'selectFetchMethod'
+    },
+
+    methods: {
+      async fetchInterests () {
+        const response = await axios.get(`/api/v1/relationships/interests`,{ params: { user_id: this.$attrs.userId } })
+        this.interests = response.data
+      },
+
+      async fetchInteresters () {
+        const response = await axios.get(`/api/v1/relationships/interesters`,{ params: { user_id: this.$attrs.userId } })
+        this.interests = response.data
+      },
+
+      async selectFetchMethod() {
+        if (this.$route.name === 'interests') this.fetchInterests()
+        else if (this.$route.name === 'interesters') this.fetchInteresters()
+      }
     }
   }
-}
 </script>

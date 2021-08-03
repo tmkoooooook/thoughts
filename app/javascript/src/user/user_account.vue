@@ -6,6 +6,20 @@
       </div>
       <ul class="setting-lists">
         <li class="setting-list">
+          <div class="upload">
+            <div class="user-thumbnail user-thumbnail-edit">
+              <UserImage :imageUrl="account.icon_image.url"/>
+            </div>
+          </div>
+        </li>
+        <li class="setting-list">
+          <div class="upload">
+            <div class="header-img-wrapper-edit">
+              <UserImage :imageUrl="account.header_image.url"/>
+            </div>
+          </div>
+        </li>
+        <li class="setting-list">
           <label>名前</label>
           <span>{{ account.name }}</span>
         </li>
@@ -36,6 +50,20 @@
         </div>
         <ul class="setting-lists">
           <li class="setting-list">
+            <div class="upload">
+              <div class="user-thumbnail user-thumbnail-edit">
+                <UserImage :imageUrl="account.icon_image.url"/>
+              </div>
+            </div>
+          </li>
+          <li class="setting-list">
+            <div class="upload">
+              <div class="header-img-wrapper-edit">
+                <UserImage :imageUrl="account.header_image.url"/>
+              </div>
+            </div>
+          </li>
+          <li class="setting-list">
             <label>名前</label>
             <span>{{ account.name }}</span>
           </li>
@@ -55,6 +83,7 @@
 
 <script>
   import CloseBtn from '../parts/close_btn.vue'
+  import UserImage from '../parts/user_image.vue'
 
   export default {
     name: 'UserAccount',
@@ -64,7 +93,8 @@
     },
 
     components: {
-      CloseBtn: CloseBtn
+      CloseBtn,
+      UserImage
     },
 
     mounted () {

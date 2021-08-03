@@ -9,10 +9,10 @@ RSpec.describe 'Api::V1::Users', type: :request do
     encrypted_password: 'otherpassword',
     user_id: 'otheruserid') }
 
-  before { sign_in user }
+  before { @auth_tokens = sign_in(user) }
 
   describe 'index' do
-    before { get '/api/v1/users' }
+    before { get '/api/v1/users', headers: @auth_tokens }
 
     it 'returns http success' do
       expect(response).to have_http_status(200)
@@ -30,7 +30,7 @@ RSpec.describe 'Api::V1::Users', type: :request do
   end
 
   describe 'show' do
-    before { get "/api/v1/users/#{other_user.user_id}" }
+    before { get "/api/v1/users/#{other_user.user_id}", headers: @auth_tokens }
 
     it 'returns http success' do
       expect(response).to have_http_status(200)
@@ -42,7 +42,28 @@ RSpec.describe 'Api::V1::Users', type: :request do
         "interests_size" => 0,
         "interesters_size" => 0,
         "name" => 'other user',
-        "user_id" => 'otheruserid'
+        "user_id" => 'otheruserid',
+        "header_image" => { "url" => nil },
+        "icon_image" => { "url"=> nil },
+      }
+      expect(JSON.parse(response.body)).to eq(user_data)
+    end
+  end
+
+  describe "account" do
+    before { get "/api/v1/users/account?account=request", headers: @auth_tokens }
+
+    it "returns http success" do
+      expect(response).to have_http_status(200)
+    end
+
+    it "returns user data" do
+      user_data = {
+        "email" => "test@exaple.com",
+        "header_image" => { "url" => nil },
+        "icon_image" => { "url" => nil },
+        "name" => "test user",
+        "user_id" => "testuser0",
       }
       expect(JSON.parse(response.body)).to eq(user_data)
     end

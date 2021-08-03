@@ -5,10 +5,9 @@ class User < ApplicationRecord
   has_many :reverse_of_relationships, class_name: 'Relationship', foreign_key: 'interest_id'
   has_many :interesters, through: :reverse_of_relationships, source: :user
 
-  devise :database_authenticatable, :registerable,
-          :recoverable, :rememberable, :validatable,
-          :confirmable
-include DeviseTokenAuth::Concerns::User
+  devise :database_authenticatable, :registerable, :recoverable,
+         :rememberable, :validatable, :confirmable
+  include DeviseTokenAuth::Concerns::User
 
   EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
 
@@ -16,6 +15,8 @@ include DeviseTokenAuth::Concerns::User
   validates :email,              presence: true, uniqueness: { case_sensitive: false }, format: { with: EMAIL_REGEX }
   validates :encrypted_password, presence: true, uniqueness: true
   validates :user_id,            presence: true, uniqueness: true
+  mount_uploader :icon_image, ImageUploader
+  mount_uploader :header_image, ImageUploader
 
   def email_downcase
     self.email = self.email.downcase

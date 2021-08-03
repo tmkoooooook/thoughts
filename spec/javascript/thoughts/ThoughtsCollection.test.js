@@ -1,6 +1,7 @@
 import 'jsdom-global/register'
 import { shallowMount } from '@vue/test-utils'
 import ThoughtsCollection from 'thoughts/thoughts_collection'
+import UserImage from 'parts/user_image'
 import 'thoughts_logo_005163.png'
 import { beforeEach, describe, expect, it } from '@jest/globals'
 
@@ -8,10 +9,11 @@ describe('ThoughtsCollection', () => {
   let wrapper
   const thoughts = [
     { id: 1, title: 'title1', shorted_text: 'text1', user_id: 1,
-      user: { name: 'testUser1', user_id: 'testUserId1' } },
+      user: { name: 'testUser1', user_id: 'testUserId1', icon_image: { url: 'image.png' } } },
     { id: 2, title: 'title2', shorted_text: 'text2', user_id: 2,
-      user: { name: 'testUser2', user_id: 'testUserId2' } }
+      user: { name: 'testUser2', user_id: 'testUserId2', icon_image: { url: 'image.png' } } }
   ]
+
   beforeEach(() => {
     wrapper = shallowMount(ThoughtsCollection, {
       stubs: ['router-link'],
@@ -21,6 +23,11 @@ describe('ThoughtsCollection', () => {
 
   it('display thought partials', () => {
     expect(wrapper.findAll('div.info')).toHaveLength(2)
+  })
+
+  it('display thought user icon', () => {
+    const userIcons = wrapper.findAllComponents(UserImage)
+    expect(userIcons.at(0).exists()).toBe(true)
   })
 
   it('display thought user name', () => {

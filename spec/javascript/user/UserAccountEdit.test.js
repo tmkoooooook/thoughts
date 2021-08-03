@@ -1,6 +1,7 @@
 import 'jsdom-global/register'
 import { createLocalVue, shallowMount } from '@vue/test-utils'
 import UserAccountEdit from 'user/user_account_edit'
+import UploadImage from 'parts/upload_image'
 import { beforeEach, describe, expect, it, jest } from '@jest/globals'
 import { ModalPlugin } from 'bootstrap-vue'
 import axios from 'axios'
@@ -28,16 +29,24 @@ describe('UserAccountEdit', () => {
       wrapper = factory('pc')
     })
 
+    it('display icon_image', () => {
+      expect(wrapper.findAllComponents(UploadImage).at(0).exists()).toBe(true)
+    })
+
+    it('display header_image', () => {
+      expect(wrapper.findAllComponents(UploadImage).at(1).exists()).toBe(true)
+    })
+
     it('display 名前', () => {
-      expect(wrapper.findAll('.setting-list').at(0).text()).toBe('名前 testUser')
+      expect(wrapper.findAll('.setting-list').at(2).text()).toBe('名前 testUser')
     })
 
     it('display ユーザーID', () => {
-      expect(wrapper.findAll('.setting-list').at(1).text()).toBe('ユーザーID testUserId')
+      expect(wrapper.findAll('.setting-list').at(3).text()).toBe('ユーザーID testUserId')
     })
 
     it('display Eメール', () => {
-      expect(wrapper.findAll('.setting-list').at(2).text()).toBe('Eメール testUser@example.com')
+      expect(wrapper.findAll('.setting-list').at(4).text()).toBe('Eメール testUser@example.com')
     })
 
     it('input form then accountEdit gets value ', () => {
@@ -67,16 +76,24 @@ describe('UserAccountEdit', () => {
       wrapper = factory('sp')
     })
 
+    it('display icon_image', () => {
+      expect(wrapper.findAllComponents(UploadImage).at(0).exists()).toBe(true)
+    })
+
+    it('display header_image', () => {
+      expect(wrapper.findAllComponents(UploadImage).at(1).exists()).toBe(true)
+    })
+
     it('display 名前', () => {
-      expect(wrapper.findAll('.setting-list').at(0).text()).toBe('名前 testUser')
+      expect(wrapper.findAll('.setting-list').at(2).text()).toBe('名前 testUser')
     })
 
     it('display ユーザーID', () => {
-      expect(wrapper.findAll('.setting-list').at(1).text()).toBe('ユーザーID testUserId')
+      expect(wrapper.findAll('.setting-list').at(3).text()).toBe('ユーザーID testUserId')
     })
 
     it('display Eメール', () => {
-      expect(wrapper.findAll('.setting-list').at(2).text()).toBe('Eメール testUser@example.com')
+      expect(wrapper.findAll('.setting-list').at(4).text()).toBe('Eメール testUser@example.com')
     })
   })
 })

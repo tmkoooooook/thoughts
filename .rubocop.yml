@@ -16,6 +16,9 @@ Style/SymbolArray:
 Style/ClassAndModuleChildren:
   Enabled: false
 
+Style/GuardClause:
+  Enabled: false
+
 Style/RedundantSelf:
   Enabled: false
 
@@ -24,6 +27,13 @@ Layout/DotPosition:
 
 Layout/MultilineMethodCallIndentation:
   EnforcedStyle: indented
+
+Metrics/MethodLength:
+  CountComments: false
+  Max: 20
+
+Metrics/AbcSize:
+  Max: 20
 
 Rails/UniqueValidationWithoutIndex:
   Enabled: false
