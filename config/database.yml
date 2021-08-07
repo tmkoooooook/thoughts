@@ -50,6 +50,4 @@ test:
 #
 production:
   <<: *default
-  database: thoughts_production
-  username: thoughts
-  password: <%= ENV['THOUGHTS_DATABASE_PASSWORD'] %>
+  database: thoughts_production 
