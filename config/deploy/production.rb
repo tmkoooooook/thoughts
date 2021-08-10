@@ -46,7 +46,8 @@ server '35.76.129.132', user: 'tomoki', roles: %w{ app db web }
 #    forward_agent: false,
 #    auth_methods: %w(password)
 #  }
-set :ssh_options, keys: '~/thoughts_key_rsa'
+# set :ssh_options, keys: '~/thoughts_key_rsa'
+server "thoughts_key_rsa"
 #
 # The server-based syntax can be used to override options:
 # ------------------------------------
