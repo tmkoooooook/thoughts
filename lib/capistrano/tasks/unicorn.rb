@@ -54,4 +54,3 @@ namespace :unicorn do
     end
   end
 end
-end
