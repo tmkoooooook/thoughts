@@ -16,7 +16,7 @@
     name: 'UserHome',
 
     components: {
-      UserHeader: UserHeader
+      UserHeader
     },
 
     created () {

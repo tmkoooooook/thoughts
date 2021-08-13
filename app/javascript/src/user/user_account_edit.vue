@@ -81,6 +81,7 @@
   import CloseBtn from '../parts/close_btn.vue'
   import UploadImage from '../parts/upload_image.vue'
   import axios from 'axios'
+  import { mapMutations } from 'vuex'
 
   export default {
     name: 'UserAccountEdit',
@@ -91,7 +92,7 @@
 
     data: function () {
       return {
-        accountEdit: {}
+        accountEdit: {},
       }
     },
 
@@ -106,10 +107,19 @@
     },
 
     methods: {
+      ...mapMutations([
+        'setErrors'
+      ]),
+
       async updateUserInfo () {
         this.deleteEmptyProps()
-        await axios.patch('/api/v1/users', this.accountEdit)
-        location.pathname = '/users/settings/account'
+        let [response, errors] = await this.handle(axios.patch('/api/v1/users', this.accountEdit))
+        if (errors) {
+          this.setErrors(errors)
+        }
+        else {
+          location.pathname = '/users/settings/account'
+        }
       },
 
       deleteEmptyProps () {

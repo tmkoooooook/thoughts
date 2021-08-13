@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="separation"></div>
+    <NoContent v-if="thoughts.length == 0"/>
     <div class="info" v-for="thought in thoughts" :key="thought.id">
       <div class="info-link">
         <div class="user-thumbnail">
@@ -24,12 +25,16 @@
 </template>
 
 <script>
+  import NoContent from '../parts/no_content.vue'
   import UserImage from '../parts/user_image.vue'
 
   export default {
     name: 'ThoughtsCollection',
     props: { thoughts: Array },
-    components: { UserImage },
+    components: {
+      NoContent,
+      UserImage
+    },
     methods: {
       emitActivateThoughtAll (userId, thoughtId) {
         this.$emit('activateThoughtAll', userId, thoughtId)

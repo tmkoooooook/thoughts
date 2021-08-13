@@ -43,7 +43,7 @@
 import axios from 'axios'
 import MyThoughtBtn from '../parts/my_thought_btn.vue'
 import CloseBtn from '../parts/close_btn.vue'
-import { mapActions } from 'vuex'
+import { mapActions, mapMutations } from 'vuex'
 
 export default {
   name: 'MyThought',
@@ -77,6 +77,10 @@ export default {
       'fetchThoughts'
     ]),
 
+    ...mapMutations([
+      'setErrors'
+    ]),
+
     runFetchThoughts () {
       let urlParams = this.$route.params.userId
       let url
@@ -90,9 +94,14 @@ export default {
     },
 
     async createThought () {
-      await axios.post('/api/v1/thoughts', this.thought)
-      this.thought = { title: '', text: '' }
-      this.runFetchThoughts()
+      let [response, errors] = await this.handle(axios.post('/api/v1/thoughts', this.thought))
+      if(errors) {
+        this.setErrors(errors)
+      }
+      else {
+        this.thought = { title: '', text: '' }
+        this.runFetchThoughts()
+      }
     },
 
     activateMyThought () {

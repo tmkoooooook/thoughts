@@ -1,6 +1,6 @@
 <template>
   <div class="form-box">
-    <ErrorMessages :errors="errors"/>
+    <ErrorMessages :sign="true"/>
     <div class="image-wrapper">
       <router-link :to="{ name: 'home' }">
         <img src="~thoughts_logo_white.png" alt="thoughts_logo">
@@ -39,7 +39,6 @@
           user_id: '',
           password: ''
         },
-        errors: []
       }
     },
 
@@ -49,19 +48,26 @@
 
     methods: {
       ...mapMutations([
-        'setUserSessionTokens'
+        'setUserSessionTokens',
+        'setErrors',
+        'clearErrors'
       ]),
 
       async signInUser () {
-        let [user, errors] = await this.handle(axios.post('/api/v1/users/sign_in', this.user))
-        if(errors) {
-          this.errors = errors
+        let [response, errors] = await this.handle(axios.post('/api/v1/users/sign_in', this.user))
+        if (errors) {
+          this.setErrors(errors)
         }
         else {
-          this.setUserSessionTokens(user)
+          this.setUserSessionTokens(response)
           location.pathname = '/users'
         }
       }
+    },
+
+    beforeRouteLeave (to, from, next) {
+      this.clearErrors()
+      next()
     }
   }
 </script>

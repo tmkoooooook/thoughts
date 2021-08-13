@@ -50,18 +50,19 @@
 <script>
   import CloseBtn from '../parts/close_btn.vue'
   import axios from 'axios'
+  import { mapMutations } from 'vuex'
 
   export default {
     name: 'UserAccount',
 
     data: function () {
       return {
-        passwordEdit: {}
+        passwordEdit: {},
       }
     },
 
     components: {
-      CloseBtn: CloseBtn
+      CloseBtn: CloseBtn,
     },
 
     mounted () {
@@ -70,9 +71,18 @@
     },
 
     methods: {
+      ...mapMutations([
+        'setErrors'
+      ]),
+
       async updatePassword () {
-        await axios.put('/api/v1/users/password', this.passwordEdit)
-        location.pathname = '/users/settings/account'
+        let [response, errors] = await this.handle(axios.put('/api/v1/users/password', this.passwordEdit))
+        if (errors) {
+          this.setErrors(errors)
+        }
+        else {
+          location.pathname = '/users/settings/account'
+        }
       }
     }
   }

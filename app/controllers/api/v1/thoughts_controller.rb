@@ -25,18 +25,18 @@ class Api::V1::ThoughtsController < ApiController
     thought.shorted_text = thought.text.slice(...50)
     thought.user_id = current_api_v1_user.id
     if thought.save
-      render json: { status: 200 }
+      render json: { message: ['thoughtを投稿しました'] }
     else
-      render json: { status: 500, message: 'something wrong…' }
+      render_error_create_thought
     end
   end
 
   def destroy
     thought = Thought.find(params[:id])
     if thought.destroy
-      render json: { status: 200 }
+      render json: { message: ['thoughtを削除しました'] }
     else
-      render json: { status: 500, message: 'something wrong…' }
+      render_error_destroy_thought
     end
   end
 
@@ -44,5 +44,13 @@ class Api::V1::ThoughtsController < ApiController
 
   def thought_params
     params.require(:thought).permit(:title, :text, :shorted_text, :user_id)
+  end
+
+  def render_error_create_thought
+    render json: { errors: { full_messages: ['thoughtを投稿できませんでした。時間をおいてもう一度お試しください'] } }, status: 500
+  end
+
+  def render_error_destroy_thought
+    render json: { errors: { full_messages: ['thoughtを削除できませんでした。時間をおいてもう一度お試しください'] } }, status: 500
   end
 end

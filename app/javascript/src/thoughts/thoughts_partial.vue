@@ -3,6 +3,7 @@
     <div class="thoughts-partial">
       <div class="thoughts-top">
         <h2>ホーム</h2>
+        <ErrorMessages/>
       </div>
       <UserShow v-if="isUserShow"/>
       <ThoughtsCollection v-if="isThoughtCollectionShow" @activateThoughtAll="activateThoughtAll" :thoughts="thoughts"/>
@@ -18,10 +19,10 @@
 </template>
 
 <script>
-  import 'thoughts_logo_005163.png'
   import UserShow from '../user/user_show.vue'
   import MyThought from "../thoughts/my_thought.vue"
   import ThoughtsCollection from "../thoughts/thoughts_collection.vue"
+  import ErrorMessages from '../parts/error_messages.vue'
 
   export default {
     name: 'ThoughtsPartial',
@@ -33,7 +34,8 @@
     components: {
       UserShow,
       MyThought,
-      ThoughtsCollection
+      ThoughtsCollection,
+      ErrorMessages
     },
 
     data: function () {

@@ -385,6 +385,7 @@ footer {
   flex-shrink: 0;
   width: 500px;
   padding-top: 59px;
+  min-height: 100vh;
 }
 .thoughts-top {
   position: fixed;
@@ -438,6 +439,9 @@ footer {
   }
 }
 @media screen and (max-width: 425px) {
+  .thoughts-partial {
+    min-height: calc(100vh - 60px);
+  }
   .thoughts-top {
     width: calc(100% - 2px);
   }
@@ -754,4 +758,19 @@ color: #ccc;
 }
 .apply {
   margin-top: 10px;
+}
+.errors-relative {
+  position: relative;
+  width: 100%;
+}
+.errors-absolute {
+  position: absolute;
+  top: 60px;
+  z-index: 10;
+  width: 100%;
+  padding: 10px;
+}
+.alert {
+  padding: 5px;
+  margin-bottom: 5px;
 }
