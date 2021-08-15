@@ -62,16 +62,15 @@
 
       async fetchInterests () {
         let [response, errors] = await this.handle(axios.get(`/api/v1/relationships/interests`,{ params: { user_id: this.$attrs.userId } }))
-        if (errors) {
-          this.setErrors(errors)
-        }
-        else {
-          this.interests = response.data
-        }
+        this.setResponseOrErrors(response, errors)
       },
 
       async fetchInteresters () {
         let [response, errors] = await this.handle(axios.get(`/api/v1/relationships/interesters`,{ params: { user_id: this.$attrs.userId } }))
+        this.setResponseOrErrors(response, errors)
+      },
+
+      setResponseOrErrors (response, errors) {
         if (errors) {
           this.setErrors(errors)
         }

@@ -1,6 +1,7 @@
 import 'jsdom-global/register'
 import { shallowMount } from '@vue/test-utils'
 import UploadImage from 'parts/upload_image'
+import UserImage from 'parts/user_image'
 import { beforeEach, describe, expect, it } from '@jest/globals'
 import VueCropper from 'vue-cropperjs'
 
@@ -37,7 +38,7 @@ describe('UploadImage', () => {
     it('display user image when value is not exists', () => {
       props.value = null
       wrapper = factory(props)
-      expect(wrapper.find('img').attributes().src).toBe('user_image.png')
+      expect(wrapper.findComponent(UserImage).exists()).toBe(true)
     })
 
     it('display cropped image when value is exists', () => {

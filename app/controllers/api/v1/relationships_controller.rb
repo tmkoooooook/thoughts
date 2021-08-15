@@ -1,10 +1,11 @@
 class Api::V1::RelationshipsController < ApiController
   before_action :set_user, only: [:create, :destroy]
+  rescue_from ActiveRecord::RecordNotFound, with: :render_error_interest_user_not_found
 
   def create
     interesting = current_api_v1_user.interested_in(@user)
     if interesting.save
-      render json: { message: ['thoughtを投稿しました'] }
+      render json: { message: ['interestsを登録しました'] }
     else
       render_error_create_relationship
     end
@@ -13,7 +14,7 @@ class Api::V1::RelationshipsController < ApiController
   def destroy
     interesting = current_api_v1_user.uninterested_in(@user)
     if interesting.destroy
-      render json: { message: ['thoughtを削除しました'] }
+      render json: { message: ['interestsを解除しました'] }
     else
       render_error_destroy_relationship
     end
@@ -35,6 +36,10 @@ class Api::V1::RelationshipsController < ApiController
 
   def set_user
     @user = User.find(params[:relationship][:interest_id])
+  end
+
+  def render_error_interest_user_not_found
+    render json: { errors: { full_messages: ['対象のユーザーが見つかりませんでした'] } }, status: 404
   end
 
   def render_error_create_relationship
