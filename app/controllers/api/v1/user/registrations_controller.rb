@@ -1,4 +1,6 @@
 class Api::V1::User::RegistrationsController < DeviseTokenAuth::RegistrationsController
+  rescue_from ActionController::BadRequest, with: :render_error_image_bad_request
+
   def update
     render_update_error_user_not_found unless @resource
 
@@ -9,6 +11,12 @@ class Api::V1::User::RegistrationsController < DeviseTokenAuth::RegistrationsCon
     else
       render_update_error
     end
+  end
+
+  private
+
+  def render_error_image_bad_request(e)
+    render json: { errors: { full_messages: [e] } }, status: 400
   end
 
   protected
@@ -45,15 +53,9 @@ class Api::V1::User::RegistrationsController < DeviseTokenAuth::RegistrationsCon
       data = decode(uri)
       extension = extension(uri)
       write_file(data, extension)
+    else
+      raise ActionController::BadRequest, 'Dataファイルを指定してください'
     end
-  end
-
-  def write_file(data, extension)
-    file = Tempfile.new(['img', extension])
-    file.binmode
-    file << data
-    file.rewind
-    file
   end
 
   def decode(uri)
@@ -71,7 +73,15 @@ class Api::V1::User::RegistrationsController < DeviseTokenAuth::RegistrationsCon
     when 'image/jpeg'
       '.jpg'
     else
-      raise 'Unsupport Content-Type'
+      raise ActionController::BadRequest, '拡張子はjpeg,pngを指定してください'
     end
+  end
+
+  def write_file(data, extension)
+    file = Tempfile.new(['img', extension])
+    file.binmode
+    file << data
+    file.rewind
+    file
   end
 end

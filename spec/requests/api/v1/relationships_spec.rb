@@ -19,6 +19,15 @@ RSpec.describe "Api::V1::Relationships", type: :request do
       post '/api/v1/relationships', params: { relationship: params }, headers: @auth_tokens
       expect(response).to have_http_status(200)
     end
+
+    context "when interest user is not found" do
+      it "render error" do
+        params = { interest_id: 1 }
+        post '/api/v1/relationships', params: { relationship: params }, headers: @auth_tokens
+        expect(response).to have_http_status(404)
+        expect(JSON.parse(response.body)['errors']['full_messages']).to eq(['対象のユーザーが見つかりませんでした'])
+      end
+    end
   end
 
   describe 'destroy' do

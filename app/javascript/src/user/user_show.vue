@@ -24,7 +24,7 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
+  import { mapGetters, mapMutations } from 'vuex'
   import InterestingBtn from '../parts/interesting_btn.vue'
   import LogoutBtn from '../parts/logout_btn.vue'
   import UserImage from '../parts/user_image.vue'
@@ -67,9 +67,18 @@
     },
 
     methods: {
+      ...mapMutations([
+        'setErrors'
+      ]),
+
       async fetchShowUser () {
-        const response = await axios.get(`/api/v1/users/${this.$route.params.userId}`)
-        this.showUser = response.data
+        let [response, errors] = await this.handle(axios.get(`/api/v1/users/${this.$route.params.userId}`))
+        if (errors) {
+          this.setErrors(errors)
+        }
+        else {
+          this.showUser = response.data
+        }
       },
     }
   }

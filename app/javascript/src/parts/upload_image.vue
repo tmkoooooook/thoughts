@@ -7,7 +7,7 @@
             <i class="fas fa-camera"></i>
           </div>
           <img v-if="value" :src="value" alt="user-thumbnail">
-          <img v-else :src="accountImage.url" alt="user-thumbnail">
+          <UserImage v-else :imageUrl="accountImage.url"/>
         </div>
       </label>
       <input type="file" class="file-input" :id="imageSize" @change="upload">
@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import UserImage from '../parts/user_image.vue'
 import VueCropper from 'vue-cropperjs'
 import 'cropperjs/dist/cropper.css'
 
@@ -51,6 +52,7 @@ export default {
   },
 
   components: {
+    UserImage,
     VueCropper
   },
 

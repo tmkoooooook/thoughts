@@ -5,6 +5,8 @@ import UploadImage from 'parts/upload_image'
 import { beforeEach, describe, expect, it, jest } from '@jest/globals'
 import { ModalPlugin } from 'bootstrap-vue'
 import axios from 'axios'
+import Vuex from 'vuex'
+import handler from 'utils/handler'
 
 jest.mock('axios')
 const response = { data: 'ok' }
@@ -12,17 +14,32 @@ axios.patch.mockResolvedValue(response)
 
 const localVue = createLocalVue()
 localVue.use(ModalPlugin)
+localVue.use(Vuex)
+localVue.mixin(handler)
 
 describe('UserAccountEdit', () => {
   let wrapper
+  let mutations
+  let store
   const factory = (mq) => {
     const $mq = mq
     return shallowMount(UserAccountEdit, {
       localVue,
+      store,
       mocks: { $mq },
       propsData: { account: { name: 'testUser', user_id: 'testUserId', email: 'testUser@example.com' } }
     })
   }
+  beforeEach(() => {
+    handler.methods.handle = jest.fn(response => ([response, undefined]))
+    mutations = {
+      setErrors: jest.fn(),
+    }
+    store = new Vuex.Store({
+      state: {},
+      mutations
+    })
+  })
 
   describe('$mq === pc', () => {
     beforeEach(() => {
@@ -59,6 +76,15 @@ describe('UserAccountEdit', () => {
     it('run axios.patch when submit form ', () => {
       wrapper.find('input[type="submit"]').trigger('submit.prevent')
       expect(axios.patch).toHaveBeenCalled()
+    })
+
+    it('calls setErrors when axios response receive errors', async () => {
+      const errors = { message: 'error' }
+      handler.methods.handle = jest.fn(() => ([undefined, errors]))
+      wrapper = factory('pc')
+      wrapper.find('input[type="submit"]').trigger('submit.prevent')
+      await wrapper.vm.$nextTick()
+      expect(mutations.setErrors).toHaveBeenCalled()
     })
 
     it('delete empty prop when exists in accountEdit', () => {

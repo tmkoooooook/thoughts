@@ -6,6 +6,7 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals'
 import { ModalPlugin } from 'bootstrap-vue'
 import axios from 'axios'
 import Vuex from 'vuex'
+import handler from 'utils/handler'
 
 jest.mock('axios')
 const thought = { title: 'title', text: 'text' }
@@ -15,11 +16,13 @@ axios.post.mockResolvedValue(response)
 const localVue = createLocalVue()
 localVue.use(ModalPlugin)
 localVue.use(Vuex)
+localVue.mixin(handler)
 
 describe('MyThought', () => {
   let wrapper
   let route
   let actions
+  let mutations
   let store
   const factory = (mq, route) => {
     const $mq = mq
@@ -31,10 +34,13 @@ describe('MyThought', () => {
     })
   }
   beforeEach(() => {
+    handler.methods.handle = jest.fn(response => ([response, undefined]))
     actions = { fetchThoughts: jest.fn() }
+    mutations = { setErrors: jest.fn() }
     store = new Vuex.Store({
       state: {},
-      actions
+      actions,
+      mutations
     })
   })
 
@@ -63,10 +69,22 @@ describe('MyThought', () => {
         expect(wrapper.vm.thought.text).toBe('input text')
       })
 
-      it('call axios.post', () => {
+      it('calls axios.post', () => {
         const submit = wrapper.find('input[type="submit"]')
         submit.trigger('submit.prevent')
         expect(axios.post).toHaveBeenCalled()
+      })
+
+      it('calls setErrors when axios response receive errors', async () => {
+        const errors = { message: 'error' }
+        handler.methods.handle = jest.fn(() => ([undefined, errors]))
+        wrapper = factory('pc', route)
+        wrapper.setData({ thought: { title: '', text: '' } })
+        wrapper.setProps({ myThoughtActive: true })
+        await wrapper.vm.$nextTick()
+        wrapper.find('input[type="submit"]').trigger('submit.prevent')
+        await wrapper.vm.$nextTick()
+        expect(mutations.setErrors).toHaveBeenCalled()
       })
 
       it('resize textarea height at keydown', () => {

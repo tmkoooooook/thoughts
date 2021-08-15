@@ -1,5 +1,6 @@
 <template>
   <div class="form-box">
+    <ErrorMessages :sign="true"/>
     <div class="image-wrapper">
       <router-link :to="{ name: 'home' }">
         <img src="~thoughts_logo_white.png" alt="thoughts_logo">
@@ -25,7 +26,7 @@
 </template>
 
 <script>
-  import 'thoughts_logo_005163.png'
+  import ErrorMessages from '../parts/error_messages.vue'
   import { mapMutations } from 'vuex'
   import axios from 'axios'
 
@@ -37,20 +38,36 @@
         user: {
           user_id: '',
           password: ''
-        }
+        },
       }
+    },
+
+    components: {
+      ErrorMessages
     },
 
     methods: {
       ...mapMutations([
-        'setUserSessionTokens'
+        'setUserSessionTokens',
+        'setErrors',
+        'clearErrors'
       ]),
 
       async signInUser () {
-        const response = await axios.post('/api/v1/users/sign_in', this.user)
-        this.setUserSessionTokens(response)
-        location.pathname = '/users'
+        let [response, errors] = await this.handle(axios.post('/api/v1/users/sign_in', this.user))
+        if (errors) {
+          this.setErrors(errors)
+        }
+        else {
+          this.setUserSessionTokens(response)
+          location.pathname = '/users'
+        }
       }
+    },
+
+    beforeRouteLeave (to, from, next) {
+      this.clearErrors()
+      next()
     }
   }
 </script>

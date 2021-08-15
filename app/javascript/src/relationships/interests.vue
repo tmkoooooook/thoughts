@@ -4,6 +4,7 @@
       <router-link :to="{name: 'interests' }" class="interest-link">interests</router-link>
       <router-link :to="{name: 'interesters' }" class="interest-link">interesters</router-link>
     </div>
+    <NoContent v-if="interests.length == 0" :content="$route.name"/>
     <div class="info" v-for="interest in interests" :key="interest.id">
       <div class="info-link">
         <div class="user-thumbnail">
@@ -27,19 +28,22 @@
 <script>
   import axios from 'axios'
   import InterestingBtn from '../parts/interesting_btn.vue'
+  import NoContent from '../parts/no_content.vue'
   import UserImage from '../parts/user_image.vue'
+  import { mapMutations } from 'vuex'
 
   export default {
     name: 'Interests',
 
     components: {
       InterestingBtn,
+      NoContent,
       UserImage
     },
 
     data: function () {
       return {
-        interests: [{ icon_image: { url: '' } }]
+        interests: [{ icon_image: { url: '' } }],
       }
     },
 
@@ -52,14 +56,27 @@
     },
 
     methods: {
+      ...mapMutations([
+        'setErrors'
+      ]),
+
       async fetchInterests () {
-        const response = await axios.get(`/api/v1/relationships/interests`,{ params: { user_id: this.$attrs.userId } })
-        this.interests = response.data
+        let [response, errors] = await this.handle(axios.get(`/api/v1/relationships/interests`,{ params: { user_id: this.$attrs.userId } }))
+        this.setResponseOrErrors(response, errors)
       },
 
       async fetchInteresters () {
-        const response = await axios.get(`/api/v1/relationships/interesters`,{ params: { user_id: this.$attrs.userId } })
-        this.interests = response.data
+        let [response, errors] = await this.handle(axios.get(`/api/v1/relationships/interesters`,{ params: { user_id: this.$attrs.userId } }))
+        this.setResponseOrErrors(response, errors)
+      },
+
+      setResponseOrErrors (response, errors) {
+        if (errors) {
+          this.setErrors(errors)
+        }
+        else {
+          this.interests = response.data
+        }
       },
 
       async selectFetchMethod() {

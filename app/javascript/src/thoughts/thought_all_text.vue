@@ -28,7 +28,7 @@
 <script>
   import axios from 'axios'
   import CloseBtn from '../parts/close_btn.vue'
-  import { mapGetters } from 'vuex'
+  import { mapGetters, mapMutations } from 'vuex'
 
   export default {
     name: 'ThoughtAllText',
@@ -36,12 +36,12 @@
     props: { thoughts: Array },
 
     components: {
-      CloseBtn: CloseBtn
+      CloseBtn,
     },
 
     data: function () {
       return {
-        fromRoute: {}
+        fromRoute: {},
       }
     },
 
@@ -69,10 +69,19 @@
     },
 
     methods: {
+      ...mapMutations([
+        'setErrors'
+      ]),
+
       async deleteThought (id) {
         if (window.confirm('本当に削除しますか')) {
-          await axios.delete(`/api/v1/thoughts/${id}`)
-          this.$router.push('/users')
+          let [response, errors] = await this.handle(axios.delete(`/api/v1/thoughts/${id}`))
+          if (errors) {
+            this.setErrors(errors)
+          }
+          else {
+            this.$router.push('/users')
+          }
         }
       },
 

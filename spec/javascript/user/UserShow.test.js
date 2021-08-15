@@ -8,6 +8,7 @@ import UserImage from 'parts/user_image'
 import { beforeEach, describe, expect, it, jest } from '@jest/globals'
 import Vuex from 'vuex'
 import axios from 'axios'
+import handler from 'utils/handler'
 
 jest.createMockFromModule('axios')
 let showUser
@@ -15,6 +16,7 @@ axios.get = jest.fn(response => response = { data: showUser })
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
+localVue.mixin(handler)
 
 describe('userShow', () => {
   const factory = (route) => {
@@ -29,13 +31,17 @@ describe('userShow', () => {
   let route
   let wrapper
   let getters
+  let mutations
   let store
 
   beforeEach(() => {
+    handler.methods.handle = jest.fn(response => ([response, undefined]))
     getters = { watchUser() { return store.state.user } }
+    mutations = { setErrors: jest.fn() }
     store = new Vuex.Store({
       state: { user: { user_id: 'testUserId' } },
-      getters
+      getters,
+      mutations
     })
   })
 
@@ -85,6 +91,14 @@ describe('userShow', () => {
 
     it('call axios when enter UserShow Route ', () => {
       expect(axios.get).toHaveBeenCalled()
+    })
+
+    it('calls set Errors when axios response receive errors', async () => {
+      const errors = { message: 'error' }
+      handler.methods.handle = jest.fn(() => ([undefined, errors]))
+      wrapper = factory(route)
+      await wrapper.vm.$nextTick()
+      expect(mutations.setErrors).toHaveBeenCalled()
     })
   })
 

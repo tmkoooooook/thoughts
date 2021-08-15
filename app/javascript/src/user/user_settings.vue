@@ -26,6 +26,11 @@
       </ul>
     </div>
     <div class="setting-details">
+      <div class="errors-relative">
+        <div class="errors-absolute">
+          <ErrorMessages/>
+        </div>
+      </div>
       <router-view name="user_account" :account="account"></router-view>
       <router-view name="user_account_edit" :account="account"></router-view>
       <router-view name="user_password_edit"></router-view>
@@ -34,7 +39,9 @@
 </template>
 
 <script>
+  import ErrorMessages from '../parts/error_messages.vue'
   import axios from 'axios'
+  import { mapMutations } from 'vuex'
 
   export default {
     name: 'UserSettings',
@@ -44,8 +51,12 @@
         account: {
           icon_image: { url: '' },
           header_image: { url: '' }
-        }
+        },
       }
+    },
+
+    components: {
+      ErrorMessages
     },
 
     created () {
@@ -53,10 +64,18 @@
     },
 
     methods: {
+      ...mapMutations([
+        'setErrors'
+      ]),
+
       async fetchAccountInfo () {
-        //params.accountをpassword指定して認証するとか？
-        const response = await axios.get('/api/v1/users/account', { params: { account: 'request' } })
-        this.account = response.data
+        let [response, errors] = await this.handle(axios.get('/api/v1/users/account'))
+        if (errors) {
+          this.setErrors(errors)
+        }
+        else {
+          this.account = response.data
+        }
       }
     }
   }
