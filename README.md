@@ -1,9 +1,9 @@
-# README
+# Thoughts
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Share your thoughts and find new thoughts! for update your thoughts!
 
-Things you may want to cover:
+##backGround
+
 
 * Ruby version
 
