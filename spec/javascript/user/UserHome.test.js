@@ -13,13 +13,11 @@ describe('UserHome', () => {
   let wrapper
   let routerView
 
-  const factory = (route, userId) => {
-    const $route = route
+  const factory = (userId) => {
     return shallowMount(UserHome, {
       localVue,
       store,
       stubs: ['router-view'],
-      mocks: { $route },
       attrs: { userId: userId }
     })
   }
@@ -28,7 +26,6 @@ describe('UserHome', () => {
 
   beforeEach(() => {
     actions = {
-      fetchThoughts: jest.fn(),
       fetchCurrentUser: jest.fn()
     }
 
@@ -41,7 +38,7 @@ describe('UserHome', () => {
   describe('display router-view', () => {
     beforeEach(() => {
       route = { name: 'userHome', params: { thoughtId: null, userId: null } }
-      wrapper = factory(route, null)
+      wrapper = factory(null)
       routerView = wrapper.findAll('router-view-stub')
     })
 
@@ -56,21 +53,6 @@ describe('UserHome', () => {
 
     it('display user_settings', () => {
       expect(routerView.at(1).html()).toContain('user_settings')
-    })
-  })
-
-  describe('route', () => {
-    beforeEach(() => {
-      route = { name: 'userHome', params: { thoughtId: null, userId: null } }
-      wrapper = factory(route, 'testUser')
-    })
-
-    it('call runFetchThoughts when route from settings to userHome', async () => {
-      const from = { name: 'settings' }
-      const to = { name: 'userHome' }
-      UserHome.watch.$route.call(wrapper.vm, to, from)
-      await wrapper.vm.$nextTick()
-      expect(actions.fetchThoughts).toHaveBeenCalled()
     })
   })
 })

@@ -146,6 +146,8 @@ body {
   .main-content-box {
     text-align: center;
     margin-top: 250px;
+    background-color: #000;
+    padding-bottom: 5px;
   }
   .main-content-text {
     color: #fff;
@@ -194,7 +196,7 @@ body {
 }
 .introduction {
   height: auto;
-  margin-top: 50px;
+  margin-top: 70px;
   margin-bottom: 50px;
   .introduction-content {
     color: #fff;
@@ -221,7 +223,7 @@ body {
 }
 @media screen and (max-width: 767px) {
   .introduction {
-    margin-top: 110px;
+    margin-top: 140px;
     margin-bottom: 20px;
     .introduction-content {
       padding: 30px 10px;
@@ -768,6 +770,8 @@ color: #ccc;
   top: 60px;
   z-index: 10;
   width: 100%;
+}
+.errors {
   padding: 10px;
 }
 .alert {

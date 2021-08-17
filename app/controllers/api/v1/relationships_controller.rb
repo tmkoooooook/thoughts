@@ -22,14 +22,14 @@ class Api::V1::RelationshipsController < ApiController
 
   def interests
     user = User.find_by(user_id: params[:user_id])
-    interests = user.interests
-    render json: interests.to_json
+    interests_json = user.interests.to_json(only: [:id, :user_id, :name, :icon_image])
+    render json: interests_json
   end
 
   def interesters
     user = User.find_by(user_id: params[:user_id])
-    interesters = user.interesters
-    render json: interesters.to_json
+    interesters_json = user.interesters.to_json(only: [:id, :user_id, :name, :icon_image])
+    render json: interesters_json
   end
 
   private
@@ -39,14 +39,14 @@ class Api::V1::RelationshipsController < ApiController
   end
 
   def render_error_interest_user_not_found
-    render json: { errors: { full_messages: ['対象のユーザーが見つかりませんでした'] } }, status: 404
+    render json: { errors: { full_messages: ['対象のユーザーが見つかりませんでした'] } }, status: :not_found
   end
 
   def render_error_create_relationship
-    render json: { errors: { full_messages: ['interestsに登録できませんでした。時間をおいてもう一度お試しください'] } }, status: 500
+    render json: { errors: { full_messages: ['interestsに登録できませんでした。時間をおいてもう一度お試しください'] } }, status: :internal_server_error
   end
 
   def render_error_destroy_relationship
-    render json: { errors: { full_messages: ['interestsを削除できませんでした。時間をおいてもう一度お試しください'] } }, status: 500
+    render json: { errors: { full_messages: ['interestsを削除できませんでした。時間をおいてもう一度お試しください'] } }, status: :internal_server_error
   end
 end

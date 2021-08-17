@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-for="error in setErrors" :key="error">
+    <div v-for="error in setErrors" :key="error" class="errors">
       <b-alert v-if="sign" variant="danger" show>{{ error }}</b-alert>
       <b-alert
         v-else

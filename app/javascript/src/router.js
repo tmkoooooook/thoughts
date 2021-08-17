@@ -8,8 +8,6 @@ import ThoughtAll from '../src/thoughts/thought_all_text.vue'
 import UserHome from '../src/user/user_home.vue'
 import UserSettings from '../src/user/user_settings.vue'
 import UserAccount from '../src/user/user_account.vue'
-import UserAccountEdit from '../src/user/user_account_edit.vue'
-import UserPasswordEdit from '../src/user/user_password_edit.vue'
 import Interests from '../src/relationships/interests.vue'
 
 Vue.use(VueRouter)
@@ -50,12 +48,12 @@ export default new VueRouter({
             {
               path: 'account_edit',
               name: 'userAccountEdit',
-              components: { user_account_edit: UserAccountEdit }
+              components: { user_account: UserAccount }
             },
             {
               path: 'password_edit',
               name: 'userPasswordEdit',
-              components: { user_password_edit: UserPasswordEdit }
+              components: { user_account: UserAccount }
             },
           ]
         },
@@ -69,6 +67,7 @@ export default new VueRouter({
           path: ':userId',
           name: 'userShow',
           components: { thoughts_partial: ThoughtsPartial },
+          props: { thoughts_partial: true },
           children: [
             {
               path: 'thoughts/:thoughtId',

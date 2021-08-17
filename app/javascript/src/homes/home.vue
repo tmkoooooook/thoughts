@@ -15,6 +15,9 @@
         <li>
           <router-link :to="{ name: 'signUp' }" class="btn btn-outline-light">Sign up</router-link>
         </li>
+        <li>
+          <button @click="signInUser" class="btn btn-light">Guest Log In</button>
+        </li>
       </ul>
     </div>
   </div>
@@ -59,13 +62,33 @@
 </template>
 
 <script>
-  import 'thoughts_logo_005163.png'
+  import axios from 'axios'
+  import { mapMutations } from 'vuex'
 
   export default {
     name: 'home',
+
     data: function () {
       return {
         date: this.$moment().format()
+      }
+    },
+
+    methods: {
+      ...mapMutations([
+        'setUserSessionTokens',
+        'setErrors'
+      ]),
+
+      async signInUser () {
+        const user = {
+          user_id: 'guestuser',
+          password: 'guestuser0000'
+        }
+        const response = await axios.post('/api/v1/users/sign_in', user)
+        this.setUserSessionTokens(response)
+        window.sessionStorage.setItem('isGuestUser', true)
+        location.pathname = '/users'
       }
     }
   }

@@ -1,6 +1,7 @@
 import 'jsdom-global/register'
+import '../__mocks__/sessionStorage_mock'
 import { createLocalVue, shallowMount } from '@vue/test-utils'
-import UserPasswordEdit from 'user/user_password_edit'
+import UserPasswordEditForm from 'user/user_password_edit_form'
 import { beforeEach, describe, expect, it, jest } from '@jest/globals'
 import { ModalPlugin } from 'bootstrap-vue'
 import axios from 'axios'
@@ -16,14 +17,14 @@ localVue.use(ModalPlugin)
 localVue.use(Vuex)
 localVue.mixin(handler)
 
-describe('UserPasswordEdit', () => {
+describe('UserPasswordEditForm', () => {
   let wrapper
   let mutations
   let store
 
   const factory = (mq) => {
     const $mq = mq
-    return shallowMount(UserPasswordEdit, {
+    return shallowMount(UserPasswordEditForm, {
       localVue,
       store,
       mocks: { $mq },
@@ -42,12 +43,14 @@ describe('UserPasswordEdit', () => {
 
   describe('$mq === pc', () => {
     beforeEach(() => {
+      window.sessionStorage.clear()
       wrapper = factory('pc')
     })
 
     it('run axios.put at submit.prevent', () => {
-      wrapper.find('input[type="password"]').setValue('newPassword')
-      wrapper.find('input[type="password"]').setValue('newPassword')
+      wrapper.find('input[placeholder="現在のパスワード"]').setValue('oldPassword')
+      wrapper.find('input[placeholder="新しいパスワード"]').setValue('newPassword')
+      wrapper.find('input[placeholder="パスワードの確認"]').setValue('newPassword')
       wrapper.find('input[type="submit"]').trigger('submit.prevent')
       expect(axios.put).toHaveBeenCalled()
     })
@@ -60,18 +63,13 @@ describe('UserPasswordEdit', () => {
       await wrapper.vm.$nextTick()
       expect(mutations.setErrors).toHaveBeenCalled()
     })
-  })
 
-  describe('$mq === sp', () => {
-    beforeEach(() => {
-      wrapper = factory('sp')
-    })
-
-    it('run axios.put at submit.prevent', () => {
-      wrapper.find('input[type="password"]').setValue('newPassword')
-      wrapper.find('input[type="password"]').setValue('newPassword')
+    it('does not change when guest user logged in', async () => {
+      window.sessionStorage.setItem('isGuestUser', true)
+      wrapper = factory('pc')
       wrapper.find('input[type="submit"]').trigger('submit.prevent')
-      expect(axios.put).toHaveBeenCalled()
+      await wrapper.vm.$nextTick()
+      expect(mutations.setErrors).toHaveBeenCalledWith({}, ['ゲストユーザーの変更はできません'])
     })
   })
 })

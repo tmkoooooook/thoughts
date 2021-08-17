@@ -11,11 +11,11 @@
       <form @submit.prevent="signInUser">
         <div class="form-field">
           <label for="">ユーザーID</label>
-          <input type="text" name="user_id" v-model="user.user_id" autofocus>
+          <input type="text" name="user_id" v-model="user.user_id" required>
         </div>
         <div class="form-field">
           <label for="">パスワード</label>
-          <input type="text" name="password" v-model="user.password">
+          <input type="password" name="password" v-model="user.password" required>
         </div>
         <div class="actions">
           <input type="submit" value="ログイン" class="btn btn-light">

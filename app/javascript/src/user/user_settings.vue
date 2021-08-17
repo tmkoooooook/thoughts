@@ -32,8 +32,6 @@
         </div>
       </div>
       <router-view name="user_account" :account="account"></router-view>
-      <router-view name="user_account_edit" :account="account"></router-view>
-      <router-view name="user_password_edit"></router-view>
     </div>
   </div>
 </template>

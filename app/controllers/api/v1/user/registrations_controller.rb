@@ -15,8 +15,8 @@ class Api::V1::User::RegistrationsController < DeviseTokenAuth::RegistrationsCon
 
   private
 
-  def render_error_image_bad_request(e)
-    render json: { errors: { full_messages: [e] } }, status: 400
+  def render_error_image_bad_request(error)
+    render json: { errors: { full_messages: [error] } }, status: :bad_request
   end
 
   protected
@@ -26,7 +26,7 @@ class Api::V1::User::RegistrationsController < DeviseTokenAuth::RegistrationsCon
   end
 
   def account_update_params
-    params.require(:registration).permit(:name, :user_id, :email, :icon_image, :header_image)
+    params.require(:registration).permit(:name, :user_id, :email, :icon_image, :header_image, :current_password)
   end
 
   def update_images

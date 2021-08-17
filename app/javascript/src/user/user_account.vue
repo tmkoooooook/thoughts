@@ -1,38 +1,8 @@
 <template>
   <div class="user-account" v-if="$mq === 'pc'">
-    <div class="user-account-box">
-      <div class="setting-header">
-        <h3>アカウント情報</h3>
-      </div>
-      <ul class="setting-lists">
-        <li class="setting-list">
-          <div class="upload">
-            <div class="user-thumbnail user-thumbnail-edit">
-              <UserImage :imageUrl="account.icon_image.url"/>
-            </div>
-          </div>
-        </li>
-        <li class="setting-list">
-          <div class="upload">
-            <div class="header-img-wrapper-edit">
-              <UserImage :imageUrl="account.header_image.url"/>
-            </div>
-          </div>
-        </li>
-        <li class="setting-list">
-          <label>名前</label>
-          <span>{{ account.name }}</span>
-        </li>
-        <li class="setting-list">
-          <label>ユーザーID</label>
-          <span>{{ account.user_id }}</span>
-        </li>
-        <li class="setting-list">
-          <label>Eメール</label>
-          <span>{{ account.email }}</span>
-        </li>
-      </ul>
-    </div>
+    <UserAccountView v-if="$route.name === 'userAccount'" :account="account"/>
+    <UserAccountEditForm v-else-if="$route.name === 'userAccountEdit'" :account="account"/>
+    <UserPasswordEditForm v-else-if="$route.name === 'userPasswordEdit'"/>
   </div>
   <b-modal id="user_account_modal"
     v-else-if="$mq === 'sp'"
@@ -44,46 +14,18 @@
     static>
     <div class="user-account">
       <CloseBtn modalId="user_account_modal" :route="{ name: 'settings' }"/>
-      <div class="user-account-box">
-        <div class="setting-header">
-          <h3>アカウント情報</h3>
-        </div>
-        <ul class="setting-lists">
-          <li class="setting-list">
-            <div class="upload">
-              <div class="user-thumbnail user-thumbnail-edit">
-                <UserImage :imageUrl="account.icon_image.url"/>
-              </div>
-            </div>
-          </li>
-          <li class="setting-list">
-            <div class="upload">
-              <div class="header-img-wrapper-edit">
-                <UserImage :imageUrl="account.header_image.url"/>
-              </div>
-            </div>
-          </li>
-          <li class="setting-list">
-            <label>名前</label>
-            <span>{{ account.name }}</span>
-          </li>
-          <li class="setting-list">
-            <label>ユーザーID</label>
-            <span>{{ account.user_id }}</span>
-          </li>
-          <li class="setting-list">
-            <label>Eメール</label>
-            <span>{{ account.email }}</span>
-          </li>
-        </ul>
-      </div>
+      <UserAccountView v-if="$route.name === 'userAccount'" :account="account"/>
+      <UserAccountEditForm v-else-if="$route.name === 'userAccountEdit'" :account="account"/>
+      <UserPasswordEditForm v-else-if="$route.name === 'userPasswordEdit'"/>
     </div>
   </b-modal>
 </template>
 
 <script>
+  import UserAccountView from '../user/user_account_view.vue'
+  import UserAccountEditForm from '../user/user_account_edit_form.vue'
+  import UserPasswordEditForm from '../user/user_password_edit_form.vue'
   import CloseBtn from '../parts/close_btn.vue'
-  import UserImage from '../parts/user_image.vue'
 
   export default {
     name: 'UserAccount',
@@ -93,13 +35,20 @@
     },
 
     components: {
-      CloseBtn,
-      UserImage
+      UserAccountView,
+      UserAccountEditForm,
+      UserPasswordEditForm,
+      CloseBtn
     },
 
     mounted () {
-      if (this.$mq === 'sp')
-        this.$bvModal.show('user_account_modal')
+      this.showModal()
     },
+
+    methods: {
+      showModal () {
+      if (this.$mq === 'sp') this.$bvModal.show('user_account_modal')
+      }
+    }
   }
 </script>
