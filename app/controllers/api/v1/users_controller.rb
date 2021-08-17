@@ -14,7 +14,6 @@ class Api::V1::UsersController < ApiController
 
   def show
     user = User.
-      includes(:relationships, :reverse_of_relationships).
       find_by(user_id: params[:user_id])
     if user
       relationship_size = user.relationship_size

@@ -26,6 +26,9 @@
           <span>{{ account.email }}</span>
           <input type="text" name="email" v-model="accountEdit.email">
         </div>
+        <div class="setting-list">
+          <input type="password" name="password" v-model="accountEdit.current_password" placeholder="現在のパスワードを入力してください" required>
+        </div>
         <div class="setting-list submit">
           <input type="submit" value="ユーザー情報更新" class="btn">
         </div>
@@ -67,6 +70,9 @@
             <label>Eメール</label>
             <span>{{ account.email }}</span>
             <input type="text" name="email" v-model="accountEdit.email">
+          </div>
+          <div class="setting-list">
+            <input type="password" name="password" v-model="accountEdit.current_password" placeholder="現在のパスワードを入力してください" required>
           </div>
           <div class="setting-list submit">
             <input type="submit" value="ユーザー情報更新" class="btn">
@@ -112,6 +118,10 @@
       ]),
 
       async updateUserInfo () {
+        if (window.sessionStorage.getItem('isGuestUser')) {
+          this.setErrors(['ゲストユーザーの変更はできません'])
+          return
+        }
         this.deleteEmptyProps()
         let [response, errors] = await this.handle(axios.patch('/api/v1/users', this.accountEdit))
         if (errors) {

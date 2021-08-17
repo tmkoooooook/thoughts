@@ -23,13 +23,12 @@
   import MyThought from "../thoughts/my_thought.vue"
   import ThoughtsCollection from "../thoughts/thoughts_collection.vue"
   import ErrorMessages from '../parts/error_messages.vue'
+  import { mapActions, mapState } from 'vuex'
+
+  const regex = /^interest[ser]+$/
 
   export default {
     name: 'ThoughtsPartial',
-
-    props: {
-      thoughts: Array
-      },
 
     components: {
       UserShow,
@@ -48,20 +47,46 @@
 
     created () {
       this.setIsUserShow()
+      this.runFetchThoughts()
     },
 
     computed: {
+      ...mapState([
+        'thoughts'
+      ]),
+
       isThoughtCollectionShow () {
-        const regex = /^interest[ser]+$/
         return !regex.test(this.$route.name)
+      },
+
+      selectFetchThoughtsUrl () {
+        if (this.$attrs.userId) {
+          return `/api/v1/thoughts/${this.$attrs.userId}`
+        }
+        else {
+          return '/api/v1/thoughts'
+        }
       }
     },
 
     watch: {
-      $route: 'setIsUserShow'
+      $route (to, from) {
+        this.setIsUserShow()
+        if (to.name === 'thought') return
+        if (regex.test(to.name)) return
+        this.runFetchThoughts()
+      }
     },
 
     methods: {
+      ...mapActions([
+        'fetchThoughts'
+      ]),
+
+      runFetchThoughts () {
+        this.fetchThoughts(this.selectFetchThoughtsUrl)
+      },
+
       activateMyThought () {
         if (!this.myThoughtActive) {
           this.thoughtAllActive = false

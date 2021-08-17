@@ -53,7 +53,10 @@
     },
 
     watch: {
-      $route: 'fetchShowUser'
+      $route (to, from) {
+        if (to.name === 'thought') return
+        this.fetchShowUser()
+      }
     },
 
     computed: {

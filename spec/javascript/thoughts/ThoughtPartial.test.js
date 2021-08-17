@@ -1,15 +1,22 @@
 import 'jsdom-global/register'
 import '../__mocks__/localStorage_mock'
-import { shallowMount } from '@vue/test-utils'
+import {createLocalVue, shallowMount } from '@vue/test-utils'
 import ThoughtsPartial from 'thoughts/thoughts_partial'
 import ThoughtsCollection from 'thoughts/thoughts_collection'
 import MyThought from "thoughts/my_thought"
 import UserShow from "user/user_show"
 import 'thoughts_logo_005163.png'
 import { beforeEach, describe, expect, it } from '@jest/globals'
+import Vuex from 'vuex'
+
+const localVue = createLocalVue()
+localVue.use(Vuex)
 
 describe('ThoughtsPartial', () => {
   let wrapper
+  let store
+  let actions
+
   const thoughts = [
     { id: 1, title: 'title1', shorted_text: 'text1', user_id: 1,
       user: { name: 'testUser1', user_id: 'testUserId1' } },
@@ -19,6 +26,8 @@ describe('ThoughtsPartial', () => {
   const factory = (route) => {
     const $route = { name: route }
     return shallowMount(ThoughtsPartial, {
+      localVue,
+      store,
       stubs: ['router-link', 'router-view'],
       mocks: { $router: { push: jest.fn() }, $route },
       propsData: { thoughts: thoughts },
@@ -26,18 +35,35 @@ describe('ThoughtsPartial', () => {
     })
   }
   beforeEach(() => {
-    wrapper = factory('userShow')
+    actions = { fetchThoughts: jest.fn() }
+    store = new Vuex.Store({
+      state: {},
+      actions
+    })
   })
 
   it('display thought partial', () => {
+    wrapper = factory('userShow')
     expect(wrapper.find('div.thoughts-partial').exists()).toBe(true)
   })
 
   it('display MyThought component', () => {
+    wrapper = factory('userShow')
     expect(wrapper.findComponent(MyThought).exists()).toBe(true)
   })
 
+  describe('runFetchThoughts', () => {
+    it('calls fetchThoughts of a user when the route.userId is exists', () => {
+      wrapper = factory('userShow')
+      expect(actions.fetchThoughts).toHaveBeenCalled()
+    })
+  })
+
   describe('activateMyThought', () => {
+    beforeEach(() => {
+      wrapper = factory('userShow')
+    })
+
     it('reverse myThoughtActive', () => {
       wrapper.setData({
         myThoughtActive: true,
@@ -59,6 +85,10 @@ describe('ThoughtsPartial', () => {
   })
 
   describe('activateThoughtAll', () => {
+    beforeEach(() => {
+      wrapper = factory('userShow')
+    })
+
     it('call router.push when route path equals thought partial', () => {
       wrapper.findComponent(ThoughtsCollection).vm.$emit('activateThoughtAll','testUserId2', 2)
       expect(wrapper.vm.$router.push).toHaveBeenCalled()

@@ -1,4 +1,5 @@
 import 'jsdom-global/register'
+import '../__mocks__/sessionStorage_mock'
 import { createLocalVue, shallowMount } from '@vue/test-utils'
 import UserAccountEdit from 'user/user_account_edit'
 import UploadImage from 'parts/upload_image'
@@ -43,6 +44,7 @@ describe('UserAccountEdit', () => {
 
   describe('$mq === pc', () => {
     beforeEach(() => {
+      window.sessionStorage.clear()
       wrapper = factory('pc')
     })
 
@@ -85,6 +87,14 @@ describe('UserAccountEdit', () => {
       wrapper.find('input[type="submit"]').trigger('submit.prevent')
       await wrapper.vm.$nextTick()
       expect(mutations.setErrors).toHaveBeenCalled()
+    })
+
+    it('does not change when guest user logged in', async () => {
+      window.sessionStorage.setItem('isGuestUser', true)
+      wrapper = factory('pc')
+      wrapper.find('input[type="submit"]').trigger('submit.prevent')
+      await wrapper.vm.$nextTick()
+      expect(mutations.setErrors).toHaveBeenCalledWith({}, ['ゲストユーザーの変更はできません'])
     })
 
     it('delete empty prop when exists in accountEdit', () => {

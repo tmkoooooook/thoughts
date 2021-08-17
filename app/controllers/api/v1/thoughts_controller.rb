@@ -5,17 +5,16 @@ class Api::V1::ThoughtsController < ApiController
 
   def index
     thoughts = Thought.
+      preload(:user).
       where(user_id: [current_api_v1_user.id, *current_api_v1_user.interest_ids]).
-      includes(:user).
       to_json(include: { user: { only: [:name, :user_id, :icon_image] } })
     render json: thoughts
   end
 
   def show
-    user = User.find_by(user_id: params[:id])
     thoughts = Thought.
-      where(user_id: user.id).
-      includes(:user).
+      eager_load(:user).
+      where(user: {user_id: params[:id]}).
       to_json(include: { user: { only: [:name, :user_id, :icon_image] } })
     render json: thoughts
   end

@@ -1,4 +1,5 @@
 import 'jsdom-global/register'
+import '../__mocks__/sessionStorage_mock'
 import { createLocalVue, shallowMount } from '@vue/test-utils'
 import UserPasswordEdit from 'user/user_password_edit'
 import { beforeEach, describe, expect, it, jest } from '@jest/globals'
@@ -42,12 +43,14 @@ describe('UserPasswordEdit', () => {
 
   describe('$mq === pc', () => {
     beforeEach(() => {
+      window.sessionStorage.clear()
       wrapper = factory('pc')
     })
 
     it('run axios.put at submit.prevent', () => {
-      wrapper.find('input[type="password"]').setValue('newPassword')
-      wrapper.find('input[type="password"]').setValue('newPassword')
+      wrapper.find('input[placeholder="現在のパスワード"]').setValue('oldPassword')
+      wrapper.find('input[placeholder="新しいパスワード"]').setValue('newPassword')
+      wrapper.find('input[placeholder="パスワードの確認"]').setValue('newPassword')
       wrapper.find('input[type="submit"]').trigger('submit.prevent')
       expect(axios.put).toHaveBeenCalled()
     })
@@ -60,6 +63,14 @@ describe('UserPasswordEdit', () => {
       await wrapper.vm.$nextTick()
       expect(mutations.setErrors).toHaveBeenCalled()
     })
+
+    it('does not change when guest user logged in', async () => {
+      window.sessionStorage.setItem('isGuestUser', true)
+      wrapper = factory('pc')
+      wrapper.find('input[type="submit"]').trigger('submit.prevent')
+      await wrapper.vm.$nextTick()
+      expect(mutations.setErrors).toHaveBeenCalledWith({}, ['ゲストユーザーの変更はできません'])
+    })
   })
 
   describe('$mq === sp', () => {
@@ -68,8 +79,9 @@ describe('UserPasswordEdit', () => {
     })
 
     it('run axios.put at submit.prevent', () => {
-      wrapper.find('input[type="password"]').setValue('newPassword')
-      wrapper.find('input[type="password"]').setValue('newPassword')
+      wrapper.find('input[placeholder="現在のパスワード"]').setValue('oldPassword')
+      wrapper.find('input[placeholder="新しいパスワード"]').setValue('newPassword')
+      wrapper.find('input[placeholder="パスワードの確認"]').setValue('newPassword')
       wrapper.find('input[type="submit"]').trigger('submit.prevent')
       expect(axios.put).toHaveBeenCalled()
     })

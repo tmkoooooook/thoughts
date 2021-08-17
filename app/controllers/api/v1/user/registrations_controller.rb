@@ -26,7 +26,7 @@ class Api::V1::User::RegistrationsController < DeviseTokenAuth::RegistrationsCon
   end
 
   def account_update_params
-    params.require(:registration).permit(:name, :user_id, :email, :icon_image, :header_image)
+    params.require(:registration).permit(:name, :user_id, :email, :icon_image, :header_image, :current_password)
   end
 
   def update_images

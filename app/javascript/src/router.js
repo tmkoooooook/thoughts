@@ -69,6 +69,7 @@ export default new VueRouter({
           path: ':userId',
           name: 'userShow',
           components: { thoughts_partial: ThoughtsPartial },
+          props: { thoughts_partial: true },
           children: [
             {
               path: 'thoughts/:thoughtId',

@@ -22,14 +22,14 @@ class Api::V1::RelationshipsController < ApiController
 
   def interests
     user = User.find_by(user_id: params[:user_id])
-    interests = user.interests
-    render json: interests.to_json
+    interests_json = user.interests.to_json(only: [:id, :user_id, :name, :icon_image,])
+    render json: interests_json
   end
 
   def interesters
     user = User.find_by(user_id: params[:user_id])
-    interesters = user.interesters
-    render json: interesters.to_json
+    interesters_json = user.interesters.to_json(only: [:id, :user_id, :name, :icon_image,])
+    render json: interesters_json
   end
 
   private
