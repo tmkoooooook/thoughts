@@ -15,8 +15,8 @@ class Api::V1::User::RegistrationsController < DeviseTokenAuth::RegistrationsCon
 
   private
 
-  def render_error_image_bad_request(e)
-    render json: { errors: { full_messages: [e] } }, status: 400
+  def render_error_image_bad_request(error)
+    render json: { errors: { full_messages: [error] } }, status: :bad_request
   end
 
   protected

@@ -36,10 +36,10 @@ class Api::V1::UsersController < ApiController
   private
 
   def render_error_user_not_found
-    render json: { errors: { full_messages: ['ユーザーがいません'] } }, status: 404
+    render json: { errors: { full_messages: ['ユーザーがいません'] } }, status: :not_found
   end
 
   def render_error_current_user_not_found
-    render json: { errors: { full_messages: ['ユーザー情報を読み込めませんでした'] } }, status: 500
+    render json: { errors: { full_messages: ['ユーザー情報を読み込めませんでした'] } }, status: :internal_server_error
   end
 end

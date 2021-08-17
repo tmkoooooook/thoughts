@@ -1,7 +1,9 @@
 import 'jsdom-global/register'
 import { createLocalVue, shallowMount } from '@vue/test-utils'
 import UserAccount from 'user/user_account'
-import UserImage from 'parts/user_image'
+import UserAccountView from 'user/user_account_view'
+import UserAccountEditForm from 'user/user_account_edit_form'
+import UserPasswordEditForm from 'user/user_password_edit_form'
 import { beforeEach, describe, expect, it } from '@jest/globals'
 import { ModalPlugin } from 'bootstrap-vue'
 
@@ -10,11 +12,13 @@ localVue.use(ModalPlugin)
 
 describe('UserAccount', () => {
   let wrapper
-  const factory = (mq) => {
+  let route
+  const factory = (mq, route) => {
     const $mq = mq
+    const $route = route
     return shallowMount(UserAccount, {
       localVue,
-      mocks: { $mq },
+      mocks: { $mq, $route },
       propsData: {
         account: {
           name: 'testUser',
@@ -28,54 +32,59 @@ describe('UserAccount', () => {
   }
 
   describe('$mq === pc', () => {
-    beforeEach(() => {
-      wrapper = factory('pc')
+    it('does not display modal', () => {
+      route = { name: 'userAccount'}
+      wrapper = factory('pc',route)
+      expect(wrapper.find('b-modal-stub').exists()).toBe(false)
     })
 
-    it('display icon_image', () => {
-      expect(wrapper.findAllComponents(UserImage).at(0).exists()).toBe(true)
+    it('display UserAccountView when route name is userAccount', () => {
+      route = { name: 'userAccount'}
+      wrapper = factory('pc', route)
+      expect(wrapper.findComponent(UserAccountView).exists()).toBe(true)
     })
 
-    it('display header_image', () => {
-      expect(wrapper.findAllComponents(UserImage).at(1).exists()).toBe(true)
+    it('display UserAccountEditForm when route name is userAccountEdit', () => {
+      route = { name: 'userAccountEdit'}
+      wrapper = factory('pc', route)
+      expect(wrapper.findComponent(UserAccountEditForm).exists()).toBe(true)
     })
 
-    it('display 名前', () => {
-      expect(wrapper.findAll('.setting-list').at(2).text()).toBe('名前 testUser')
-    })
-
-    it('display ユーザーID', () => {
-      expect(wrapper.findAll('.setting-list').at(3).text()).toBe('ユーザーID testUserId')
-    })
-
-    it('display Eメール', () => {
-      expect(wrapper.findAll('.setting-list').at(4).text()).toBe('Eメール testUser@example.com')
+    it('display UserPasswordEditForm when route name is userPasswordEdit', () => {
+      route = { name: 'userPasswordEdit'}
+      wrapper = factory('pc', route)
+      expect(wrapper.findComponent(UserPasswordEditForm).exists()).toBe(true)
     })
   })
 
   describe('$mq === sp', () => {
     beforeEach(() => {
-      wrapper = factory('sp')
+      route = { name: 'userAccount'}
+      wrapper = factory('sp', route)
     })
 
-    it('display icon_image', () => {
-      expect(wrapper.findAllComponents(UserImage).at(0).exists()).toBe(true)
+    it('display modal', () => {
+      route = { name: 'userAccount'}
+      wrapper = factory('sp',route)
+      expect(wrapper.find('b-modal-stub').exists()).toBe(true)
     })
 
-    it('display header_image', () => {
-      expect(wrapper.findAllComponents(UserImage).at(1).exists()).toBe(true)
+    it('display UserAccountView when route name is userAccount', () => {
+      route = { name: 'userAccount'}
+      wrapper = factory('sp', route)
+      expect(wrapper.findComponent(UserAccountView).exists()).toBe(true)
     })
 
-    it('display 名前', () => {
-      expect(wrapper.findAll('.setting-list').at(2).text()).toBe('名前 testUser')
+    it('display UserAccountEditForm when route name is userAccountEdit', () => {
+      route = { name: 'userAccountEdit'}
+      wrapper = factory('sp', route)
+      expect(wrapper.findComponent(UserAccountEditForm).exists()).toBe(true)
     })
 
-    it('display ユーザーID', () => {
-      expect(wrapper.findAll('.setting-list').at(3).text()).toBe('ユーザーID testUserId')
-    })
-
-    it('display Eメール', () => {
-      expect(wrapper.findAll('.setting-list').at(4).text()).toBe('Eメール testUser@example.com')
+    it('display UserPasswordEditForm when route name is userPasswordEdit', () => {
+      route = { name: 'userPasswordEdit'}
+      wrapper = factory('sp', route)
+      expect(wrapper.findComponent(UserPasswordEditForm).exists()).toBe(true)
     })
   })
 })
