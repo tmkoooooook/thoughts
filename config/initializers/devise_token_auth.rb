@@ -57,9 +57,9 @@ DeviseTokenAuth.setup do |config|
   # devise confirmable module. If you want to use devise confirmable module and
   # send email, set it to true. (This is a setting for compatibility)
   config.send_confirmation_email = true
-  if ENV['RAILS_ENV'] == 'development' || 'test'
+  if ENV['RAILS_ENV'] == 'production'
+    config.default_confirm_success_url = 'https://www.thoughts-deep.com/sign_in'
+  elsif ENV['RAILS_ENV'] == 'development' || 'test'
     config.default_confirm_success_url = 'http://[::1]:3000/sign_in'
-  elsif ENV['RAILS_ENV'] == 'production'
-    config.default_confirm_success_url = 'http://ec2-35-76-129-132.ap-northeast-1.compute.amazonaws.com/sign_in'
   end
 end

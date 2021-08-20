@@ -26,7 +26,7 @@
         switch (this.$route.name) {
           case 'userHome':
           case 'interests':
-            this.statement = '興味のある人を探して見ましょう！'
+            this.statement = '興味のある人を探してみましょう！'
             this.recommendation = 'recommendUser'
             break
           case 'userShow':
@@ -41,10 +41,3 @@
     }
   }
 </script>
-
-<style scoped>
-.no-content {
-  text-align: center;
-  padding: 50px 10px;
-}
-</style>
